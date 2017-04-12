@@ -9,7 +9,7 @@ var general = {
                 number = unit.name.split("-")[1]
             }
         })
-        return number
+        return parseInt(number)+1
     }
 };
 
