@@ -1,8 +1,8 @@
-var roleHarvester = require('./role.harvester');
-var roleUpgrader = require('./role.upgrader');
-var roleBuilder = require('./role.builder');
+let roleHarvester = require('./role.harvester');
+let roleUpgrader = require('./role.upgrader');
+let roleBuilder = require('./role.builder');
 
-var generalFunctions = require('./general')
+let generalFunctions = require('./general')
 
 module.exports.loop = function() {
 
@@ -14,30 +14,32 @@ module.exports.loop = function() {
     }
 
     for(let roomName in Game.rooms) {
-        console.log('Room "'+roomName+'" has '+Game.rooms[roomName].energyAvailable+' energy');
+        console.log('Room "'+roomName+'" has '+
+            Game.rooms[roomName].energyAvailable+'/'+
+            Game.rooms[roomName].energyCapacityAvailable+' energy');
     }
 
-    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    var upgrader = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    var builder = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+    let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+    let upgrader = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+    let builder = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 
     let newName = ""
-    if(builder.length < 4) {
+    if(builder.length < 6) {
         let builderNr=generalFunctions.getUnitNumber(builder)
         newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], "Builder-"+builderNr, {role: 'builder'});
-        console.log('Spawning new builder: ' + newName);
+        //console.log('Spawning new builder: ' + newName);
     }
 
-    if(upgrader.length < 2) {
+    if(upgrader.length < 3) {
         let upgraderNr=generalFunctions.getUnitNumber(upgrader)
         newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], "Upgrader-"+upgraderNr, {role: 'upgrader'});
-        console.log('Spawning new upgrader: ' + newName);
+        //console.log('Spawning new upgrader: ' + newName);
     }
 
     if(harvesters.length < 3) {
         let harvesterNr=generalFunctions.getUnitNumber(harvesters)
         newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], "Harvester-"+harvesterNr , {role: 'harvester'});
-        console.log('Spawning new harvester: ' + newName);
+        //console.log('Spawning new harvester: ' + newName);
     }
 
     if(Game.spawns['Spawn1'].spawning) {
