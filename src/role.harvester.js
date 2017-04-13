@@ -1,6 +1,5 @@
 let roleHarvester = {
 
-    /** @param {Creep} creep **/
     run: (creep) =>{
         if(creep.carry.energy < creep.carryCapacity) {
             if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {

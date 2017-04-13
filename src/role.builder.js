@@ -1,6 +1,5 @@
 let roleBuilder = {
 
-    /** @param {Creep} creep **/
     run: (creep) =>{
 
         if(creep.memory.building && creep.carry.energy === 0) {
