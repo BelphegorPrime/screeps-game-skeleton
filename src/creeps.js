@@ -51,6 +51,25 @@ let creeps = {
             return creep
         })
         return bigCreeps
+    },
+    spawnCreeps: (rooms, spawns, littleCreeps, bigCreeps, settings, generalFunctions)=>{
+        _.map(rooms, room =>{
+            _.map(spawns, spawn=>{
+                if(room.name === spawn.room.name){
+                    if(littleCreeps.length < settings.numberCreeps){
+                        let creepNumber =generalFunctions.getUnitNumber(littleCreeps)
+                        let newName = spawn.createCreep([WORK,CARRY,MOVE], "Creep-"+creepNumber, {role: 'harvester'});
+                        console.log('Spawning new creep ' + newName+" within the room "+room.name);
+                    }
+
+                    if(room.canBuildBigCreep && bigCreeps.length < settings.numberBigCreeps){
+                        let bigCreepNumber =generalFunctions.getUnitNumber(bigCreeps)
+                        let newName = spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], "BigCreep-"+bigCreepNumber, {role: 'big_harvester'});
+                        console.log('Spawning new bigCreep ' + newName+" within the room "+room.name);
+                    }
+                }
+            })
+        })
     }
 };
 
