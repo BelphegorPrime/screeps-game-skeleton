@@ -29,6 +29,28 @@ let general = {
         console.log("amountOfHarvester: "+amountOfHarvester)
         console.log("amountOfBuilder: "+amountOfBuilder)
         console.log("amountOfUpgrader: "+amountOfUpgrader)
+    },
+    showBigCreepRoles: (creeps)=>{
+        let amountOfHarvester = 0
+        let amountOfUpgrader = 0
+        let amountOfBuilder = 0
+
+        _.map(creeps, creep =>{
+            console.log(creep.memory.role)
+            if(creep.memory.role === 'big_harvester') {
+                amountOfHarvester += 1
+            }
+            if(creep.memory.role === 'big_upgrader') {
+                amountOfUpgrader += 1
+            }
+            if(creep.memory.role === 'big_builder'){
+                amountOfBuilder += 1
+            }
+        })
+
+        console.log("amountOfBigHarvester: "+amountOfHarvester)
+        console.log("amountOfBigBuilder: "+amountOfBuilder)
+        console.log("amountOfBigUpgrader: "+amountOfUpgrader)
     }
 };
 
