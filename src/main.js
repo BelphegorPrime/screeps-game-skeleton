@@ -27,7 +27,7 @@ module.exports.loop = () =>{
             room.energyAvailable+'/'+
             room.energyCapacityAvailable+' energy'
         );
-        room.canBuildBigCreep = room.energyAvailable === 550
+        room.canBuildBigCreep = room.energyAvailable >= 550
         return room
     })
 
