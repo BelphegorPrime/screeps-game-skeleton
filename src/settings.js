@@ -1,7 +1,13 @@
 let settings = {
-    level: 1,
+    level: 2,
     getSettingsForLevel: ()=>{
-        if(settings.level === 1){
+        if(settings.level <= 1 && !Number.isInteger(settings.level)){
+            return {
+                numberCreeps: 6,
+                numberBigCreeps: 0,
+                constructionplaceToBuild: 2,
+            }
+        }else if(settings.level === 2){
             return {
                 numberCreeps: 10,
                 numberBigCreeps: 6,
@@ -9,9 +15,9 @@ let settings = {
             }
         }else{
             return{
-                numberCreeps: 10,
-                numberBigCreeps: 6,
-                constructionplaceToBuild: 4,
+                numberCreeps: 6,
+                numberBigCreeps: 0,
+                constructionplaceToBuild: 2,
             }
         }
     }
