@@ -50,29 +50,22 @@ module.exports.loop = () =>{
     console.log(canBuildBigCreep)
     if(canBuildBigCreep && bigCreeps.length < settings.numberBigCreeps){
         let bigCreepNumber =generalFunctions.getUnitNumber(bigCreeps)
-        let littleCreepNumber =generalFunctions.getUnitNumber(littleCreeps)
-        let newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], "BigCreep"+littleCreepNumber+"-"+bigCreepNumber, {role: 'big_harvester'});
+        let newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], "BigCreep-"+bigCreepNumber, {role: 'big_harvester'});
         console.log('Spawning new bigCreep: ' + newName);
     }
 
-    // bigCreep
-    // Game.spawns['Spawn1'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],'HarvesterBig',{ role: 'big_harvester' } );
-    // Game.spawns['Spawn1'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],'HarvesterBig',{ role: 'big_upgrader' } );
-    // Game.spawns['Spawn1'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],'HarvesterBig',{ role: 'big_builder' } );
-
-
-    if(Game.spawns['Spawn1'].spawning) {
-        let spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-        Game.spawns['Spawn1'].room.visual.text(
-            '🛠️' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1,
-            Game.spawns['Spawn1'].pos.y,
-            {
-                align: 'left',
-                opacity: 0.8
-            }
-        );
-    }
+    // if(Game.spawns['Spawn1'].spawning) {
+    //     let spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
+    //     Game.spawns['Spawn1'].room.visual.text(
+    //         '🛠️' + spawningCreep.memory.role,
+    //         Game.spawns['Spawn1'].pos.x + 1,
+    //         Game.spawns['Spawn1'].pos.y,
+    //         {
+    //             align: 'left',
+    //             opacity: 0.8
+    //         }
+    //     );
+    // }
 
     // Run Tower for specific ID
     towers.getTower('TOWER_ID')
