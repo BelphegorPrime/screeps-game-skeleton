@@ -1,8 +1,10 @@
-let creeps = {
+let generalFunctions = require('./general')
+let settings = require('./settings').getSettingsForLevel()
 
-    getCreeps: (amountOfBuilder)=>{
-        let littleCreeps = _.filter(Game.creeps, creep => creep.memory.role.indexOf("big") === -1)
-        _.map(Game.rooms, room =>{
+let creeps = {
+    getCreeps: (creeps, rooms, amountOfBuilder)=>{
+        let littleCreeps = _.filter(creeps, creep => creep.memory.role.indexOf("big") === -1)
+        _.map(rooms, room =>{
             if(room.energyAvailable === room.energyCapacityAvailable){
                 littleCreeps= littleCreeps.map((creep, index) =>{
                     let sources = creep.room.find(FIND_SOURCES);
@@ -20,7 +22,7 @@ let creeps = {
                     let sources = creep.room.find(FIND_SOURCES);
                     if(index < amountOfBuilder ){
                         creep.memory.role = "builder"
-                        creep.memory.source = sources[0]
+                        creep.memory.source = sources[1]
                     }else if(index < amountOfBuilder+2){
                         creep.memory.role = "upgrader"
                         creep.memory.source = sources[0]
@@ -34,25 +36,23 @@ let creeps = {
         })
         return littleCreeps
     },
-    getBigCreeps: ()=>{
-        let bigCreeps = _.filter(Game.creeps, creep => creep.memory.role.indexOf("big") !== -1)
+    getBigCreeps: (creeps)=>{
+        let bigCreeps = _.filter(creeps, creep => creep.memory.role.indexOf("big") !== -1)
         bigCreeps= bigCreeps.map((creep, index) =>{
             let sources = creep.room.find(FIND_SOURCES);
             if(index%3 === 0){
                 creep.memory.role = "big_harvester"
-                creep.memory.source = sources[1]
             }else if(index%3 === 1){
                 creep.memory.role = "big_upgrader"
-                creep.memory.source = sources[0]
             }else if(index%3 === 2){
                 creep.memory.role = "big_builder"
-                creep.memory.source = sources[0]
             }
+            creep.memory.source = sources[0]
             return creep
         })
         return bigCreeps
     },
-    spawnCreeps: (rooms, spawns, littleCreeps, bigCreeps, settings, generalFunctions)=>{
+    spawnCreeps: (rooms, spawns, littleCreeps, bigCreeps)=>{
         _.map(rooms, room =>{
             _.map(spawns, spawn=>{
                 if(room.name === spawn.room.name){

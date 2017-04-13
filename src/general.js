@@ -41,12 +41,12 @@ let general = {
 
         console.log("======LITTLE CREEPS======")
         console.log("amountOfHarvester: "+amountOfHarvester)
-        console.log("amountOfBuilder: "+amountOfBuilder)
         console.log("amountOfUpgrader: "+amountOfUpgrader)
+        console.log("amountOfBuilder: "+amountOfBuilder)
         console.log("=======BIG CREEPS========")
         console.log("amountOfBigHarvester: "+amountOfBigHarvester)
-        console.log("amountOfBigBuilder: "+amountOfBigBuilder)
         console.log("amountOfBigUpgrader: "+amountOfBigUpgrader)
+        console.log("amountOfBigBuilder: "+amountOfBigBuilder)
         console.log("=========================")
     },
 };

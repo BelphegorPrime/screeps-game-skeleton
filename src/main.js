@@ -6,7 +6,7 @@ let towers = require('./tower')
 let creepsHelper = require('./creeps')
 
 let generalFunctions = require('./general')
-let settings = require('./settings')
+let settings = require('./settings').getSettingsForLevel()
 
 module.exports.loop = () =>{
 
@@ -21,16 +21,13 @@ module.exports.loop = () =>{
     // Run Tower for specific ID
     towers.getTower('TOWER_ID')
 
-    // Get Roominformations
+    // Get Roominformations and extend the Room Object
     Game.rooms = _.map(Game.rooms, room =>{
         console.log('Room "'+room.name+'" has '+
             room.energyAvailable+'/'+
             room.energyCapacityAvailable+' energy'
         );
-        room.canBuildBigCreep = false
-        if(room.energyAvailable === 550){
-            room.canBuildBigCreep = true
-        }
+        room.canBuildBigCreep = room.energyAvailable === 550
         return room
     })
 
@@ -41,11 +38,11 @@ module.exports.loop = () =>{
     }
 
     // Give every small Creep its role and source
-    let littleCreeps = creepsHelper.getCreeps(amountOfBuilder)
-    let bigCreeps = creepsHelper.getBigCreeps()
+    let littleCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, amountOfBuilder)
+    let bigCreeps = creepsHelper.getBigCreeps(Game.creeps)
 
     // Create small and big Creeps
-    creepsHelper.spawnCreeps(Game.rooms, Game.spawns, littleCreeps, bigCreeps, settings, generalFunctions)
+    creepsHelper.spawnCreeps(Game.rooms, Game.spawns, littleCreeps, bigCreeps)
 
     // Execute Commands for Creeper Role
     let creeps = [].concat(littleCreeps, bigCreeps)
@@ -54,13 +51,13 @@ module.exports.loop = () =>{
     generalFunctions.showCreepRoles(creeps)
 
     _.map(creeps, creep =>{
-        if(creep.memory.role === 'harvester' || creep.memory.role === 'big_builder') {
+        if(creep.memory.role === 'harvester' || creep.memory.role === 'big_harvester') {
             roleHarvester.run(creep);
         }
         if(creep.memory.role === 'upgrader' || creep.memory.role === 'big_upgrader') {
             roleUpgrader.run(creep);
         }
-        if(creep.memory.role === 'builder' || creep.memory.role === 'big_harvester') {
+        if(creep.memory.role === 'builder' || creep.memory.role === 'big_builder') {
             roleBuilder.run(creep);
         }
     })
