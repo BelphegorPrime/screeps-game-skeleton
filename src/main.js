@@ -33,14 +33,21 @@ module.exports.loop = () =>{
     }
 
     // Give every Creep its role and source
-    let creeps = creepsHelper.getCreeps(amountOfBuilder)
+    let littleCreeps = creepsHelper.getCreeps(amountOfBuilder)
 
     // Spawning new Creeps
-    if(creeps.length < settings.numberCreeps){
-        let creepNumber =generalFunctions.getUnitNumber(creeps)
+    if(littleCreeps.length < settings.numberCreeps){
+        let creepNumber =generalFunctions.getUnitNumber(littleCreeps)
         let newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], "Creep-"+creepNumber, {role: 'harvester'});
         console.log('Spawning new creep: ' + newName);
     }
+
+    // if(bigCreeps.length < settings.)
+
+    // bigCreep
+    // Game.spawns['Spawn1'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],'HarvesterBig',{ role: 'big_harvester' } );
+    // Game.spawns['Spawn1'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],'HarvesterBig',{ role: 'big_upgrader' } );
+    // Game.spawns['Spawn1'].createCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],'HarvesterBig',{ role: 'big_builder' } );
 
 
     // if(Game.spawns['Spawn1'].spawning) {
@@ -60,10 +67,10 @@ module.exports.loop = () =>{
     towers.getTower('TOWER_ID')
 
     // Output of Amount of Creeps with an specific Role
-    generalFunctions.showCreepRoles(creeps)
+    generalFunctions.showCreepRoles(littleCreeps)
 
     // Execute Commands for Creeper Role
-    _.map(creeps, creep =>{
+    _.map(littleCreeps, creep =>{
         if(creep.memory.role === 'harvester') {
             roleHarvester.run(creep);
         }
