@@ -1,10 +1,11 @@
 let general = {
 
-    getUnitNumber: (unitArray)=>{
+    getUnitNumber: (creepArray)=>{
         let number = 0
-        _.map(unitArray, (unit)=>{
-            if(number < unit.name.split("-")[1]){
-                number = unit.name.split("-")[1]
+        _.map(creepArray, (creep)=>{
+            let creepNumber= parseInt(creep.name.split("-")[1])
+            if(number < creepNumber){
+                number = creepNumber
             }
         })
         return parseInt(number)+1

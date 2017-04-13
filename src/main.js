@@ -18,17 +18,17 @@ module.exports.loop = () =>{
         }
     })
 
-    let canBuildBigCreep = false
-
     // Get Roominformations
-    _.map(Game.rooms, room =>{
+    Game.rooms = _.map(Game.rooms, room =>{
         console.log('Room "'+room.name+'" has '+
             room.energyAvailable+'/'+
             room.energyCapacityAvailable+' energy'
         );
+        room.canBuildBigCreep = false
         if(room.energyAvailable === 550){
-            canBuildBigCreep = true
+            room.canBuildBigCreep = true
         }
+        return room
     })
 
     // set the Amount Of Creeps with the role Builder
@@ -41,18 +41,25 @@ module.exports.loop = () =>{
     let littleCreeps = creepsHelper.getCreeps(amountOfBuilder)
     let bigCreeps = creepsHelper.getBigCreeps()
 
-    if(littleCreeps.length < settings.numberCreeps){
-        let creepNumber =generalFunctions.getUnitNumber(littleCreeps)
-        let newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], "Creep-"+creepNumber, {role: 'harvester'});
-        console.log('Spawning new creep: ' + newName);
-    }
+    _.map(Game.rooms, room =>{
+        _.map(Game.spawns, spawn=>{
+            if(room.name === spawn.room.name){
+                if(littleCreeps.length < settings.numberCreeps){
+                    let creepNumber =generalFunctions.getUnitNumber(littleCreeps)
+                    console.log("Creep-"+creepNumber)
+                    let newName = spawn.createCreep([WORK,CARRY,MOVE], "Creep-"+creepNumber, {role: 'harvester'});
+                    console.log('Spawning new creep ' + newName+" within the room "+room.name);
+                }
 
-    console.log(canBuildBigCreep)
-    if(canBuildBigCreep && bigCreeps.length < settings.numberBigCreeps){
-        let bigCreepNumber =generalFunctions.getUnitNumber(bigCreeps)
-        let newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], "BigCreep-"+bigCreepNumber, {role: 'big_harvester'});
-        console.log('Spawning new bigCreep: ' + newName);
-    }
+                if(room.canBuildBigCreep && bigCreeps.length < settings.numberBigCreeps){
+                    let bigCreepNumber =generalFunctions.getUnitNumber(bigCreeps)
+                    let newName = spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], "BigCreep-"+bigCreepNumber, {role: 'big_harvester'});
+                    console.log('Spawning new bigCreep ' + newName+" within the room "+room.name);
+                }
+            }
+        })
+    })
+
 
     // if(Game.spawns['Spawn1'].spawning) {
     //     let spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
