@@ -9,9 +9,10 @@ let general = {
         })
         return parseInt(number)+1
     },
-    showCreepRoles: (creeps, amountOfBuilder)=>{
+    showCreepRoles: (creeps)=>{
         let amountOfHarvester = 0
         let amountOfUpgrader = 0
+        let amountOfBuilder = 0
 
         _.map(creeps, creep =>{
             if(creep.memory.role === 'harvester') {
@@ -19,6 +20,9 @@ let general = {
             }
             if(creep.memory.role === 'upgrader') {
                 amountOfUpgrader += 1
+            }
+            if(creep.memory.role === 'builder'){
+                amountOfBuilder += 1
             }
         })
 
