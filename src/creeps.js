@@ -71,6 +71,18 @@ let creepsHelp = {
         }
 
         _.map(rooms, room =>{
+
+            if(_.size(creeps) <= 3){
+                creeps= creeps.map(creep =>{
+                    let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
+                    creep.memory.role = harvester
+                    creep.memory.type = type
+                    creep.memory.source = SourceToMoveTo
+                    return creep
+                })
+                return creeps
+            }
+
             let notFullContainer = room.containerToTransfer.filter(container => !container.isFull)
             if(room.energyAvailable >= settings.generalSettings.costs.little*2 && _.size(notFullContainer) > 0){
                 creeps= creeps.map((creep, index) =>{
@@ -83,6 +95,10 @@ let creepsHelp = {
                         creep.memory.role = loader
                         creep.memory.size = type
                         creep.memory.source = SourceToMoveTo
+                    }else if(index < numberOfBuilder+numberOfLoader+2){
+                        creep.memory.role = harvester
+                        creep.memory.size = type
+                        creep.memory.source = SourceToMoveTo
                     }else{
                         creep.memory.role = upgrader
                         creep.memory.size = type
@@ -91,16 +107,6 @@ let creepsHelp = {
                     return creep
                 })
             }else{
-                if(_.size(creeps) <= 3){
-                    creeps= creeps.map(creep =>{
-                        let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
-                        creep.memory.role = harvester
-                        creep.memory.type = type
-                        creep.memory.source = SourceToMoveTo
-                        return creep
-                    })
-                    return creeps
-                }
                 creeps= creeps.map((creep, index) =>{
                     let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
                     if(index < numberOfBuilder ){
