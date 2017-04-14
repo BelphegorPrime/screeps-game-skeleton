@@ -1,5 +1,6 @@
+let room = _.map(Game.rooms, room =>{return room})[0]
 let settings = {
-    level: Game.rooms["E17N94"].controller.level,
+    level: room.controller.level,
     getSettingsForLevel: ()=>{
         if(settings.level <= 1 && !Number.isInteger(settings.level)){
             return {
@@ -13,7 +14,7 @@ let settings = {
         }else if(settings.level === 2){
             return {
                 level: settings.level,
-                numberCreeps: 0,
+                numberCreeps: 2,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
