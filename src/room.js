@@ -29,9 +29,11 @@ let room = {
             let energyMaxAmountInContainer = 0
             containers.map(container =>{
                 let containerData = [{
-                    "pos":container.pos
+                    "pos":container.pos,
+                    "isFull": true
                 }]
                 if(container.store[RESOURCE_ENERGY] < container.storeCapacity) {
+                    containerData[0].isFull = false
                     room.containerToTransfer = [].concat(room.containerToTransfer, containerData)
                 }
                 if(container.store[RESOURCE_ENERGY] > 0){
