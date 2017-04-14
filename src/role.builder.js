@@ -20,9 +20,29 @@ let roleBuilder = {
             }
         }
         else {
-            if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+            if(_.size(creep.room.containerToGetFrom) > 0){
+
+                creep.room.containerToGetFrom.map( container =>{
+                    let realContainer = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return structure.structureType === STRUCTURE_CONTAINER &&
+                                structure.pos.x === container.pos.x &&
+                                structure.pos.y === container.pos.y
+                        }
+                    })[0]
+
+                    if(creep.withdraw(realContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(realContainer, {visualizePathStyle: {stroke: '#ffaa00'}})
+                    }else {
+                        creep.withdraw(realContainer, RESOURCE_ENERGY)
+                    }
+                })
+            }else {
+                if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                }
             }
+
         }
     }
 }

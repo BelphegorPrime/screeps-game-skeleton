@@ -16,16 +16,16 @@ let settings = {
                 numberCreeps: 0,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 0,
-                maxBuilder: 4,
+                maxBuilder: 2,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 3){
             return {
                 level: settings.level,
-                numberCreeps: 0,
+                numberCreeps: 2,
                 numberMediumCreeps: 12,
                 numberBigCreeps: 0,
-                maxBuilder: 4,
+                maxBuilder: 2,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{

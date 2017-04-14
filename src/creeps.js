@@ -64,7 +64,8 @@ let creeps = {
         }
 
         _.map(rooms, room =>{
-            if(room.energyAvailable === room.energyCapacityAvailable){
+            let notFullContainer = room.containerToTransfer.filter(container => container.isFull)
+            if(room.energyAvailable === room.energyCapacityAvailable && _.size(notFullContainer) === 0){
                 creeps= creeps.map((creep, index) =>{
                     let sources = creep.room.find(FIND_SOURCES)
                     if(index < numberOfBuilder ){

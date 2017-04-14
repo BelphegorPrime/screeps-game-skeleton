@@ -5,17 +5,27 @@ let roleHarvester = {
             if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
             }
+            if(creep.room.energyAvailable === creep.room.energyCapacityAvailable){
+                if(_.size(creep.room.containerToTransfer) > 0){
+                    creep.room.containerToTransfer.map( container =>{
+                        creep.moveTo(container.pos, {visualizePathStyle: {stroke: '#ffaa00'}})
+                    })
+                }
+            }
         }
         else {
             let targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType === STRUCTURE_EXTENSION ||
-                    structure.structureType === STRUCTURE_SPAWN ||
-                    structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity
+                        structure.structureType === STRUCTURE_SPAWN ||
+                        structure.structureType === STRUCTURE_CONTAINER ||
+                        structure.structureType === STRUCTURE_TOWER) &&
+                        (structure.energy < structure.energyCapacity)
                 }
             })
             if(targets.length > 0) {
                 if(creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }

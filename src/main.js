@@ -1,3 +1,5 @@
+// notice to myself: "lodash version is 3.10.1 :O"
+
 let roleHarvester = require('./role.harvester')
 let roleUpgrader = require('./role.upgrader')
 let roleBuilder = require('./role.builder')
@@ -28,6 +30,34 @@ module.exports.loop = () =>{
             room.energyCapacityAvailable+' energy'
         )
         room.canBuildMediumCreep = room.energyAvailable >= 550
+
+        let containers = room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return structure.structureType === STRUCTURE_CONTAINER
+            }
+        })
+
+        if(room.containerToTransfer === undefined){
+            room.containerToTransfer = []
+        }
+        if(room.containerToGetFrom === undefined){
+            room.containerToGetFrom = []
+        }
+
+        let energyAmount = 0
+        containers.map(container =>{
+            let containerData = [{
+                "pos":container.pos
+            }]
+            if(container.store[RESOURCE_ENERGY] < container.storeCapacity) {
+                room.containerToTransfer = [].concat(room.containerToTransfer, containerData)
+            }
+            if(container.store[RESOURCE_ENERGY] > 0){
+                room.containerToGetFrom = [].concat(room.containerToGetFrom, containerData)
+            }
+            energyAmount += container.store[RESOURCE_ENERGY]
+        })
+        console.log("Container in Room "+room.name+" has "+energyAmount)
         return room
     })
 
