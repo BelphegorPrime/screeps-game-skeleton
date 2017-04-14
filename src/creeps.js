@@ -36,6 +36,47 @@ let creeps = {
         })
         return littleCreeps
     },
+    getOtherCreeps: (creeps, rooms, amountOfBuilder)=>{
+        let otherCreeps = _.filter(Game.creeps, creep =>{
+            if( creep.memory.role.indexOf("little") !== -1 ||
+                creep.memory.role.indexOf("medium") !== -1 ||
+                creep.memory.role.indexOf("big") !== -1){
+                return false
+            }
+            return true
+        })
+        _.map(rooms, room =>{
+            if(room.energyAvailable === room.energyCapacityAvailable){
+                otherCreeps= otherCreeps.map((creep, index) =>{
+                    let sources = creep.room.find(FIND_SOURCES);
+                    if(index < amountOfBuilder ){
+                        creep.memory.role = settings.generalSettings.roles.little_builder
+                        creep.memory.source = sources[0]
+                    }else{
+                        creep.memory.role = settings.generalSettings.roles.little_upgrader
+                        creep.memory.source = sources[1]
+                    }
+                    return creep
+                })
+            }else{
+                otherCreeps= otherCreeps.map((creep, index) =>{
+                    let sources = creep.room.find(FIND_SOURCES);
+                    if(index < amountOfBuilder ){
+                        creep.memory.role = settings.generalSettings.roles.little_builder
+                        creep.memory.source = sources[1]
+                    }else if(index < amountOfBuilder+2){
+                        creep.memory.role = settings.generalSettings.roles.little_upgrader
+                        creep.memory.source = sources[0]
+                    }else{
+                        creep.memory.role = settings.generalSettings.roles.little_harvester
+                        creep.memory.source = sources[1]
+                    }
+                    return creep
+                })
+            }
+        })
+        return otherCreeps
+    },
     getMediumCreeps: (creeps)=>{
         let mediumCreeps = _.filter(creeps, creep => creep.memory.role.indexOf("medium") !== -1)
         mediumCreeps= mediumCreeps.map((creep, index) =>{
@@ -51,6 +92,22 @@ let creeps = {
             return creep
         })
         return mediumCreeps
+    },
+    getBigCreeps: (creeps)=>{
+        let bigCreeps = _.filter(creeps, creep => creep.memory.role.indexOf("big") !== -1)
+        bigCreeps= bigCreeps.map((creep, index) =>{
+            let sources = creep.room.find(FIND_SOURCES);
+            if(index%3 === 0){
+                creep.memory.role = settings.generalSettings.roles.big_harvester
+            }else if(index%3 === 1){
+                creep.memory.role = settings.generalSettings.roles.big_upgrader
+            }else if(index%3 === 2){
+                creep.memory.role = settings.generalSettings.roles.big_builder
+            }
+            creep.memory.source = sources[0]
+            return creep
+        })
+        return bigCreeps
     },
     spawnCreeps: (rooms, spawns, littleCreeps, mediumCreeps)=>{
         _.map(rooms, room =>{

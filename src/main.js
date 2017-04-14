@@ -40,27 +40,37 @@ module.exports.loop = () =>{
     // Give every small and big Creep its role and source
     let littleCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, amountOfBuilder)
     let mediumCreeps = creepsHelper.getMediumCreeps(Game.creeps)
+    let bigCreeps = creepsHelper.getBigCreeps(Game.creeps)
+
+
+    let otherCreeps= creepsHelper.getOtherCreeps(Game.creeps, Game.rooms, amountOfBuilder)
 
     // Create small and big Creeps
     creepsHelper.spawnCreeps(Game.rooms, Game.spawns, littleCreeps, mediumCreeps)
 
     // Execute Commands for Creeper Role
-    let creeps = [].concat(littleCreeps, mediumCreeps)
+    let creeps = [].concat(littleCreeps, mediumCreeps, bigCreeps, otherCreeps)
 
     // Output of Amount of Creeps with an specific Role
     generalFunctions.showCreepRoles(creeps, settings.generalSettings.roles)
 
     _.map(creeps, creep =>{
         if(creep.memory.role === settings.generalSettings.roles.little_harvester ||
-            creep.memory.role === settings.generalSettings.roles.medium_harvester) {
+            creep.memory.role === settings.generalSettings.roles.medium_harvester ||
+            creep.memory.role === settings.generalSettings.roles.big_harvester ||
+            creep.memory.role === "harvester") {
             roleHarvester.run(creep);
         }
         if(creep.memory.role === settings.generalSettings.roles.little_upgrader ||
-            creep.memory.role === settings.generalSettings.roles.medium_upgrader) {
+            creep.memory.role === settings.generalSettings.roles.medium_upgrader ||
+            creep.memory.role === settings.generalSettings.roles.big_upgrader ||
+            creep.memory.role === "upgrader") {
             roleUpgrader.run(creep);
         }
         if(creep.memory.role === settings.generalSettings.roles.little_builder ||
-            creep.memory.role === settings.generalSettings.roles.medium_builder) {
+            creep.memory.role === settings.generalSettings.roles.medium_builder ||
+            creep.memory.role === settings.generalSettings.roles.big_builder ||
+            creep.memory.role === "builder") {
             roleBuilder.run(creep);
         }
     })

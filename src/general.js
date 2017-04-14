@@ -17,6 +17,9 @@ let general = {
         let amountOfMediumHarvester = 0
         let amountOfMediumUpgrader = 0
         let amountOfMediumBuilder = 0
+        let amountOfBigHarvester = 0
+        let amountOfBigUpgrader = 0
+        let amountOfBigBuilder = 0
 
         _.map(creeps, creep =>{
             if(creep.memory.role === settingsRoles.little_harvester) {
@@ -37,16 +40,29 @@ let general = {
             if(creep.memory.role === settingsRoles.medium_builder){
                 amountOfMediumBuilder += 1
             }
+            if(creep.memory.role === settingsRoles.big_harvester) {
+                amountOfBigHarvester += 1
+            }
+            if(creep.memory.role === settingsRoles.big_upgrader) {
+                amountOfBigUpgrader += 1
+            }
+            if(creep.memory.role === settingsRoles.big_builder){
+                amountOfBigBuilder += 1
+            }
         })
 
         console.log("======LITTLE CREEPS======")
         console.log("amountOfLittleHarvester: "+amountOfLittleHarvester)
         console.log("amountOfLittleUpgrader: "+amountOfLittleUpgrader)
         console.log("amountOfLittleBuilder: "+amountOfLittleBuilder)
-        console.log("=======BIG CREEPS========")
+        console.log("=======MEDIUM CREEPS========")
         console.log("amountOfMediumHarvester: "+amountOfMediumHarvester)
         console.log("amountOfMediumUpgrader: "+amountOfMediumUpgrader)
         console.log("amountOfMediumBuilder: "+amountOfMediumBuilder)
+        console.log("=======BIG CREEPS========")
+        console.log("amountOfBigHarvester: "+amountOfBigHarvester)
+        console.log("amountOfBigUpgrader: "+amountOfBigUpgrader)
+        console.log("amountOfBigBuilder: "+amountOfBigBuilder)
         console.log("=========================")
     },
 };
