@@ -5,7 +5,9 @@ let roleUpgrader = require('./role.upgrader')
 let roleBuilder = require('./role.builder')
 let room = require('./room')
 let creepsHelper = require('./creeps')
+
 let generalFunctions = require('./general')
+let output = require('./output')
 let settings = require('./settings').getSettingsForLevel()
 
 module.exports.loop = () =>{
@@ -17,7 +19,6 @@ module.exports.loop = () =>{
             console.log('Clearing non-existing creep memory: ', creepName)
         }
     })
-
 
     // Get Roominformations and extend the Room Object
     Game.rooms = room.init(Game.rooms)
@@ -36,18 +37,14 @@ module.exports.loop = () =>{
     let mediumCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, "medium")
     let bigCreeps    = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, "big")
 
-    // maybe later a function for all Creeps so that you don´t seperate through sizes
-    // let AllCreeps    = creepsHelper.getAllCreeps(Game.creeps, Game.rooms, numberOfBuilder)
-    // console.log(AllCreeps)
-
     // Create small and big Creeps
-    creepsHelper.spawnCreeps(Game.rooms, Game.spawns, littleCreeps, mediumCreeps)
+    creepsHelper.spawnCreeps(Game.rooms, Game.spawns, littleCreeps, mediumCreeps, bigCreeps)
 
     // Execute Commands for Creeper Role
     let creeps = [].concat(littleCreeps, mediumCreeps, bigCreeps)
 
     // Output of Amount of Creeps with an specific Role
-    generalFunctions.showCreepRoles(creeps, settings.generalSettings.roles)
+    output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
 
     _.map(creeps, creep =>{
         if(creep.memory.role === settings.generalSettings.roles.little_harvester ||

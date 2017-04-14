@@ -1,12 +1,16 @@
 let towers = require('./tower')
+let settings = require('./settings').getSettingsForLevel()
+let output = require('./output')
 
 let room = {
     init: (rooms)=>{
+        output.energyInRooms(rooms)
         return _.map(rooms, room =>{
             // Run Tower for specific ID
             towers.getTower(room)
 
-            room.canBuildMediumCreep = room.energyAvailable >= 550
+            room.canBuildMediumCreep = room.energyAvailable >= settings.generalSettings.costs.medium
+            room.canBuildBigCreep = room.energyAvailable >= settings.generalSettings.costs.big
 
             let containers = room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -37,8 +41,6 @@ let room = {
                 energyMaxAmountInContainer += container.storeCapacity
             })
 
-            console.log("Spawn     in Room "+room.name+" has "+room.energyAvailable+"/"+room.energyCapacityAvailable)
-            console.log("Container in Room "+room.name+" has "+energyAmountInContainer+"/"+energyMaxAmountInContainer)
             return room
         })
     }

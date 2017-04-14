@@ -157,11 +157,11 @@ let creepsHelp = {
         })
         return creeps
     },
-    spawnCreeps: (rooms, spawns, littleCreeps, mediumCreeps)=>{
+    spawnCreeps: (rooms, spawns, littleCreeps, mediumCreeps, bigCreeps)=>{
         _.map(rooms, room =>{
             _.map(spawns, spawn=>{
                 if(room.name === spawn.room.name){
-                    if(littleCreeps.length < settings.numberCreeps){
+                    if(littleCreeps.length < settings.numberLittleCreeps){
                         let creepNumber =generalFunctions.getUnitNumber(littleCreeps)
                         let newName = spawn.createCreep(
                             [WORK,CARRY,MOVE],
@@ -179,6 +179,16 @@ let creepsHelp = {
                             {role: settings.generalSettings.roles.medium_harvester, type: "medium"}
                         )
                         console.log('Spawning new mediumCreep ' + newName+" within the room "+room.name)
+                    }
+
+                    if(room.canBuildBigCreep && bigCreeps.length < settings.numberBigCreeps){
+                        let bigCreepNumber =generalFunctions.getUnitNumber(bigCreeps)
+                        let newName = spawn.createCreep(
+                            [WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE],
+                            "MediumCreep-"+bigCreepNumber+"|"+generalFunctions.getRandomID(),
+                            {role: settings.generalSettings.roles.medium_harvester, type: "medium"}
+                        )
+                        console.log('Spawning new bigCreep ' + newName+" within the room "+room.name)
                     }
                 }
             })

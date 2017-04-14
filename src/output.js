@@ -1,0 +1,107 @@
+let output = {
+
+    energyInRooms: (rooms)=>{
+        let rows = _.map(rooms, room => {
+            let energyAmountInContainer = 0
+            let energyMaxAmountInContainer = 0
+            room.find(FIND_STRUCTURES, {
+                filter: (structure) => {return structure.structureType === STRUCTURE_CONTAINER}
+            }).map(container =>{
+                energyAmountInContainer += container.store[RESOURCE_ENERGY]
+                energyMaxAmountInContainer += container.storeCapacity
+            })
+            return room.name+"   | "+room.energyAvailable + "/" + room.energyCapacityAvailable+"     | "
+                    +energyAmountInContainer + "/" + energyMaxAmountInContainer+
+                    "            |                  |                 |"
+        })
+        console.log("ROOMNAME | ROOM_ENERGY | CONTAINER_ENERGY  |                  |                 |\n"+rows)
+    },
+    showCreepRoles: (rooms, creeps, settingsRoles)=>{
+        let amountOfLittleHarvester = 0
+        let amountOfLittleUpgrader = 0
+        let amountOfLittleBuilder = 0
+        let amountOfMediumHarvester = 0
+        let amountOfMediumUpgrader = 0
+        let amountOfMediumBuilder = 0
+        let amountOfBigHarvester = 0
+        let amountOfBigUpgrader = 0
+        let amountOfBigBuilder = 0
+
+        _.map(creeps, creep =>{
+            if(creep.memory.type === "little"){
+                if(creep.memory.role === settingsRoles.little_harvester){
+                    amountOfLittleHarvester += 1
+                }
+                if(creep.memory.role === settingsRoles.little_upgrader){
+                    amountOfLittleUpgrader += 1
+                }
+                if(creep.memory.role === settingsRoles.little_builder){
+                    amountOfLittleBuilder += 1
+                }
+            }else if(creep.memory.type === "medium"){
+                if(creep.memory.role === settingsRoles.medium_harvester){
+                    amountOfMediumHarvester += 1
+                }
+                if(creep.memory.role === settingsRoles.medium_upgrader){
+                    amountOfMediumUpgrader += 1
+                }
+                if(creep.memory.role === settingsRoles.medium_builder){
+                    amountOfMediumBuilder += 1
+                }
+            }else if(creep.memory.type === "big"){
+                if(creep.memory.role === settingsRoles.big_harvester){
+                    amountOfBigHarvester += 1
+                }
+                if(creep.memory.role === settingsRoles.big_upgrader){
+                    amountOfBigUpgrader += 1
+                }
+                if(creep.memory.role === settingsRoles.big_builder){
+                    amountOfBigBuilder += 1
+                }
+            }
+        })
+
+        let littleValues = _.filter(settingsRoles, role => role.indexOf("little"))
+        let mediumValues = _.filter(settingsRoles, role => role.indexOf("medium"))
+        let bigValues = _.filter(settingsRoles, role => role.indexOf("big"))
+
+        let rows = _.map(rooms, room => {
+            let returnValue = ""
+
+            let harvesterSum = amountOfLittleHarvester+amountOfMediumHarvester+amountOfBigHarvester
+            let upgraderSum = amountOfLittleUpgrader+amountOfMediumUpgrader+amountOfBigUpgrader
+            let builderSum = amountOfLittleBuilder+amountOfMediumBuilder+amountOfBigBuilder
+
+            let littleSum = amountOfLittleHarvester+amountOfLittleUpgrader+amountOfLittleBuilder
+            let mediumSum = amountOfMediumHarvester+amountOfMediumUpgrader+amountOfMediumBuilder
+            let bigSum    = amountOfBigHarvester+amountOfBigUpgrader+amountOfBigBuilder
+
+            let littleRow = room.name+"   | LITTLE:     |         "+amountOfLittleHarvester+"         |        "+amountOfLittleUpgrader+"         |        "+amountOfLittleBuilder+"        |    "+littleSum+"\n"
+            let mediumRow =     "         | MEDIUM:     |         "+amountOfMediumHarvester+"         |        "+amountOfMediumUpgrader+"         |        "+amountOfMediumBuilder+"        |    "+mediumSum+"\n"
+            let bigRow    =     "         | BIG:        |         "+amountOfBigHarvester   +"         |        "+amountOfBigUpgrader   +"         |        "+amountOfBigBuilder   +"        |    "+bigSum+"\n"
+            let summRow   =     "         |             |         "+harvesterSum           +"        |        "+upgraderSum           +"         |        "+builderSum           +"        |\n"
+
+            return littleRow + mediumRow + bigRow + summRow
+        })
+
+        console.log("         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |\n"+rows)
+
+
+        // console.log("======LITTLE CREEPS======\n"+
+        //             "amountOfLittleHarvester: "+amountOfLittleHarvester+"\n"+
+        //             "amountOfLittleUpgrader: "+amountOfLittleUpgrader+"\n"+
+        //             "amountOfLittleBuilder: "+amountOfLittleBuilder+"\n"+
+        //             "=======MEDIUM CREEPS========"+"\n"+
+        //             "amountOfMediumHarvester: "+amountOfMediumHarvester+"\n"+
+        //             "amountOfMediumUpgrader: "+amountOfMediumUpgrader+"\n"+
+        //             "amountOfMediumBuilder: "+amountOfMediumBuilder+"\n"+
+        //             "=======BIG CREEPS========"+"\n"+
+        //             "amountOfBigHarvester: "+amountOfBigHarvester+"\n"+
+        //             "amountOfBigUpgrader: "+amountOfBigUpgrader+"\n"+
+        //             "amountOfBigBuilder: "+amountOfBigBuilder+"\n"+
+        //             "=========================")
+    },
+
+}
+
+module.exports = output

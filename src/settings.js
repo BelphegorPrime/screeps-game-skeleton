@@ -5,7 +5,7 @@ let settings = {
         if(settings.level <= 1 && !Number.isInteger(settings.level)){
             return {
                 level: settings.level,
-                numberCreeps: 10,
+                numberLittleCreeps: 10,
                 numberMediumCreeps: 0,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
@@ -14,7 +14,7 @@ let settings = {
         }else if(settings.level === 2){
             return {
                 level: settings.level,
-                numberCreeps: 2,
+                numberLittleCreeps: 2,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
@@ -23,16 +23,16 @@ let settings = {
         }else if(settings.level === 3){
             return {
                 level: settings.level,
-                numberCreeps: 1,
+                numberLittleCreeps: 1,
                 numberMediumCreeps: 13,
-                numberBigCreeps: 0,
+                numberBigCreeps: 1,
                 maxBuilder: 2,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{
             return{
                 level: settings.level,
-                numberCreeps: 10,
+                numberLittleCreeps: 10,
                 numberMediumCreeps: 0,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
@@ -56,6 +56,7 @@ let settings = {
             costs:{
                 little:300,
                 medium: 550,
+                big: 800,
             }
         }
     }
