@@ -10,6 +10,9 @@ let general = {
         })
         return parseInt(number)+1
     },
+    getRandomID: ()=>{
+        return Math.floor(Math.random() * (Math.floor(10000))) + 1
+    },
     showCreepRoles: (creeps, settingsRoles)=>{
         let amountOfLittleHarvester = 0
         let amountOfLittleUpgrader = 0
@@ -22,32 +25,36 @@ let general = {
         let amountOfBigBuilder = 0
 
         _.map(creeps, creep =>{
-            if(creep.memory.role === settingsRoles.little_harvester) {
-                amountOfLittleHarvester += 1
-            }
-            if(creep.memory.role === settingsRoles.little_upgrader) {
-                amountOfLittleUpgrader += 1
-            }
-            if(creep.memory.role === settingsRoles.little_builder){
-                amountOfLittleBuilder += 1
-            }
-            if(creep.memory.role === settingsRoles.medium_harvester) {
-                amountOfMediumHarvester += 1
-            }
-            if(creep.memory.role === settingsRoles.medium_upgrader) {
-                amountOfMediumUpgrader += 1
-            }
-            if(creep.memory.role === settingsRoles.medium_builder){
-                amountOfMediumBuilder += 1
-            }
-            if(creep.memory.role === settingsRoles.big_harvester) {
-                amountOfBigHarvester += 1
-            }
-            if(creep.memory.role === settingsRoles.big_upgrader) {
-                amountOfBigUpgrader += 1
-            }
-            if(creep.memory.role === settingsRoles.big_builder){
-                amountOfBigBuilder += 1
+            if(creep.memory.type === "little"){
+                if(creep.memory.role === settingsRoles.little_harvester){
+                    amountOfLittleHarvester += 1
+                }
+                if(creep.memory.role === settingsRoles.little_upgrader){
+                    amountOfLittleUpgrader += 1
+                }
+                if(creep.memory.role === settingsRoles.little_builder){
+                    amountOfLittleBuilder += 1
+                }
+            }else if(creep.memory.type === "medium"){
+                if(creep.memory.role === settingsRoles.medium_harvester){
+                    amountOfMediumHarvester += 1
+                }
+                if(creep.memory.role === settingsRoles.medium_upgrader){
+                    amountOfMediumUpgrader += 1
+                }
+                if(creep.memory.role === settingsRoles.medium_builder){
+                    amountOfMediumBuilder += 1
+                }
+            }else if(creep.memory.type === "big"){
+                if(creep.memory.role === settingsRoles.big_harvester){
+                    amountOfBigHarvester += 1
+                }
+                if(creep.memory.role === settingsRoles.big_upgrader){
+                    amountOfBigUpgrader += 1
+                }
+                if(creep.memory.role === settingsRoles.big_builder){
+                    amountOfBigBuilder += 1
+                }
             }
         })
 
@@ -65,6 +72,6 @@ let general = {
         console.log("amountOfBigBuilder: "+amountOfBigBuilder)
         console.log("=========================")
     },
-};
+}
 
-module.exports = general;
+module.exports = general

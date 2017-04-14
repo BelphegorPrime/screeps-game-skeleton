@@ -3,25 +3,25 @@ let roleUpgrader = {
     run: (creep) =>{
 
         if(creep.memory.upgrading && creep.carry.energy === 0) {
-            creep.memory.upgrading = false;
-            creep.say('harvest');
+            creep.memory.upgrading = false
+            creep.say('harvest')
         }
         if(!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            creep.say('upgrade');
+            creep.memory.upgrading = true
+            creep.say('upgrade')
         }
 
         if(creep.memory.upgrading) {
             if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
             }
         }
         else {
             if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE){
-                creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}});
+                creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
             }
         }
     }
-};
+}
 
-module.exports = roleUpgrader;
+module.exports = roleUpgrader

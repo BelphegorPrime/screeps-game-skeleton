@@ -6,15 +6,17 @@ let settings = {
                 level: settings.level,
                 numberCreeps: 10,
                 numberMediumCreeps: 0,
-                constructionplaceToBuild: 2,
+                numberBigCreeps: 0,
+                maxBuilder: 2,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 2){
             return {
                 level: settings.level,
-                numberCreeps: 10,
-                numberMediumCreeps: 6,
-                constructionplaceToBuild: 4,
+                numberCreeps: 0,
+                numberMediumCreeps: 10,
+                numberBigCreeps: 0,
+                maxBuilder: 4,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 3){
@@ -22,15 +24,17 @@ let settings = {
                 level: settings.level,
                 numberCreeps: 0,
                 numberMediumCreeps: 12,
-                constructionplaceToBuild: 4,
+                numberBigCreeps: 0,
+                maxBuilder: 4,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{
             return{
                 level: settings.level,
-                numberCreeps: 6,
+                numberCreeps: 10,
                 numberMediumCreeps: 0,
-                constructionplaceToBuild: 2,
+                numberBigCreeps: 0,
+                maxBuilder: 2,
                 generalSettings: settings.getGeneralSettings(),
             }
         }
@@ -50,6 +54,6 @@ let settings = {
             }
         }
     }
-};
+}
 
-module.exports = settings;
+module.exports = settings

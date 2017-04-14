@@ -1,6 +1,6 @@
 let tower = {
     getTower: (towerID)=>{
-        let tower = Game.getObjectById(towerID);
+        let tower = Game.getObjectById(towerID)
         if(tower) {
             let closestDamagedStructure = tower.pos.findClosestByRange(
                 FIND_STRUCTURES, {
@@ -8,15 +8,15 @@ let tower = {
                 }
             )
             if(closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
+                tower.repair(closestDamagedStructure)
             }
 
-            let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
             if(closestHostile) {
-                tower.attack(closestHostile);
+                tower.attack(closestHostile)
             }
         }
     }
-};
+}
 
-module.exports = tower;
+module.exports = tower
