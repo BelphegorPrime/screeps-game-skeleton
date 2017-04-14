@@ -23,8 +23,8 @@ let settings = {
         }else if(settings.level === 3){
             return {
                 level: settings.level,
-                numberCreeps: 2,
-                numberMediumCreeps: 12,
+                numberCreeps: 1,
+                numberMediumCreeps: 13,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
                 generalSettings: settings.getGeneralSettings(),

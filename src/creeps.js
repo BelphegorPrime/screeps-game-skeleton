@@ -1,7 +1,7 @@
 let generalFunctions = require('./general')
 let settings = require('./settings').getSettingsForLevel()
 
-let creeps = {
+let creepsHelp = {
     getOtherCreeps: (creeps, rooms, numberOfBuilder)=>{
         let otherCreeps = _.filter(creeps, creep => creep.memory.role.indexOf("little") === -1 ||
                 creep.memory.role.indexOf("medium") === -1 ||
@@ -40,8 +40,9 @@ let creeps = {
         })
         return otherCreeps
     },
-    getCreeps: (creeps, rooms, numberOfBuilder, type)=>{
-        creeps = _.filter(creeps, creep => creep.memory.role.indexOf(type) !== -1)
+    getCreeps: (allCreeps, rooms, numberOfBuilder, type)=>{
+        allCreeps = _.map(allCreeps, creep =>{return creep})
+        creeps = _.filter(allCreeps, creep => creep.memory.role.indexOf(type) !== -1)
         let harvester = ""
         let upgrader = ""
         let builder = ""
@@ -67,42 +68,43 @@ let creeps = {
             let notFullContainer = room.containerToTransfer.filter(container => container.isFull)
             if(room.energyAvailable === room.energyCapacityAvailable && _.size(notFullContainer) === 0){
                 creeps= creeps.map((creep, index) =>{
-                    let sources = creep.room.find(FIND_SOURCES)
+                    let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
                     if(index < numberOfBuilder ){
                         creep.memory.role = builder
                         creep.memory.type = type
-                        creep.memory.source = sources[0]
+                        creep.memory.source = SourceToMoveTo
                     }else{
                         creep.memory.role = upgrader
                         creep.memory.size = type
-                        creep.memory.source = sources[1]
+                        creep.memory.source = SourceToMoveTo
                     }
                     return creep
                 })
             }else{
                 if(_.size(creeps) <= 3){
                     creeps= creeps.map(creep =>{
+                        let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
                         creep.memory.role = harvester
                         creep.memory.type = type
-                        creep.memory.source = creep.room.find(FIND_SOURCES)[1]
+                        creep.memory.source = SourceToMoveTo
                         return creep
                     })
                     return creeps
                 }
                 creeps= creeps.map((creep, index) =>{
-                    let sources = creep.room.find(FIND_SOURCES)
+                    let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
                     if(index < numberOfBuilder ){
                         creep.memory.role = builder
                         creep.memory.type = type
-                        creep.memory.source = sources[1]
+                        creep.memory.source = SourceToMoveTo
                     }else if(index < numberOfBuilder+2){
                         creep.memory.role = upgrader
                         creep.memory.type = type
-                        creep.memory.source = sources[0]
+                        creep.memory.source = SourceToMoveTo
                     }else{
                         creep.memory.role = harvester
                         creep.memory.type = type
-                        creep.memory.source = sources[1]
+                        creep.memory.source = SourceToMoveTo
                     }
                     return creep
                 })
@@ -181,7 +183,50 @@ let creeps = {
                 }
             })
         })
-    }
+    },
+    getAvailableSource: (creep, amountOfCreeps)=>{
+        let sources = creep.room.find(FIND_SOURCES)
+        let amountOfSources = _.size(sources)
+
+        sources = sources.map((source, sourceIndex)=>{
+            if(source.registeredCreeps === undefined){
+                source.registeredCreeps=[]
+            }
+            source.maxCreeps = Math.round(amountOfCreeps/amountOfSources)
+
+            if(sourceIndex > 0){
+                if(sources[0].registeredCreeps.indexOf(creep.id)  > -1){
+
+                }else{
+                    if(_.size(source.registeredCreeps) < source.maxCreeps){
+                        source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
+                    }
+                }
+            }else{
+                if(_.size(source.registeredCreeps) < source.maxCreeps){
+                    source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
+                }
+            }
+
+            return source
+        })
+
+        let sourceToReturn = sources.filter(source => {
+            return source.registeredCreeps.indexOf(creep.id) > -1
+        })[0]
+
+        // when creep has no Source write informations to console.log
+        if(sourceToReturn === undefined){
+            console.log(amountOfCreeps)
+            sources.map(source => {
+                console.log(source.registeredCreeps)
+            })
+            console.log(creep.id)
+            console.log(sourceToReturn)
+        }
+
+        return sourceToReturn
+    },
 }
 
-module.exports = creeps
+module.exports = creepsHelp

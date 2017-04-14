@@ -1,9 +1,14 @@
 let tower = {
-    getTower: (towerID)=>{
-        let tower = Game.getObjectById(towerID)
-        if(tower) {
-            let closestDamagedStructure = tower.pos.findClosestByRange(
-                FIND_STRUCTURES, {
+    getTower: (room)=>{
+
+        let towers = room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType === STRUCTURE_TOWER)
+            }
+        })
+
+        towers.map(tower =>{
+            let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => structure.hits < structure.hitsMax
                 }
             )
@@ -15,7 +20,7 @@ let tower = {
             if(closestHostile) {
                 tower.attack(closestHostile)
             }
-        }
+        })
     }
 }
 

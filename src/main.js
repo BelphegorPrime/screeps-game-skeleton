@@ -20,15 +20,12 @@ module.exports.loop = () =>{
         }
     })
 
-    // Run Tower for specific ID
-    towers.getTower('TOWER_ID')
 
     // Get Roominformations and extend the Room Object
     Game.rooms = _.map(Game.rooms, room =>{
-        console.log('Room "'+room.name+'" has '+
-            room.energyAvailable+'/'+
-            room.energyCapacityAvailable+' energy'
-        )
+        // Run Tower for specific ID
+        towers.getTower(room)
+
         room.canBuildMediumCreep = room.energyAvailable >= 550
 
         let containers = room.find(FIND_STRUCTURES, {
@@ -44,7 +41,8 @@ module.exports.loop = () =>{
             room.containerToGetFrom = []
         }
 
-        let energyAmount = 0
+        let energyAmountInContainer = 0
+        let energyMaxAmountInContainer = 0
         containers.map(container =>{
             let containerData = [{
                 "pos":container.pos
@@ -55,9 +53,12 @@ module.exports.loop = () =>{
             if(container.store[RESOURCE_ENERGY] > 0){
                 room.containerToGetFrom = [].concat(room.containerToGetFrom, containerData)
             }
-            energyAmount += container.store[RESOURCE_ENERGY]
+            energyAmountInContainer += container.store[RESOURCE_ENERGY]
+            energyMaxAmountInContainer += container.storeCapacity
         })
-        console.log("Container in Room "+room.name+" has "+energyAmount)
+
+        console.log("Spawn     in Room "+room.name+" has "+room.energyAvailable+"/"+room.energyCapacityAvailable)
+        console.log("Container in Room "+room.name+" has "+energyAmountInContainer+"/"+energyMaxAmountInContainer)
         return room
     })
 
