@@ -89,6 +89,8 @@ module.exports.loop = () =>{
             roleLoader.run(creep)
         }
     })
+
+    //TODO: OUTSOURCE ME
     let subTimeEnd=Game.cpu.getUsed();
     console.log('dt: '+(subTimeEnd-subTimeStart).toFixed(0));
 
