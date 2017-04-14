@@ -52,6 +52,10 @@ let settings = {
                 big_harvester: "big_harvester",
                 big_upgrader: "big_upgrader",
                 big_builder: "big_builder",
+            },
+            costs:{
+                little:300,
+                medium: 550,
             }
         }
     }
