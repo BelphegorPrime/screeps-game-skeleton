@@ -12,6 +12,8 @@ let settings = require('./settings').getSettingsForLevel()
 
 module.exports.loop = () =>{
 
+    let subTimeStart=Game.cpu.getUsed();
+
     // Cleanup Memory
     _.map(Memory.creeps, (creep, creepName) =>{
         if(!Game.creeps[creepName]) {
@@ -87,4 +89,24 @@ module.exports.loop = () =>{
             roleLoader.run(creep)
         }
     })
+    let subTimeEnd=Game.cpu.getUsed();
+    console.log('dt: '+(subTimeEnd-subTimeStart).toFixed(0));
+
+    let iteration = Memory.cpu.lengthLastTickTime
+    let arrayNumber = Memory.cpu.arrayNumberLastTickTime
+    if(iteration === 255){
+        Memory.cpu.lengthLastTickTime = 0
+        iteration = 0
+        Memory.cpu.arrayNumberLastTickTime = arrayNumber+1
+    }
+
+    if(arrayNumber === 5){
+        Memory.cpu.arrayNumberLastTickTime = 0
+    }
+
+    Memory.cpu.lastTickTime[Memory.cpu.arrayNumberLastTickTime] = [].concat(
+        Memory.cpu.lastTickTime[Memory.cpu.arrayNumberLastTickTime],
+        (subTimeEnd-subTimeStart).toFixed(0)
+    )
+    Memory.cpu.lengthLastTickTime = iteration+1
 }
