@@ -93,21 +93,6 @@ let output = {
         })
 
         console.log("         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |      LOADER      |\n"+rows)
-
-
-        // console.log("======LITTLE CREEPS======\n"+
-        //             "amountOfLittleHarvester: "+amountOfLittleHarvester+"\n"+
-        //             "amountOfLittleUpgrader: "+amountOfLittleUpgrader+"\n"+
-        //             "amountOfLittleBuilder: "+amountOfLittleBuilder+"\n"+
-        //             "=======MEDIUM CREEPS========"+"\n"+
-        //             "amountOfMediumHarvester: "+amountOfMediumHarvester+"\n"+
-        //             "amountOfMediumUpgrader: "+amountOfMediumUpgrader+"\n"+
-        //             "amountOfMediumBuilder: "+amountOfMediumBuilder+"\n"+
-        //             "=======BIG CREEPS========"+"\n"+
-        //             "amountOfBigHarvester: "+amountOfBigHarvester+"\n"+
-        //             "amountOfBigUpgrader: "+amountOfBigUpgrader+"\n"+
-        //             "amountOfBigBuilder: "+amountOfBigBuilder+"\n"+
-        //             "=========================")
     },
 
 }

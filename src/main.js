@@ -20,6 +20,7 @@ module.exports.loop = () =>{
         }
     })
 
+
     // Get Roominformations and extend the Room Object
     Game.rooms = room.init(Game.rooms)
 
@@ -58,6 +59,7 @@ module.exports.loop = () =>{
 
     // Output of Amount of Creeps with an specific Role
     output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
+    console.log("CPU-Limit: "+Game.cpu.limit + " | Tick-Limit: "+ Game.cpu.tickLimit+ " | Bucket: "+ Game.cpu.bucket)
 
     _.map(creeps, creep =>{
         if(creep.memory.role === settings.generalSettings.roles.little_harvester ||

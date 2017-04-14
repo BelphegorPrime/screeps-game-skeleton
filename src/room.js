@@ -1,13 +1,21 @@
 let towers = require('./tower')
+let terrain = require('./terrain')
+
 let settings = require('./settings').getSettingsForLevel()
 let output = require('./output')
 
 let room = {
     init: (rooms)=>{
         output.energyInRooms(rooms)
+
         return _.map(rooms, room =>{
+
+
+
             // Run Tower for specific ID
             towers.getTower(room)
+            room = terrain.read(room)
+
 
             room.canBuildMediumCreep = room.energyAvailable >= settings.generalSettings.costs.medium
             room.canBuildBigCreep = room.energyAvailable >= settings.generalSettings.costs.big

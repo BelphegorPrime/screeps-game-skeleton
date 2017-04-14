@@ -28,7 +28,7 @@ let settings = {
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 13,
                 numberBigCreeps: 1,
-                maxBuilder: 2,
+                maxBuilder: 4,
                 maxLoader: 1,
                 generalSettings: settings.getGeneralSettings(),
             }
@@ -64,7 +64,9 @@ let settings = {
                 little:300,
                 medium: 550,
                 big: 800,
-            }
+            },
+            roomLength: 50,
+            bucketLimit: 5000,
         }
     }
 }
