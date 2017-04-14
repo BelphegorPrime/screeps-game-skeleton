@@ -3,7 +3,7 @@ let tower = {
 
         let towers = room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType === STRUCTURE_TOWER)
+                return structure.structureType === STRUCTURE_TOWER
             }
         })
 

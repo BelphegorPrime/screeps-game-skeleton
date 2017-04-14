@@ -40,38 +40,48 @@ let creepsHelp = {
         })
         return otherCreeps
     },
-    getCreeps: (allCreeps, rooms, numberOfBuilder, type)=>{
+    getCreeps: (allCreeps, rooms, numberOfBuilder, numberOfLoader, type)=>{
         allCreeps = _.map(allCreeps, creep =>{return creep})
         creeps = _.filter(allCreeps, creep => creep.memory.role.indexOf(type) !== -1)
         let harvester = ""
         let upgrader = ""
         let builder = ""
+        let loader = ""
         if(type === "little"){
             harvester = settings.generalSettings.roles.little_harvester
             upgrader = settings.generalSettings.roles.little_upgrader
             builder = settings.generalSettings.roles.little_builder
+            loader = settings.generalSettings.roles.little_loader
         }else if(type === "medium"){
             harvester = settings.generalSettings.roles.medium_harvester
             upgrader = settings.generalSettings.roles.medium_upgrader
             builder = settings.generalSettings.roles.medium_builder
+            loader = settings.generalSettings.roles.medium_loader
+
         }else if(type === "big"){
             harvester = settings.generalSettings.roles.big_harvester
             upgrader = settings.generalSettings.roles.big_upgrader
             builder = settings.generalSettings.roles.big_builder
+            loader = settings.generalSettings.roles.big_loader
         }else{
             harvester = "harvester"
             upgrader = "upgrader"
             builder = "builder"
+            loader = "loader"
         }
 
         _.map(rooms, room =>{
             let notFullContainer = room.containerToTransfer.filter(container => container.isFull)
-            if(room.energyAvailable >= settings.generalSettings.costs.little*2 && _.size(notFullContainer) === 0){
+            if(room.energyAvailable >= settings.generalSettings.costs.little*2 && _.size(notFullContainer) > 0){
                 creeps= creeps.map((creep, index) =>{
                     let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
                     if(index < numberOfBuilder ){
                         creep.memory.role = builder
                         creep.memory.type = type
+                        creep.memory.source = SourceToMoveTo
+                    }else if(index < numberOfBuilder+numberOfLoader){
+                        creep.memory.role = loader
+                        creep.memory.size = type
                         creep.memory.source = SourceToMoveTo
                     }else{
                         creep.memory.role = upgrader

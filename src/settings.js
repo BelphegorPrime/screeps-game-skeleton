@@ -9,6 +9,7 @@ let settings = {
                 numberMediumCreeps: 0,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
+                maxLoader: 0,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 2){
@@ -18,6 +19,7 @@ let settings = {
                 numberMediumCreeps: 10,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
+                maxLoader: 0,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 3){
@@ -27,6 +29,7 @@ let settings = {
                 numberMediumCreeps: 13,
                 numberBigCreeps: 1,
                 maxBuilder: 2,
+                maxLoader: 1,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{
@@ -36,6 +39,7 @@ let settings = {
                 numberMediumCreeps: 0,
                 numberBigCreeps: 0,
                 maxBuilder: 2,
+                maxLoader: 1,
                 generalSettings: settings.getGeneralSettings(),
             }
         }
@@ -52,6 +56,9 @@ let settings = {
                 big_harvester: "big_harvester",
                 big_upgrader: "big_upgrader",
                 big_builder: "big_builder",
+                little_loader: "little_loader",
+                medium_loader: "medium_loader",
+                big_loader: "big_loader",
             },
             costs:{
                 little:300,

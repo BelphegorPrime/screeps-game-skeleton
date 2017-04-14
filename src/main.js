@@ -3,10 +3,10 @@
 let roleHarvester = require('./role.harvester')
 let roleUpgrader = require('./role.upgrader')
 let roleBuilder = require('./role.builder')
+let roleLoader = require('./role.loader')
 let room = require('./room')
 let creepsHelper = require('./creeps')
 
-let generalFunctions = require('./general')
 let output = require('./output')
 let settings = require('./settings').getSettingsForLevel()
 
@@ -32,10 +32,23 @@ module.exports.loop = () =>{
         numberOfBuilder = amountOfConstructionSites
     }
 
+    let numberOfLoader = 0
+    _.map(Game.rooms, room =>{
+        let structures = room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_CONTAINER
+            }
+        })
+        if(_.size(structures) > 0){
+            numberOfLoader = settings.maxLoader
+        }
+    })
+
+
     // Give every small and big Creep its role and source
-    let littleCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, "little")
-    let mediumCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, "medium")
-    let bigCreeps    = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, "big")
+    let littleCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "little")
+    let mediumCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "medium")
+    let bigCreeps    = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "big")
 
     // Create small and big Creeps
     creepsHelper.spawnCreeps(Game.rooms, Game.spawns, littleCreeps, mediumCreeps, bigCreeps)
@@ -64,6 +77,12 @@ module.exports.loop = () =>{
             creep.memory.role === settings.generalSettings.roles.big_builder ||
             creep.memory.role === "builder") {
             roleBuilder.run(creep)
+        }
+        if(creep.memory.role === settings.generalSettings.roles.little_loader ||
+            creep.memory.role === settings.generalSettings.roles.medium_loader ||
+            creep.memory.role === settings.generalSettings.roles.big_loader ||
+            creep.memory.role === "loader"){
+            roleLoader.run(creep)
         }
     })
 }

@@ -18,8 +18,7 @@ let roleBuilder = {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }
-        }
-        else {
+        } else {
             if(_.size(creep.room.containerToGetFrom) > 0){
 
                 creep.room.containerToGetFrom.map( container =>{
