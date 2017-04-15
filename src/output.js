@@ -88,7 +88,7 @@ let output = {
             let littleRow = room.name+"   | LITTLE:     |         "+amountOfLittleHarvester+"         |        "+amountOfLittleUpgrader+"         |        "+amountOfLittleBuilder+"        |         "+amountOfLittleLoader+"        |         "+littleSum+"\n"
             let mediumRow =     "         | MEDIUM:     |         "+amountOfMediumHarvester+"         |        "+amountOfMediumUpgrader+"         |        "+amountOfMediumBuilder+"        |         "+amountOfMediumLoader+"        |         "+mediumSum+"\n"
             let bigRow    =     "         | BIG:        |         "+amountOfBigHarvester   +"         |        "+amountOfBigUpgrader   +"         |        "+amountOfBigBuilder   +"        |         "+amountOfBigLoader   +"        |         "+bigSum+"\n"
-            let summRow   =     "         |             |         "+harvesterSum           +"        |        "+upgraderSum           +"         |        "+builderSum           +"        |         "+loaderSum+"        |         "
+            let summRow   =     "         |             |         "+harvesterSum           +"         |        "+upgraderSum           +"         |        "+builderSum           +"        |         "+loaderSum           +"        |         "
 
             return littleRow + mediumRow + bigRow + summRow
         })
