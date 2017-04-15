@@ -164,6 +164,14 @@ let creepsHelp = {
     getAvailableSources: (creeps, amountOfCreeps)=>{
         // TODO: Choose the youngestCreep... actual works until there is a new one... :/
         let youngestCreep = _.sortByOrder(creeps, ['ticksToLive'], ['desc'])[0]
+
+
+        if(Memory.proxysource === undefined){Memory.proxysource = {}}
+        let proxyCreepPresent = !!_.size(_.filter(creeps, creep => creep.id === Memory.proxysource.id))
+        if(!proxyCreepPresent){
+            Memory.proxysource.id = youngestCreep.id
+        }
+
         return creeps.map(creep =>{
             let sources = creep.room.find(FIND_SOURCES)
             sources = sources.filter(source=> source.energy !== 0)
@@ -230,7 +238,7 @@ let creepsHelp = {
                     }
                 }else{
                     if(maxCreeps===1){
-                        source.registeredCreeps = [].concat(source.registeredCreeps, youngestCreep.id)
+                        source.registeredCreeps = [].concat(source.registeredCreeps, Memory.proxysource.id)
                     }
                     if(_.size(source.registeredCreeps) < maxCreeps){
                         source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
