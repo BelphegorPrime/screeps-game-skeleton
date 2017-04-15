@@ -47,7 +47,6 @@ module.exports.loop = () =>{
         }
     })
 
-
     // Give every small and big Creep its role and source
     let littleCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "little")
     let mediumCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "medium")
@@ -58,10 +57,6 @@ module.exports.loop = () =>{
 
     // Execute Commands for Creeper Role
     let creeps = [].concat(littleCreeps, mediumCreeps, bigCreeps)
-
-    // Output of Amount of Creeps with an specific Role
-    output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
-    console.log("CPU-Limit: "+Game.cpu.limit + " | Tick-Limit: "+ Game.cpu.tickLimit+ " | Bucket: "+ Game.cpu.bucket)
 
     _.map(creeps, creep =>{
         if(creep.memory.role === settings.generalSettings.roles.little_harvester ||
@@ -92,7 +87,11 @@ module.exports.loop = () =>{
 
     //TODO: OUTSOURCE ME
     let subTimeEnd=Game.cpu.getUsed();
-    console.log('dt: '+(subTimeEnd-subTimeStart).toFixed(0));
+
+    // Output of Amount of Creeps with an specific Role
+    output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
+    console.log("CPU-Limit: "+Game.cpu.limit + " | Tick-Limit: "+ Game.cpu.tickLimit+ " | Bucket: "+ Game.cpu.bucket)
+    console.log('All dt: '+(subTimeEnd-subTimeStart).toFixed(0));
 
     // INIT CPU DATABASE
     // Memory.cpu = {}
@@ -101,7 +100,7 @@ module.exports.loop = () =>{
     // Memory.cpu.lastTickTime[0] = []
 
     let iteration = Memory.cpu.lengthLastTickTime
-    if(iteration === 255){
+    if(iteration === 5){
         Memory.cpu.lengthLastTickTime = 0
         iteration = 0
         Memory.cpu.lastTickTime[0]=[Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-1]]
