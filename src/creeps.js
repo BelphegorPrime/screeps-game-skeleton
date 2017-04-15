@@ -179,6 +179,7 @@ let creepsHelp = {
             let maxCreeps = Math.round(amountOfCreeps/amountOfSources)
 
             sources = sources.map((source, sourceIndex)=>{
+                // TODO: outsource all database initialisations
                 if(Memory.sources === undefined){Memory.sources = {}}
                 if(Memory.sources[creep.room.name] === undefined){Memory.sources[creep.room.name] = {}}
                 if(Memory.sources[creep.room.name][source.id] === undefined){Memory.sources[creep.room.name][source.id] = {}}
