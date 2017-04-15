@@ -85,14 +85,10 @@ module.exports.loop = () =>{
         }
     })
 
-    //TODO: OUTSOURCE ME
-    let subTimeEnd=Game.cpu.getUsed();
 
-    // Output of Amount of Creeps with an specific Role
-    output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
-    output.writeCPU(Game.cpu)
-    output.allDuration((subTimeEnd-subTimeStart).toFixed(0))
-    output.writeLog();
+
+
+    // WRITE ACTUAL TICK TO MEMORY
 
     // INIT CPU DATABASE
     // Memory.cpu = {}
@@ -106,10 +102,15 @@ module.exports.loop = () =>{
         iteration = 0
         Memory.cpu.lastTickTime[0]=[Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-1]]
     }
-
-    Memory.cpu.lastTickTime[0] = [].concat(
-        Memory.cpu.lastTickTime[0],
-        (subTimeEnd-subTimeStart).toFixed(0)
-    )
     Memory.cpu.lengthLastTickTime = iteration+1
+
+    let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
+    Memory.cpu.lastTickTime[0] = [].concat(Memory.cpu.lastTickTime[0],duration)
+
+    // CONSOLE OUTPUT
+    output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
+    output.writeCPU(Game.cpu)
+    output.allDuration(duration)
+    output.writeLog();
+
 }
