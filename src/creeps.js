@@ -179,6 +179,9 @@ let creepsHelp = {
             let maxCreeps = Math.round(amountOfCreeps/amountOfSources)
 
             sources = sources.map((source, sourceIndex)=>{
+                if(Memory.sources === undefined){Memory.sources = {}}
+                if(Memory.sources[creep.room.name] === undefined){Memory.sources[creep.room.name] = {}}
+                if(Memory.sources[creep.room.name][source.id] === undefined){Memory.sources[creep.room.name][source.id] = {}}
                 if(Memory.sources[creep.room.name][source.id]["availableSlots"] === undefined){
                     output.writeToDebug("Memory.sources[creep.room.name][source.id]['availableSlots'] ist für "+source.id+" undefined")
                     let amountOfSurroundingWalls = 0
