@@ -90,8 +90,9 @@ module.exports.loop = () =>{
 
     // Output of Amount of Creeps with an specific Role
     output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
-    console.log("CPU-Limit: "+Game.cpu.limit + " | Tick-Limit: "+ Game.cpu.tickLimit+ " | Bucket: "+ Game.cpu.bucket)
-    console.log('All dt: '+(subTimeEnd-subTimeStart).toFixed(0));
+    output.writeCPU(Game.cpu)
+    output.allDuration((subTimeEnd-subTimeStart).toFixed(0))
+    output.writeLog();
 
     // INIT CPU DATABASE
     // Memory.cpu = {}

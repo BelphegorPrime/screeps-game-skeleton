@@ -1,3 +1,4 @@
+let tickMessage = "\n"
 let output = {
 
     energyInRooms: (rooms)=>{
@@ -14,7 +15,7 @@ let output = {
                     +energyAmountInContainer + "/" + energyMaxAmountInContainer+
                     "            |                  |                 |"
         })
-        console.log("ROOMNAME | ROOM_ENERGY | CONTAINER_ENERGY  |                  |                 |\n"+rows)
+        tickMessage += "ROOMNAME | ROOM_ENERGY | CONTAINER_ENERGY  |                  |                 |\n"+rows+"\n"
     },
     showCreepRoles: (rooms, creeps, settingsRoles)=>{
         let amountOfLittleHarvester = 0
@@ -87,13 +88,22 @@ let output = {
             let littleRow = room.name+"   | LITTLE:     |         "+amountOfLittleHarvester+"         |        "+amountOfLittleUpgrader+"         |        "+amountOfLittleBuilder+"        |         "+amountOfLittleLoader+"        |         "+littleSum+"\n"
             let mediumRow =     "         | MEDIUM:     |         "+amountOfMediumHarvester+"         |        "+amountOfMediumUpgrader+"         |        "+amountOfMediumBuilder+"        |         "+amountOfMediumLoader+"        |         "+mediumSum+"\n"
             let bigRow    =     "         | BIG:        |         "+amountOfBigHarvester   +"         |        "+amountOfBigUpgrader   +"         |        "+amountOfBigBuilder   +"        |         "+amountOfBigLoader   +"        |         "+bigSum+"\n"
-            let summRow   =     "         |             |         "+harvesterSum           +"        |        "+upgraderSum           +"         |        "+builderSum           +"        |         "+loaderSum+"        |         \n"
+            let summRow   =     "         |             |         "+harvesterSum           +"        |        "+upgraderSum           +"         |        "+builderSum           +"        |         "+loaderSum+"        |         "
 
             return littleRow + mediumRow + bigRow + summRow
         })
 
-        console.log("         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |      LOADER      |\n"+rows)
+        tickMessage += "         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |      LOADER      |\n"+rows +"\n"
     },
+    writeCPU: (cpu) =>{
+        tickMessage += "CPU-Limit: "+cpu.limit + " | Tick-Limit: "+ cpu.tickLimit+ " | Bucket: "+ cpu.bucket+"\n"
+    },
+    allDuration: (duration)=>{
+        tickMessage += "All dt: "+duration+"\n"
+    },
+    writeLog: ()=>{
+        console.log(tickMessage)
+    }
 
 }
 
