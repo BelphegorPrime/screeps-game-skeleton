@@ -104,7 +104,7 @@ module.exports.loop = () =>{
     if(iteration === 255){
         Memory.cpu.lengthLastTickTime = 0
         iteration = 0
-        Memory.cpu.lastTickTime[0]=[]
+        Memory.cpu.lastTickTime[0]=[Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-1]]
     }
 
     Memory.cpu.lastTickTime[0] = [].concat(
