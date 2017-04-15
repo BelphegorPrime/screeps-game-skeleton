@@ -29,8 +29,14 @@ let roleLoader = {
                 }
             }
         } else {
-            if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+            if(creep.memory.source.structureType === "container"){
+                if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffffff'}})
+                }
+            }else{
+                if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                }
             }
         }
     },
@@ -40,7 +46,6 @@ let roleLoader = {
                 return structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_CONTAINER
             }
         })
-        output.writeToDebug(_.size(structures))
         if(_.size(structures) > 0){
             return settings.maxLoader
         }

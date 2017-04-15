@@ -1,17 +1,16 @@
 let output = require('./output')
 let roleSourceProxy = {
-
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
             //TODO: Check for newest container ...
-            let containers = creep.room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
+            let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: function(structure) {
                     return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                 }
-            })
-            if(containers.length > 0) {
-                if(creep.transfer(containers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(containers[0], {visualizePathStyle: {stroke: '#ffffff'}})
+            });
+            if(_.size(container) > 0) {
+                if(creep.transfer(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(container, {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }
         } else {

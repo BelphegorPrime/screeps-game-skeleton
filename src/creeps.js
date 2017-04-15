@@ -16,30 +16,31 @@ let creepsHelp = {
         _.map(rooms, room =>{
 
             // TODO: Alot... if(source has one slot), an alltime proxy that fills a container, AAAAAND all other creeps get energie from that container
-            // let SourcesToMoveTo2 = creepsHelp.getAvailableSources(creeps, _.size(allCreeps))
-
-            // SourcesToMoveTo2.filter(source =>{
-            //     // output.writeToDebug(source)
-            //     return source.registeredCreeps.indexOf(creep.id) > -1
-            // })
+            let SourcesToMoveTo = _(creepsHelp.getAvailableSources(creeps, _.size(allCreeps))).reverse().value()
+            let noProxySource = SourcesToMoveTo.filter(source => Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
 
             if(_.size(creeps) <= 3){
                 creeps= creeps.map(creep =>{
-                    let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
-
-
-                    // let sources2 = SourcesToMoveTo2.filter(source =>{
-                    //     if(source.registeredCreeps !== undefined){
-                    //         return source.registeredCreeps.indexOf(creep.id) > -1
-                    //     }else {
-                    //         return true
-                    //     }
-                    // })
-                    // output.writeToDebug(sources2)
-
-
-                    creep.memory.role = harvester
-                    creep.memory.source = SourceToMoveTo
+                    creep.memory.source = SourcesToMoveTo.filter(source =>{
+                        if(source.registeredCreeps !== undefined){
+                            return source.registeredCreeps.indexOf(creep.id) > -1
+                        }else {
+                            return false
+                        }
+                    })[0]
+                    if(source !== undefined){
+                        if(Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
+                            output.writeToDebug(creep.name)
+                            output.writeToDebug(creep.pos)
+                            creep.memory.role = sourceproxy
+                            creep.memory.source = source
+                        }else {
+                            creep.memory.role = harvester
+                        }
+                    }else{
+                        creep.memory.role = harvester
+                        creep.memory.source = noProxySource
+                    }
                     return creep
                 })
                 return creeps
@@ -50,34 +51,70 @@ let creepsHelp = {
             if(room.energyAvailable >= settings.generalSettings.costs.little*2 && _.size(notFullContainer) > 0){
                 let numberOfLoader = roleLoader.getNumberOfLoader(room)
                 creeps= creeps.map((creep, index) =>{
-                    let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
-                    if(index < numberOfBuilder ){
-                        creep.memory.role = builder
-                        creep.memory.source = SourceToMoveTo
-                    }else if(index < numberOfBuilder+numberOfLoader){
-                        creep.memory.role = loader
-                        creep.memory.source = SourceToMoveTo
-                    }else if(index < numberOfBuilder+numberOfLoader+2){
-                        creep.memory.role = harvester
-                        creep.memory.source = SourceToMoveTo
+                    let source = SourcesToMoveTo.filter(source =>{
+                        if(source.registeredCreeps !== undefined){
+                            return source.registeredCreeps.indexOf(creep.id) > -1
+                        }else {
+                            return false
+                        }
+                    })[0]
+                    if(source !== undefined){
+                        if(Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
+                            output.writeToDebug(creep.name)
+                            output.writeToDebug(creep.pos)
+                            creep.memory.role = sourceproxy
+                            creep.memory.source = source
+                        }else{
+                            if(index < numberOfBuilder ){
+                                creep.memory.role = builder
+                                creep.memory.source = source
+                            }else if(index < numberOfBuilder+numberOfLoader){
+                                creep.memory.role = loader
+                                creep.memory.source = source
+                            }else if(index < numberOfBuilder+numberOfLoader+2){
+                                creep.memory.role = harvester
+                                creep.memory.source = source
+                            }else{
+                                creep.memory.role = upgrader
+                                creep.memory.source = source
+                            }
+                        }
                     }else{
-                        creep.memory.role = upgrader
-                        creep.memory.source = SourceToMoveTo
+                        creep.memory.role = harvester
+                        creep.memory.source = noProxySource
                     }
                     return creep
                 })
             }else{
                 creeps= creeps.map((creep, index) =>{
-                    let SourceToMoveTo = creepsHelp.getAvailableSource(creep, _.size(allCreeps))
-                    if(index < numberOfBuilder ){
-                        creep.memory.role = builder
-                        creep.memory.source = SourceToMoveTo
-                    }else if(index < numberOfBuilder+2){
-                        creep.memory.role = upgrader
-                        creep.memory.source = SourceToMoveTo
+                    let source = SourcesToMoveTo.filter(source =>{
+                        if(source.registeredCreeps !== undefined){
+                            return source.registeredCreeps.indexOf(creep.id) > -1
+                        }else {
+                            return false
+                        }
+                    })[0]
+                    if(source !== undefined){
+                        if(Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
+                            output.writeToDebug(creep.name)
+                            output.writeToDebug(creep.pos)
+                            creep.memory.role = sourceproxy
+                            creep.memory.source = source
+                        }else{
+                            if(index < numberOfBuilder ){
+                                creep.memory.role = builder
+                                creep.memory.source = source
+                            }else if(index < numberOfBuilder+2){
+                                creep.memory.role = upgrader
+                                creep.memory.source = source
+                            }else{
+                                creep.memory.role = harvester
+                                creep.memory.source = source
+                            }
+                        }
                     }else{
                         creep.memory.role = harvester
-                        creep.memory.source = SourceToMoveTo
+                        creep.memory.source = noProxySource
                     }
                     return creep
                 })
@@ -115,7 +152,7 @@ let creepsHelp = {
                     if(room.canBuildBigCreep && _.size(bigCreeps) < settings.numberBigCreeps){
                         let bigCreepNumber =generalFunctions.getUnitNumber(bigCreeps)
                         let newName = spawn.createCreep(
-                            [WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE],
+                            [WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE],
                             "BigCreep-"+bigCreepNumber+"|"+generalFunctions.getRandomID(),
                             {role: settings.generalSettings.roles.harvester, type: "big"}
                         )
@@ -255,7 +292,9 @@ let creepsHelp = {
                         if(container.registeredCreeps === undefined){
                             container.registeredCreeps=[]
                         }
-                        container.registeredCreeps = [].concat(container.registeredCreeps, creep.id)
+                        // if(_.size(container.registeredCreeps) < 3){
+                            container.registeredCreeps = [].concat(container.registeredCreeps, creep.id)
+                        // }
                         return container
                     }
                 })[0]

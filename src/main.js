@@ -51,7 +51,8 @@ module.exports.loop = () =>{
             creep.memory.role === "loader"){
             roleLoader.run(creep)
         }
-        if(creep.memory.role === settings.generalSettings.roles.sourceproxy){
+        if(creep.memory.role === settings.generalSettings.roles.sourceproxy ||
+            creep.memory.role === "sourceproxy"){
             roleSourceProxy.run(creep)
         }
     })

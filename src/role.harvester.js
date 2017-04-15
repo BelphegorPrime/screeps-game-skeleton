@@ -40,13 +40,20 @@ let roleHarvester = {
             })
             if(targets.length > 0) {
                 if(creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }
         } else {
-            if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+            if(creep.memory.source !== undefined){
+                if(creep.memory.source.structureType === "container"){
+                    if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffffff'}})
+                    }
+                }else{
+                    if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                    }
+                }
             }
         }
     }

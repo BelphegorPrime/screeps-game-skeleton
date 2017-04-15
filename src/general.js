@@ -11,7 +11,7 @@ let general = {
         return parseInt(number)+1
     },
     getRandomID: ()=>{
-        return Math.floor(Math.random() * (Math.floor(10000))) + 1
+        return Math.floor(Math.random() * (Math.floor(999))) + 1
     },
 }
 
