@@ -203,7 +203,7 @@ let creepsHelp = {
     },
     getAvailableSources: (creeps, amountOfCreeps)=>{
         // TODO: Look around the Source if there is a specific number of walls change the workerration
-
+        let youngestCreep = _.sortByOrder(creeps, ['ticksToLive'], ['desc'])[0]
         return creeps.map(creep =>{
             let sources = creep.room.find(FIND_SOURCES)
             sources = sources.filter(source=> source.energy !== 0)
@@ -269,6 +269,9 @@ let creepsHelp = {
                         source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
                     }
                 }else{
+                    if(maxCreeps===1){
+                        source.registeredCreeps = [].concat(source.registeredCreeps, youngestCreep.id)
+                    }
                     if(_.size(source.registeredCreeps) < maxCreeps){
                         source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
                     }
