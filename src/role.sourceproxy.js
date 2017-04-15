@@ -2,7 +2,6 @@ let output = require('./output')
 let roleSourceProxy = {
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
-            //TODO: Check for newest container ...
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: function(structure) {
                     return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity

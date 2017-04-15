@@ -15,7 +15,6 @@ let creepsHelp = {
 
         _.map(rooms, room =>{
 
-            // TODO: Alot... if(source has one slot), an alltime proxy that fills a container, AAAAAND all other creeps get energie from that container
             let SourcesToMoveTo = _(creepsHelp.getAvailableSources(creeps, _.size(allCreeps))).reverse().value()
             let noProxySource = SourcesToMoveTo.filter(source => Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
 
@@ -162,47 +161,8 @@ let creepsHelp = {
             })
         })
     },
-    getAvailableSource: (creep, amountOfCreeps)=>{
-
-        // TODO: Look around the Source if there is a specific number of walls change the workerration
-        let sources = creep.room.find(FIND_SOURCES)
-        sources = sources.filter(source=> source.energy !== 0)
-        let amountOfSources = _.size(sources)
-        let maxCreeps = Math.round(amountOfCreeps/amountOfSources)
-        sources = sources.map((source, sourceIndex)=>{
-            if(source.registeredCreeps === undefined){
-                source.registeredCreeps=[]
-            }
-            if(sourceIndex > 0){
-                if(sources[0].registeredCreeps.indexOf(creep.id)  <= -1 && _.size(source.registeredCreeps) < maxCreeps){
-                    source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
-                }
-            }else{
-                if(_.size(source.registeredCreeps) < maxCreeps){
-                    source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
-                }
-            }
-            return source
-        })
-
-        let sourceToReturn = sources.filter(source => {
-            return source.registeredCreeps.indexOf(creep.id) > -1
-        })[0]
-
-        // when creep has no Source write informations to console.log
-        if(sourceToReturn === undefined){
-            output.writeToDebug(amountOfCreeps)
-            sources.map(source => {
-                output.writeToDebug(source.registeredCreeps)
-            })
-            output.writeToDebug(creep.id)
-            output.writeToDebug(sourceToReturn)
-        }
-
-        return sourceToReturn
-    },
     getAvailableSources: (creeps, amountOfCreeps)=>{
-        // TODO: Look around the Source if there is a specific number of walls change the workerration
+        // TODO: Choose the youngestCreep... actual works until there is a new one... :/
         let youngestCreep = _.sortByOrder(creeps, ['ticksToLive'], ['desc'])[0]
         return creeps.map(creep =>{
             let sources = creep.room.find(FIND_SOURCES)
@@ -295,9 +255,9 @@ let creepsHelp = {
                         if(container.registeredCreeps === undefined){
                             container.registeredCreeps=[]
                         }
-                        // if(_.size(container.registeredCreeps) < 3){
+                        if(_.size(container.registeredCreeps) < 3){
                             container.registeredCreeps = [].concat(container.registeredCreeps, creep.id)
-                        // }
+                        }
                         return container
                     }
                 })[0]
