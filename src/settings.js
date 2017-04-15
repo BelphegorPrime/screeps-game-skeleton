@@ -25,11 +25,11 @@ let settings = {
         }else if(settings.level === 3){
             return {
                 level: settings.level,
-                numberLittleCreeps: 1,
-                numberMediumCreeps: 13,
-                numberBigCreeps: 1,
+                numberLittleCreeps: 0,
+                numberMediumCreeps: 10,
+                numberBigCreeps: 4,
                 maxBuilder: 4,
-                maxLoader: 1,
+                maxLoader: 3,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{

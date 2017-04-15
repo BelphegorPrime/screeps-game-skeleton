@@ -94,20 +94,21 @@ module.exports.loop = () =>{
     let subTimeEnd=Game.cpu.getUsed();
     console.log('dt: '+(subTimeEnd-subTimeStart).toFixed(0));
 
+    // INIT CPU DATABASE
+    // Memory.cpu = {}
+    // Memory.cpu.lengthLastTickTime = 0
+    // Memory.cpu.lastTickTime = []
+    // Memory.cpu.lastTickTime[0] = []
+
     let iteration = Memory.cpu.lengthLastTickTime
-    let arrayNumber = Memory.cpu.arrayNumberLastTickTime
     if(iteration === 255){
         Memory.cpu.lengthLastTickTime = 0
         iteration = 0
-        Memory.cpu.arrayNumberLastTickTime = arrayNumber+1
+        Memory.cpu.lastTickTime[0]=[]
     }
 
-    if(arrayNumber === 5){
-        Memory.cpu.arrayNumberLastTickTime = 0
-    }
-
-    Memory.cpu.lastTickTime[Memory.cpu.arrayNumberLastTickTime] = [].concat(
-        Memory.cpu.lastTickTime[Memory.cpu.arrayNumberLastTickTime],
+    Memory.cpu.lastTickTime[0] = [].concat(
+        Memory.cpu.lastTickTime[0],
         (subTimeEnd-subTimeStart).toFixed(0)
     )
     Memory.cpu.lengthLastTickTime = iteration+1

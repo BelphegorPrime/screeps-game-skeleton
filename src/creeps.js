@@ -201,8 +201,8 @@ let creepsHelp = {
                         let bigCreepNumber =generalFunctions.getUnitNumber(bigCreeps)
                         let newName = spawn.createCreep(
                             [WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE],
-                            "MediumCreep-"+bigCreepNumber+"|"+generalFunctions.getRandomID(),
-                            {role: settings.generalSettings.roles.medium_harvester, type: "medium"}
+                            "BigCreep-"+bigCreepNumber+"|"+generalFunctions.getRandomID(),
+                            {role: settings.generalSettings.roles.big_harvester, type: "big"}
                         )
                         console.log('Spawning new bigCreep ' + newName+" within the room "+room.name)
                     }
@@ -211,6 +211,9 @@ let creepsHelp = {
         })
     },
     getAvailableSource: (creep, amountOfCreeps)=>{
+
+        // TODO: Look if Source has enough energy
+        // TODO: Look around the Source if there is a specific number of walls change the workerration
         let sources = creep.room.find(FIND_SOURCES)
         let amountOfSources = _.size(sources)
 

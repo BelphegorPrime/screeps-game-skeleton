@@ -2,13 +2,14 @@ let roleLoader = {
 
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
-            if(creep.room.energyAvailable === creep.room.energyCapacityAvailable){
-                if(_.size(creep.room.containerToTransfer) > 0){
-                    creep.room.containerToTransfer.map( container =>{
-                        creep.moveTo(container.pos, {visualizePathStyle: {stroke: '#ffffff'}})
-                    })
-                }
-            }
+            //TODO: make container great again
+            // if(creep.room.energyAvailable === creep.room.energyCapacityAvailable){
+            //     if(_.size(creep.room.containerToTransfer) > 0){
+            //         creep.room.containerToTransfer.map( container =>{
+            //             creep.moveTo(container.pos, {visualizePathStyle: {stroke: '#ffffff'}})
+            //         })
+            //     }
+            // }
 
             let targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {

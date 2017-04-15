@@ -3,6 +3,15 @@ let settings = require('./settings')
 let terrain = {
     read: (room)=>{
         if(Game.cpu.bucket > settings.getGeneralSettings().bucketLimit){
+
+            // INIT TERRAIN DATABASE
+            // Memory.terrain ={}
+            // Memory.areas ={}
+            // Memory.areas[room.name] =[]
+            // Memory.terrainX = 0
+            // Memory.terrain[room.name] = []
+            // Memory.terrain[room.name][0] = []
+
             let iteration = Memory.terrainX
             if(iteration === settings.getGeneralSettings().roomLength){
                 Memory.terrainX = 0
