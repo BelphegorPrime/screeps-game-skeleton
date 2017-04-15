@@ -1,9 +1,9 @@
 let output = require('./output')
+let settings = require('./settings').getSettingsForLevel()
 let roleLoader = {
 
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
-            //TODO: make container great again // Implemented but not testet jet
             if(creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
                 let containers = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
@@ -33,6 +33,18 @@ let roleLoader = {
                 creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
             }
         }
+    },
+    getNumberOfLoader: (room)=>{
+        let structures = room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_CONTAINER
+            }
+        })
+        output.writeToDebug(_.size(structures))
+        if(_.size(structures) > 0){
+            return settings.maxLoader
+        }
+        return 0
     }
 }
 

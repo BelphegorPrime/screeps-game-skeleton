@@ -23,54 +23,66 @@ let output = {
         let amountOfLittleUpgrader = 0
         let amountOfLittleBuilder = 0
         let amountOfLittleLoader = 0
+        let amountOfLittleSourceproxy = 0
         let amountOfMediumHarvester = 0
         let amountOfMediumUpgrader = 0
         let amountOfMediumBuilder = 0
         let amountOfMediumLoader = 0
+        let amountOfMediumSourceproxy = 0
         let amountOfBigHarvester = 0
         let amountOfBigUpgrader = 0
         let amountOfBigBuilder = 0
         let amountOfBigLoader = 0
+        let amountOfBigSourceproxy = 0
 
         _.map(creeps, creep =>{
             if(creep.memory.type === "little"){
-                if(creep.memory.role === settingsRoles.little_harvester){
+                if(creep.memory.role === settingsRoles.harvester){
                     amountOfLittleHarvester += 1
                 }
-                if(creep.memory.role === settingsRoles.little_upgrader){
+                if(creep.memory.role === settingsRoles.upgrader){
                     amountOfLittleUpgrader += 1
                 }
-                if(creep.memory.role === settingsRoles.little_builder){
+                if(creep.memory.role === settingsRoles.builder){
                     amountOfLittleBuilder += 1
                 }
-                if(creep.memory.role === settingsRoles.little_loader){
+                if(creep.memory.role === settingsRoles.loader){
                     amountOfLittleLoader += 1
                 }
+                if(creep.memory.role === settingsRoles.sourceproxy){
+                    amountOfLittleSourceproxy += 1
+                }
             }else if(creep.memory.type === "medium"){
-                if(creep.memory.role === settingsRoles.medium_harvester){
+                if(creep.memory.role === settingsRoles.harvester){
                     amountOfMediumHarvester += 1
                 }
-                if(creep.memory.role === settingsRoles.medium_upgrader){
+                if(creep.memory.role === settingsRoles.upgrader){
                     amountOfMediumUpgrader += 1
                 }
-                if(creep.memory.role === settingsRoles.medium_builder){
+                if(creep.memory.role === settingsRoles.builder){
                     amountOfMediumBuilder += 1
                 }
-                if(creep.memory.role === settingsRoles.medium_loader){
+                if(creep.memory.role === settingsRoles.loader){
                     amountOfMediumLoader += 1
                 }
+                if(creep.memory.role === settingsRoles.sourceproxy){
+                    amountOfMediumSourceproxy += 1
+                }
             }else if(creep.memory.type === "big"){
-                if(creep.memory.role === settingsRoles.big_harvester){
+                if(creep.memory.role === settingsRoles.harvester){
                     amountOfBigHarvester += 1
                 }
-                if(creep.memory.role === settingsRoles.big_upgrader){
+                if(creep.memory.role === settingsRoles.upgrader){
                     amountOfBigUpgrader += 1
                 }
-                if(creep.memory.role === settingsRoles.big_builder){
+                if(creep.memory.role === settingsRoles.builder){
                     amountOfBigBuilder += 1
                 }
-                if(creep.memory.role === settingsRoles.big_loader){
+                if(creep.memory.role === settingsRoles.loader){
                     amountOfBigLoader += 1
+                }
+                if(creep.memory.role === settingsRoles.sourceproxy){
+                    amountOfBigSourceproxy += 1
                 }
             }
         })
@@ -81,20 +93,21 @@ let output = {
             let upgraderSum = amountOfLittleUpgrader+amountOfMediumUpgrader+amountOfBigUpgrader
             let builderSum = amountOfLittleBuilder+amountOfMediumBuilder+amountOfBigBuilder
             let loaderSum = amountOfLittleLoader+amountOfMediumLoader+amountOfBigLoader
+            let sourceproxySum = amountOfLittleSourceproxy+amountOfMediumSourceproxy+amountOfBigSourceproxy
 
-            let littleSum = amountOfLittleHarvester+amountOfLittleUpgrader+amountOfLittleBuilder+amountOfLittleLoader
-            let mediumSum = amountOfMediumHarvester+amountOfMediumUpgrader+amountOfMediumBuilder+amountOfMediumLoader
-            let bigSum    = amountOfBigHarvester+amountOfBigUpgrader+amountOfBigBuilder+amountOfBigLoader
+            let littleSum = amountOfLittleHarvester+amountOfLittleUpgrader+amountOfLittleBuilder+amountOfLittleLoader+amountOfLittleSourceproxy
+            let mediumSum = amountOfMediumHarvester+amountOfMediumUpgrader+amountOfMediumBuilder+amountOfMediumLoader+amountOfMediumSourceproxy
+            let bigSum    = amountOfBigHarvester+amountOfBigUpgrader+amountOfBigBuilder+amountOfBigLoader+amountOfBigSourceproxy
 
-            let littleRow = room.name+"   | LITTLE:     |         "+amountOfLittleHarvester+"         |        "+amountOfLittleUpgrader+"         |        "+amountOfLittleBuilder+"        |         "+amountOfLittleLoader+"        |         "+littleSum+"\n"
-            let mediumRow =     "         | MEDIUM:     |         "+amountOfMediumHarvester+"         |        "+amountOfMediumUpgrader+"         |        "+amountOfMediumBuilder+"        |         "+amountOfMediumLoader+"        |         "+mediumSum+"\n"
-            let bigRow    =     "         | BIG:        |         "+amountOfBigHarvester   +"         |        "+amountOfBigUpgrader   +"         |        "+amountOfBigBuilder   +"        |         "+amountOfBigLoader   +"        |         "+bigSum+"\n"
-            let summRow   =     "         |             |         "+harvesterSum           +"         |        "+upgraderSum           +"         |        "+builderSum           +"        |         "+loaderSum           +"        |         "
+            let littleRow = room.name+"   | LITTLE:     |         "+amountOfLittleHarvester+"         |        "+amountOfLittleUpgrader+"         |        "+amountOfLittleBuilder+"        |         "+amountOfLittleLoader+"        |         "+amountOfLittleSourceproxy+"        |         "+littleSum+"\n"
+            let mediumRow =     "         | MEDIUM:     |         "+amountOfMediumHarvester+"         |        "+amountOfMediumUpgrader+"         |        "+amountOfMediumBuilder+"        |         "+amountOfMediumLoader+"        |         "+amountOfMediumSourceproxy+"        |         "+mediumSum+"\n"
+            let bigRow    =     "         | BIG:        |         "+amountOfBigHarvester   +"         |        "+amountOfBigUpgrader   +"         |        "+amountOfBigBuilder   +"        |         "+amountOfBigLoader   +"        |         "+amountOfBigSourceproxy   +"        |         "+bigSum+"\n"
+            let summRow   =     "         |             |         "+harvesterSum           +"         |        "+upgraderSum           +"         |        "+builderSum           +"        |         "+loaderSum           +"        |         "+sourceproxySum           +"        |         "
 
             return littleRow + mediumRow + bigRow + summRow
         })
 
-        tickMessage += "         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |      LOADER      |\n"+rows +"\n"
+        tickMessage += "         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |      LOADER      |    SOURCEPROXY   |\n"+rows +"\n"
     },
     writeCPU: (cpu) =>{
         tickMessage += "CPU-Limit: "+cpu.limit + " | Tick-Limit: "+ cpu.tickLimit+ " | Bucket: "+ cpu.bucket+"\n"

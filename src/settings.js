@@ -9,8 +9,11 @@ let settings = {
                 numberLittleCreeps: 10,
                 numberMediumCreeps: 0,
                 numberBigCreeps: 0,
-                maxBuilder: 2,
+                maxHarvester: 8,
+                maxUpdater: 8,
+                maxBuilder: 1,
                 maxLoader: 0,
+                maxSourceproxy: 0,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 2){
@@ -19,28 +22,37 @@ let settings = {
                 numberLittleCreeps: 2,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 0,
+                maxHarvester: 10,
+                maxUpdater: 10,
                 maxBuilder: 2,
                 maxLoader: 0,
+                maxSourceproxy: 0,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 3){
             return {
                 level: settings.level,
-                numberLittleCreeps: 0,
+                numberLittleCreeps: 1,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 4,
-                maxBuilder: 4,
+                maxHarvester: 13,
+                maxUpdater: 13,
+                maxBuilder: 3,
                 maxLoader: 3,
+                maxSourceproxy: 1,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{
             return{
                 level: settings.level,
-                numberLittleCreeps: 10,
-                numberMediumCreeps: 0,
-                numberBigCreeps: 0,
-                maxBuilder: 2,
-                maxLoader: 1,
+                numberLittleCreeps: 1,
+                numberMediumCreeps: 10,
+                numberBigCreeps: 4,
+                maxHarvester: 13,
+                maxUpdater: 13,
+                maxBuilder: 3,
+                maxLoader: 3,
+                maxSourceproxy: 1,
                 generalSettings: settings.getGeneralSettings(),
             }
         }
@@ -48,18 +60,11 @@ let settings = {
     getGeneralSettings: () =>{
         return {
             roles:{
-                little_harvester: "little_harvester",
-                little_upgrader: "little_upgrader",
-                little_builder: "little_builder",
-                medium_harvester: "medium_harvester",
-                medium_upgrader: "medium_upgrader",
-                medium_builder: "medium_builder",
-                big_harvester: "big_harvester",
-                big_upgrader: "big_upgrader",
-                big_builder: "big_builder",
-                little_loader: "little_loader",
-                medium_loader: "medium_loader",
-                big_loader: "big_loader",
+                harvester: "harvester",
+                upgrader: "upgrader",
+                builder: "builder",
+                loader: "loader",
+                sourceproxy: "sourceproxy",
             },
             costs:{
                 little:300,

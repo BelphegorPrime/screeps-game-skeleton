@@ -3,7 +3,7 @@ let roleSourceProxy = {
 
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
-            //TODO: make container great again // Implemented but not testet jet
+            //TODO: Check for newest container ...
             let containers = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity

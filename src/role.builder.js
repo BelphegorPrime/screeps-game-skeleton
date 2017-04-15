@@ -1,8 +1,8 @@
 let output = require('./output')
+let settings = require('./settings').getSettingsForLevel()
 let roleBuilder = {
 
     run: (creep) =>{
-
         if(creep.memory.building && creep.carry.energy === 0) {
             creep.memory.building = false
             creep.say('harvest')
@@ -44,7 +44,18 @@ let roleBuilder = {
             }
 
         }
-    }
+    },
+    getNumberOfBuilder: (constructionSites)=>{
+        // Set the Amount Of Creeps with the role Builder
+        let numberOfBuilder = 1
+        let amountOfConstructionSites = _.size(constructionSites)
+        if(amountOfConstructionSites*2 > settings.maxBuilder){
+            numberOfBuilder = settings.maxBuilder
+        }else if(amountOfConstructionSites === 0){
+            numberOfBuilder = 0
+        }
+        return numberOfBuilder
+    },
 }
 
 module.exports = roleBuilder

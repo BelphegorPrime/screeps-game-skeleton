@@ -15,7 +15,6 @@ let settings = require('./settings').getSettingsForLevel()
 module.exports.loop = () =>{
 
     let subTimeStart=Game.cpu.getUsed();
-
     // Cleanup Memory
     _.map(Memory.creeps, (creep, creepName) =>{
         if(!Game.creeps[creepName]) {
@@ -24,64 +23,31 @@ module.exports.loop = () =>{
         }
     })
 
-
     // Get Roominformations and extend the Room Object
     Game.rooms = room.init(Game.rooms)
 
-    // Set the Amount Of Creeps with the role Builder
-    let numberOfBuilder = 1
-    let amountOfConstructionSites = _.size(Game.constructionSites)
-    if(amountOfConstructionSites > settings.maxBuilder){
-        numberOfBuilder = settings.maxBuilder
-    }else if(amountOfConstructionSites === 0){
-        numberOfBuilder = amountOfConstructionSites
-    }
-
-    let numberOfLoader = 0
-    _.map(Game.rooms, room =>{
-        let structures = room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_CONTAINER
-            }
-        })
-        if(_.size(structures) > 0){
-            numberOfLoader = settings.maxLoader
-        }
-    })
-
     // Give every small and big Creep its role and source
-    let littleCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "little")
-    let mediumCreeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "medium")
-    let bigCreeps    = creepsHelper.getCreeps(Game.creeps, Game.rooms, numberOfBuilder, numberOfLoader, "big")
+    let creeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, Game.constructionSites)
 
     // Create small and big Creeps
-    creepsHelper.spawnCreeps(Game.rooms, Game.spawns, littleCreeps, mediumCreeps, bigCreeps)
+    creepsHelper.spawnCreeps(Game.rooms, Game.spawns, creeps)
 
     // Execute Commands for Creeper Role
-    let creeps = [].concat(littleCreeps, mediumCreeps, bigCreeps)
 
     _.map(creeps, creep =>{
-        if(creep.memory.role === settings.generalSettings.roles.little_harvester ||
-            creep.memory.role === settings.generalSettings.roles.medium_harvester ||
-            creep.memory.role === settings.generalSettings.roles.big_harvester ||
+        if(creep.memory.role === settings.generalSettings.roles.harvester ||
             creep.memory.role === "harvester") {
             roleHarvester.run(creep)
         }
-        if(creep.memory.role === settings.generalSettings.roles.little_upgrader ||
-            creep.memory.role === settings.generalSettings.roles.medium_upgrader ||
-            creep.memory.role === settings.generalSettings.roles.big_upgrader ||
+        if(creep.memory.role === settings.generalSettings.roles.upgrader ||
             creep.memory.role === "upgrader") {
             roleUpgrader.run(creep)
         }
-        if(creep.memory.role === settings.generalSettings.roles.little_builder ||
-            creep.memory.role === settings.generalSettings.roles.medium_builder ||
-            creep.memory.role === settings.generalSettings.roles.big_builder ||
+        if(creep.memory.role === settings.generalSettings.roles.builder ||
             creep.memory.role === "builder") {
             roleBuilder.run(creep)
         }
-        if(creep.memory.role === settings.generalSettings.roles.little_loader ||
-            creep.memory.role === settings.generalSettings.roles.medium_loader ||
-            creep.memory.role === settings.generalSettings.roles.big_loader ||
+        if(creep.memory.role === settings.generalSettings.roles.loader ||
             creep.memory.role === "loader"){
             roleLoader.run(creep)
         }
@@ -89,9 +55,6 @@ module.exports.loop = () =>{
             roleSourceProxy.run(creep)
         }
     })
-
-
-
 
     // WRITE ACTUAL TICK TO MEMORY
 
