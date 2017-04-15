@@ -1,9 +1,13 @@
+let output = require('./output')
 let settings = require('./settings')
 
 let terrain = {
     read: (room)=>{
         // TODO: better CPU handling
         let lastTick = Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-1]
+        if(lastTick >= Game.cpu.limit){
+            output.writeToDebug("LastTick with value "+lastTick+" greater or equal to "+Game.cpu.limit)
+        }
         if(Game.cpu.bucket > settings.getGeneralSettings().bucketLimit && lastTick < Game.cpu.limit){
 
             // INIT TERRAIN DATABASE

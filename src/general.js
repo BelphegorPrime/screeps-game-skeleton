@@ -1,5 +1,5 @@
+let output = require('./output')
 let general = {
-
     getUnitNumber: (creepArray)=>{
         let number = 0
         _.map(creepArray, (creep)=>{
@@ -13,7 +13,6 @@ let general = {
     getRandomID: ()=>{
         return Math.floor(Math.random() * (Math.floor(10000))) + 1
     },
-
 }
 
 module.exports = general

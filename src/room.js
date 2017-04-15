@@ -1,8 +1,8 @@
+let output = require('./output')
 let towers = require('./tower')
 let terrain = require('./terrain')
 
 let settings = require('./settings').getSettingsForLevel()
-let output = require('./output')
 
 let room = {
     init: (rooms)=>{

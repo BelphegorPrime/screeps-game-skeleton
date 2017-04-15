@@ -1,8 +1,9 @@
+let output = require('./output')
 let roleLoader = {
 
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
-            //TODO: make container great again
+            //TODO: make container great again // Implemented but not testet jet
             if(creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
                 let containers = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {

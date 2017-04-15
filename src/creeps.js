@@ -1,3 +1,4 @@
+let output = require('./output')
 let generalFunctions = require('./general')
 let settings = require('./settings').getSettingsForLevel()
 
@@ -212,31 +213,31 @@ let creepsHelp = {
     },
     getAvailableSource: (creep, amountOfCreeps)=>{
 
-        // TODO: Look if Source has enough energy
         // TODO: Look around the Source if there is a specific number of walls change the workerration
         let sources = creep.room.find(FIND_SOURCES)
+
+        sources = sources.filter(source=> source.energy !== 0)
         let amountOfSources = _.size(sources)
+
+        if(amountOfSources === 1 ){
+            console.log(amountOfSources)
+        }
+
+        let maxCreeps = Math.round(amountOfCreeps/amountOfSources)
 
         sources = sources.map((source, sourceIndex)=>{
             if(source.registeredCreeps === undefined){
                 source.registeredCreeps=[]
             }
-            source.maxCreeps = Math.round(amountOfCreeps/amountOfSources)
-
             if(sourceIndex > 0){
-                if(sources[0].registeredCreeps.indexOf(creep.id)  > -1){
-
-                }else{
-                    if(_.size(source.registeredCreeps) < source.maxCreeps){
-                        source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
-                    }
+                if(sources[0].registeredCreeps.indexOf(creep.id)  <= -1 && _.size(source.registeredCreeps) < maxCreeps){
+                    source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
                 }
             }else{
-                if(_.size(source.registeredCreeps) < source.maxCreeps){
+                if(_.size(source.registeredCreeps) < maxCreeps){
                     source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
                 }
             }
-
             return source
         })
 
@@ -246,12 +247,12 @@ let creepsHelp = {
 
         // when creep has no Source write informations to console.log
         if(sourceToReturn === undefined){
-            console.log(amountOfCreeps)
+            output.writeToDebug(amountOfCreeps)
             sources.map(source => {
-                console.log(source.registeredCreeps)
+                output.writeToDebug(source.registeredCreeps)
             })
-            console.log(creep.id)
-            console.log(sourceToReturn)
+            output.writeToDebug(creep.id)
+            output.writeToDebug(sourceToReturn)
         }
 
         return sourceToReturn

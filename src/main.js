@@ -4,6 +4,8 @@ let roleHarvester = require('./role.harvester')
 let roleUpgrader = require('./role.upgrader')
 let roleBuilder = require('./role.builder')
 let roleLoader = require('./role.loader')
+let roleSourceProxy = require('./role.sourceproxy')
+
 let room = require('./room')
 let creepsHelper = require('./creeps')
 
@@ -83,6 +85,9 @@ module.exports.loop = () =>{
             creep.memory.role === "loader"){
             roleLoader.run(creep)
         }
+        if(creep.memory.role === settings.generalSettings.roles.sourceproxy){
+            roleSourceProxy.run(creep)
+        }
     })
 
 
@@ -111,6 +116,5 @@ module.exports.loop = () =>{
     output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
     output.writeCPU(Game.cpu)
     output.allDuration(duration)
-    output.writeLog();
-
+    output.writeLog()
 }

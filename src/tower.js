@@ -1,3 +1,4 @@
+let output = require('./output')
 let tower = {
     getTower: (room)=>{
 

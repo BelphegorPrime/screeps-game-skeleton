@@ -1,3 +1,4 @@
+let output = require('./output')
 let room = _.map(Game.rooms, room =>{return room})[0]
 let settings = {
     level: room.controller.level,

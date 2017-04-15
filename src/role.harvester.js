@@ -1,9 +1,10 @@
+let output = require('./output')
 let roleHarvester = {
 
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
             if(creep.room.energyAvailable === creep.room.energyCapacityAvailable){
-                //TODO: make container great again
+                //TODO: make container great again // Implemented but not testet jet
                 if(_.size(creep.room.containerToTransfer) > 0){
                         let containers = creep.room.find(FIND_STRUCTURES, {
                             filter: (structure) => {

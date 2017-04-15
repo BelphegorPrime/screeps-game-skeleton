@@ -1,4 +1,5 @@
 let tickMessage = "\n"
+let debugText = "\n"
 let output = {
 
     energyInRooms: (rooms)=>{
@@ -101,10 +102,17 @@ let output = {
     allDuration: (duration)=>{
         tickMessage += "All dt: "+duration+"\n"
     },
+    writeToDebug: (text)=>{
+        debugText += JSON.stringify(text)+"\n"
+    },
+    resetLog: ()=>{
+        tickMessage = "\n"
+        debugText = "\n"
+    },
     writeLog: ()=>{
-        console.log(tickMessage)
+        console.log(tickMessage+debugText)
+        output.resetLog()
     }
-
 }
 
 module.exports = output
