@@ -2,6 +2,7 @@ let settings = require('./settings')
 
 let terrain = {
     read: (room)=>{
+        // TODO: better CPU handling
         if(Game.cpu.bucket > settings.getGeneralSettings().bucketLimit){
 
             // INIT TERRAIN DATABASE
