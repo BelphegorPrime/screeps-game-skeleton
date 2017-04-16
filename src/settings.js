@@ -9,11 +9,8 @@ let settings = {
                 numberLittleCreeps: 10,
                 numberMediumCreeps: 0,
                 numberBigCreeps: 0,
-                maxHarvester: 8,
-                maxUpdater: 8,
                 maxBuilder: 1,
                 maxLoader: 0,
-                maxSourceproxy: 0,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 2){
@@ -22,11 +19,8 @@ let settings = {
                 numberLittleCreeps: 2,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 0,
-                maxHarvester: 10,
-                maxUpdater: 10,
                 maxBuilder: 2,
                 maxLoader: 0,
-                maxSourceproxy: 0,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else if(settings.level === 3){
@@ -35,11 +29,8 @@ let settings = {
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 4,
-                maxHarvester: 13,
-                maxUpdater: 13,
                 maxBuilder: 3,
                 maxLoader: 3,
-                maxSourceproxy: 1,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{
@@ -48,11 +39,8 @@ let settings = {
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 4,
-                maxHarvester: 13,
-                maxUpdater: 13,
                 maxBuilder: 3,
                 maxLoader: 3,
-                maxSourceproxy: 1,
                 generalSettings: settings.getGeneralSettings(),
             }
         }

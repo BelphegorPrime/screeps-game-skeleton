@@ -17,7 +17,7 @@ let roleUpgrader = {
         }else {
             if(creep.memory.source.structureType === "container"){
                 if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffffff'}})
+                    creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
                 }
             }else{
                 if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {

@@ -44,7 +44,7 @@ let room = {
                     containerData[0].isFull = false
                     room.containerToTransfer = [].concat(room.containerToTransfer, containerData)
                 }
-                if(container.store[RESOURCE_ENERGY] > 0){
+                if(container.store[RESOURCE_ENERGY] > 0 && container.registeredCreeps === undefined){
                     room.containerToGetFrom = [].concat(room.containerToGetFrom, containerData)
                 }
                 energyAmountInContainer += container.store[RESOURCE_ENERGY]

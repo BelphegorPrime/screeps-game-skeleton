@@ -46,13 +46,13 @@ let roleHarvester = {
             let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
             if(target) {
                 if(creep.pickup(target) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
             }else{
                 if(creep.memory.source !== undefined){
                     if(creep.memory.source.structureType === "container"){
                         if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffffff'}})
+                            creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
                         }
                     }else{
                         if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {

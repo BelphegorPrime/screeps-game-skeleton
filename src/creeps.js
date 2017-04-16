@@ -193,7 +193,9 @@ let creepsHelp = {
                         amountOfSurroundingWalls += 1
                     }
                     // INIT SOURCE IN MEMORY
-                    // Memory.sources = {}
+                    if(Memory.sources === undefined){
+                        Memory.sources = {}
+                    }
                     if(Memory.sources[creep.room.name] === undefined){
                         Memory.sources[creep.room.name] = {}
                     }
@@ -243,7 +245,7 @@ let creepsHelp = {
                     if(source.amountOfSupportCreeps > 0){
                         let container = source.pos.findClosestByRange(FIND_STRUCTURES,{
                             filter: (structure) => {
-                                return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
+                                return structure.structureType === STRUCTURE_CONTAINER
                             }
                         })
                         if(container !== null){
