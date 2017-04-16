@@ -9,13 +9,9 @@ let room = {
         output.energyInRooms(rooms)
 
         return _.map(rooms, room =>{
-
-
-
             // Run Tower for specific ID
             towers.getTower(room)
             room = terrain.read(room)
-
 
             room.canBuildMediumCreep = room.energyAvailable >= settings.generalSettings.costs.medium
             room.canBuildBigCreep = room.energyAvailable >= settings.generalSettings.costs.big
@@ -40,13 +36,16 @@ let room = {
                     "pos":container.pos,
                     "isFull": true
                 }]
-                if(container.store[RESOURCE_ENERGY] < container.storeCapacity) {
-                    containerData[0].isFull = false
-                    room.containerToTransfer = [].concat(room.containerToTransfer, containerData)
+                if(container.id !== Memory.proxyContainer.id){
+                    if(container.store[RESOURCE_ENERGY] < container.storeCapacity) {
+                        containerData[0].isFull = false
+                        room.containerToTransfer = [].concat(room.containerToTransfer, containerData)
+                    }
+                    if(container.store[RESOURCE_ENERGY] > 0){
+                        room.containerToGetFrom = [].concat(room.containerToGetFrom, containerData)
+                    }
                 }
-                if(container.store[RESOURCE_ENERGY] > 0 && container.registeredCreeps === undefined){
-                    room.containerToGetFrom = [].concat(room.containerToGetFrom, containerData)
-                }
+
                 energyAmountInContainer += container.store[RESOURCE_ENERGY]
                 energyMaxAmountInContainer += container.storeCapacity
             })

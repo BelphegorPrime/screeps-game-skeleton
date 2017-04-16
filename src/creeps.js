@@ -11,12 +11,12 @@ let creepsHelp = {
         let upgrader = settings.generalSettings.roles.upgrader
         let builder = settings.generalSettings.roles.builder
         let loader = settings.generalSettings.roles.loader
-        let sourceproxy = settings.generalSettings.roles.sourceproxy
 
         _.map(rooms, room =>{
 
             let SourcesToMoveTo = _(creepsHelp.getAvailableSources(creeps, _.size(allCreeps))).reverse().value()
             let noProxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
+            let sourceproxyCreeps = _.filter(creeps, creep => creep.memory.type === "sourceproxy")
 
             if(_.size(creeps) <= 3){
                 creeps= creeps.map(creep =>{
@@ -29,7 +29,13 @@ let creepsHelp = {
 
             let numberOfBuilder = roleBuilder.getNumberOfBuilder(constructionSites)
             let notFullContainer = room.containerToTransfer.filter(container => !container.isFull)
-            if(room.energyAvailable >= settings.generalSettings.costs.little*2 && _.size(notFullContainer) > 0){
+            let containers = room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return structure.structureType === STRUCTURE_CONTAINER && structure.registeredCreeps === undefined
+                }
+            })
+
+            if(room.energyAvailable >= settings.generalSettings.costs.little*2 && (_.size(notFullContainer) > 0 || _.size(containers) === 0)){
                 let numberOfLoader = roleLoader.getNumberOfLoader(room)
                 creeps= creeps.map((creep, index) =>{
                     let source = SourcesToMoveTo.filter(source =>{
@@ -40,10 +46,10 @@ let creepsHelp = {
                         }
                     })[0]
                     if(source !== undefined){
-                        if(Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
+                        if(creep.memory.type === settings.generalSettings.roles.sourceproxy && Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
                             output.writeToDebug(creep.name)
                             output.writeToDebug(creep.pos)
-                            creep.memory.role = sourceproxy
+                            creep.memory.role = settings.generalSettings.roles.sourceproxy
                             creep.memory.source = source
                         }else{
                             if(index < numberOfBuilder ){
@@ -61,7 +67,7 @@ let creepsHelp = {
                             }
                         }
                     }else{
-                        creep.memory.role = harvester
+                        creep.memory.role = upgrader
                         creep.memory.source = noProxySource
                     }
                     return creep
@@ -76,10 +82,10 @@ let creepsHelp = {
                         }
                     })[0]
                     if(source !== undefined){
-                        if(Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
+                        if(creep.memory.type === settings.generalSettings.roles.sourceproxy &&  Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
                             output.writeToDebug(creep.name)
                             output.writeToDebug(creep.pos)
-                            creep.memory.role = sourceproxy
+                            creep.memory.role = settings.generalSettings.roles.sourceproxy
                             creep.memory.source = source
                         }else{
                             if(index < numberOfBuilder ){
@@ -143,15 +149,22 @@ let creepsHelp = {
             })
         })
     },
+    spawnSourceProxy: (room, spawn, creeps)=>{
+        let amountOfSourceproxyCreeps = _.size(_.filter(creeps, creep => creep.memory.type === "sourceproxy"))
+        if(room.canBuildBigCreep && _.size(creeps)>3 && amountOfSourceproxyCreeps === 0){
+            spawn.createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE],"sourceproxy",{role: "sourceproxy", type: "sourceproxy"})
+            output.writeToDebug("Spawning new SOURCEPROXY within the room "+room.name)
+        }
+    },
     getAvailableSources: (creeps, amountOfCreeps)=>{
-        // TODO: Choose the youngestCreep... actual works until there is a new one... :/
-        let youngestCreep = _.sortByOrder(creeps, ['ticksToLive'], ['desc'])[0]
-
-
-        if(Memory.proxysource === undefined){Memory.proxysource = {}}
-        let proxyCreepPresent = !!_.size(_.filter(creeps, creep => creep.id === Memory.proxysource.id))
+        let proxyCreeps= _.filter(creeps, creep => creep.memory.type === settings.generalSettings.roles.sourceproxy)
+        let proxyCreepPresent = !!_.size(proxyCreeps)
+        let proxyCreep = {}
         if(!proxyCreepPresent){
-            Memory.proxysource.id = youngestCreep.id
+            // TODO: CREATE AN SOURCEPROXY CREEP?
+            creepsHelp.spawnSourceProxy(creeps[0].room, Game.spawns['Spawn1'], creeps)
+        }else{
+            proxyCreep = proxyCreeps[0]
         }
 
         return creeps.map(creep =>{
@@ -226,7 +239,9 @@ let creepsHelp = {
                     }
                 }else{
                     if(maxCreeps===1){
-                        source.registeredCreeps = [].concat(source.registeredCreeps, Memory.proxysource.id)
+                        if(proxyCreepPresent && proxyCreep.id !== undefined && creep.memory.type === settings.generalSettings.roles.sourceproxy){
+                            source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
+                        }
                     }
                     if(_.size(source.registeredCreeps) < maxCreeps){
                         source.registeredCreeps = [].concat(source.registeredCreeps, creep.id)
@@ -252,9 +267,13 @@ let creepsHelp = {
                             if(container.registeredCreeps === undefined){
                                 container.registeredCreeps=[]
                             }
-                            if(_.size(container.registeredCreeps) < 3){
+                            if(_.size(container.registeredCreeps) < 4){
                                 container.registeredCreeps = [].concat(container.registeredCreeps, creep.id)
                             }
+                            if(Memory.proxyContainer === undefined){
+                                Memory.proxyContainer = {}
+                            }
+                            Memory.proxyContainer.id = container.id
                             return container
                         }
                     }
