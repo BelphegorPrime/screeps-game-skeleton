@@ -5,27 +5,27 @@ let roleLoader = {
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity) {
             if(creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
-                let containers = creep.room.find(FIND_STRUCTURES, {
+                let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                     }
                 })
-                if(containers.length > 0) {
-                    if(creep.transfer(containers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(containers[0], {visualizePathStyle: {stroke: '#ffffff'}})
+                if(container !== null) {
+                    if(creep.transfer(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(container, {visualizePathStyle: {stroke: '#ffffff'}})
                     }
                 }
             }
 
-            let targets = creep.room.find(FIND_STRUCTURES, {
+            let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType === STRUCTURE_TOWER) &&
                         (structure.energy < structure.energyCapacity)
                 }
             })
-            if(targets.length > 0) {
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}})
+            if(target!==null) {
+                if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }
         } else {

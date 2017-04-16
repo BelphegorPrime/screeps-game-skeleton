@@ -7,9 +7,22 @@ let roleSourceProxy = {
                     return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                 }
             });
-            if(_.size(container) > 0) {
+            if(container !== null){
                 if(creep.transfer(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(container, {visualizePathStyle: {stroke: '#ffffff'}})
+                }
+            }else{
+                let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType === STRUCTURE_EXTENSION ||
+                            structure.structureType === STRUCTURE_SPAWN) &&
+                            (structure.energy < structure.energyCapacity)
+                    }
+                })
+                if(target!==null){
+                    if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}})
+                    }
                 }
             }
         } else {

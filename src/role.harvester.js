@@ -30,28 +30,34 @@ let roleHarvester = {
                 }
             }
 
-            let targets = creep.room.find(FIND_STRUCTURES, {
+            let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN ||
-                        structure.structureType === STRUCTURE_CONTAINER) &&
+                        structure.structureType === STRUCTURE_SPAWN) &&
                         (structure.energy < structure.energyCapacity)
                 }
             })
-            if(targets.length > 0) {
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}})
+            if(target!==null){
+                if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }
         } else {
-            if(creep.memory.source !== undefined){
-                if(creep.memory.source.structureType === "container"){
-                    if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffffff'}})
-                    }
-                }else{
-                    if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+            let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+            if(target) {
+                if(creep.pickup(target) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
+            }else{
+                if(creep.memory.source !== undefined){
+                    if(creep.memory.source.structureType === "container"){
+                        if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                            creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffffff'}})
+                        }
+                    }else{
+                        if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
+                            creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                        }
                     }
                 }
             }

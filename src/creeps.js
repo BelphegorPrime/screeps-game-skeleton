@@ -16,7 +16,7 @@ let creepsHelp = {
         _.map(rooms, room =>{
 
             let SourcesToMoveTo = _(creepsHelp.getAvailableSources(creeps, _.size(allCreeps))).reverse().value()
-            let noProxySource = SourcesToMoveTo.filter(source => Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
+            let noProxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
 
             if(_.size(creeps) <= 3){
                 creeps= creeps.map(creep =>{
@@ -69,7 +69,7 @@ let creepsHelp = {
             }else{
                 creeps= creeps.map((creep, index) =>{
                     let source = SourcesToMoveTo.filter(source =>{
-                        if(source.registeredCreeps !== undefined){
+                        if(source !== undefined && source.registeredCreeps !== undefined){
                             return source.registeredCreeps.indexOf(creep.id) > -1
                         }else {
                             return false
@@ -246,13 +246,15 @@ let creepsHelp = {
                                 return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                             }
                         })
-                        if(container.registeredCreeps === undefined){
-                            container.registeredCreeps=[]
+                        if(container !== null){
+                            if(container.registeredCreeps === undefined){
+                                container.registeredCreeps=[]
+                            }
+                            if(_.size(container.registeredCreeps) < 3){
+                                container.registeredCreeps = [].concat(container.registeredCreeps, creep.id)
+                            }
+                            return container
                         }
-                        if(_.size(container.registeredCreeps) < 3){
-                            container.registeredCreeps = [].concat(container.registeredCreeps, creep.id)
-                        }
-                        return container
                     }
                 })[0]
             }
