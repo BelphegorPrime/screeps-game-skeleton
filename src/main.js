@@ -8,6 +8,7 @@ let roleSourceProxy = require('./role.sourceproxy')
 
 let room = require('./room')
 let creepsHelper = require('./creeps')
+let memoryHelper = require('./memory')
 
 let output = require('./output')
 let settings = require('./settings').getSettingsForLevel()
@@ -22,6 +23,8 @@ module.exports.loop = () =>{
             console.log('Clearing non-existing creep memory: ', creepName)
         }
     })
+
+    memoryHelper.init(Game.rooms)
 
     // Get Roominformations and extend the Room Object
     Game.rooms = room.init(Game.rooms)
@@ -61,13 +64,6 @@ module.exports.loop = () =>{
     })
 
     // WRITE ACTUAL TICK TO MEMORY
-
-    // INIT CPU DATABASE
-    // Memory.cpu = {}
-    // Memory.cpu.lengthLastTickTime = 0
-    // Memory.cpu.lastTickTime = []
-    // Memory.cpu.lastTickTime[0] = []
-
     let iteration = Memory.cpu.lengthLastTickTime
     if(iteration === 5){
         Memory.cpu.lengthLastTickTime = 0

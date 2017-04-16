@@ -15,13 +15,21 @@ let roleUpgrader = {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
             }
         }else {
-            if(creep.memory.source !== undefined && creep.memory.source.structureType === "container"){
-                if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
-                }
-            }else{
-                if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+            if(creep.memory.source !== undefined){
+                if(creep.memory.source.structureType === "container"){
+                    if(creep.memory.source.store.energy > 0){
+                        if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                            creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                        }
+                    }else{
+                        if(creep.harvest(creep.memory.fallbackSource) === ERR_NOT_IN_RANGE) {
+                            creep.moveTo(creep.memory.fallbackSource, {visualizePathStyle: {stroke: '#ffaa00'}})
+                        }
+                    }
+                }else{
+                    if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                    }
                 }
             }
         }
