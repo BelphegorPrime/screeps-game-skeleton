@@ -27,7 +27,10 @@ module.exports.loop = () =>{
     Game.rooms = room.init(Game.rooms)
 
     // Give every small and big Creep its role and source
-    let creeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, Game.constructionSites)
+    let creeps = []
+    if(_.size(Game.creeps) > 0){
+        creeps = creepsHelper.getCreeps(Game.creeps, Game.rooms, Game.constructionSites)
+    }
 
     // Create small and big Creeps
     creepsHelper.spawnCreeps(Game.rooms, Game.spawns, creeps)

@@ -20,26 +20,8 @@ let creepsHelp = {
 
             if(_.size(creeps) <= 3){
                 creeps= creeps.map(creep =>{
-                    creep.memory.source = SourcesToMoveTo.filter(source =>{
-                        if(source.registeredCreeps !== undefined){
-                            return source.registeredCreeps.indexOf(creep.id) > -1
-                        }else {
-                            return false
-                        }
-                    })[0]
-                    if(source !== undefined){
-                        if(Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
-                            output.writeToDebug(creep.name)
-                            output.writeToDebug(creep.pos)
-                            creep.memory.role = sourceproxy
-                            creep.memory.source = source
-                        }else {
-                            creep.memory.role = harvester
-                        }
-                    }else{
-                        creep.memory.role = harvester
-                        creep.memory.source = noProxySource
-                    }
+                    creep.memory.role = harvester
+                    creep.memory.source = noProxySource
                     return creep
                 })
                 return creeps
