@@ -1,6 +1,7 @@
 let output = require('./output')
 let memory = {
     init: (rooms)=>{
+        let subTimeStart=Game.cpu.getUsed();
 
         _.map(rooms, room =>{
             // INIT CPU DATABASE
@@ -29,6 +30,8 @@ let memory = {
             // INIT PROXYCONTAINER DATABASE
             if(Memory.proxyContainer === undefined){Memory.proxyContainer = {}}
         })
+        let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
+        output.writeToDebug("MEMORY INIT TOOK                     "+duration)
     },
 }
 

@@ -6,9 +6,9 @@ let settings = require('./settings').getSettingsForLevel()
 
 let room = {
     init: (rooms)=>{
+        let subTimeStart=Game.cpu.getUsed();
         output.energyInRooms(rooms)
-
-        return _.map(rooms, room =>{
+        let returnvalue =  _.map(rooms, room =>{
             // Run Tower for specific ID
             towers.getTower(room)
             room = terrain.read(room)
@@ -49,9 +49,11 @@ let room = {
                 energyAmountInContainer += container.store[RESOURCE_ENERGY]
                 energyMaxAmountInContainer += container.storeCapacity
             })
-
             return room
         })
+        let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
+        output.writeToDebug("ROOM INIT TOOK                       "+duration)
+        return returnvalue
     }
 }
 

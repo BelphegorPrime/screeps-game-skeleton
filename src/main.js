@@ -40,6 +40,7 @@ module.exports.loop = () =>{
 
     // Execute Commands for Creeper Role
 
+    let subTimeCreepsRun=Game.cpu.getUsed();
     _.map(creeps, creep =>{
         if(creep.memory.role === settings.generalSettings.roles.harvester ||
             creep.memory.role === "harvester") {
@@ -62,6 +63,8 @@ module.exports.loop = () =>{
             roleSourceProxy.run(creep)
         }
     })
+    let durationCreepsRun=(Game.cpu.getUsed()-subTimeCreepsRun).toFixed(0);
+    output.writeToDebug("CREEPS WORKTIME TOOK                 "+durationCreepsRun)
 
     // WRITE ACTUAL TICK TO MEMORY
     let iteration = Memory.cpu.lengthLastTickTime

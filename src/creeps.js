@@ -6,6 +6,7 @@ let settings = require('./settings').getSettingsForLevel()
 
 let creepsHelp = {
     getCreeps: (allCreeps, rooms, constructionSites)=>{
+        let subTimeStart=Game.cpu.getUsed();
         creeps = _.map(allCreeps, creep =>{return creep})
         let harvester = settings.generalSettings.roles.harvester
         let upgrader = settings.generalSettings.roles.upgrader
@@ -132,9 +133,12 @@ let creepsHelp = {
                 })
             }
         })
+        let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
+        output.writeToDebug("CREEPS GET ROLE TOOK                 "+duration)
         return creeps
     },
     spawnCreeps: (rooms, spawns, creeps)=>{
+        let subTimeStart=Game.cpu.getUsed();
         _.map(rooms, room =>{
             _.map(spawns, spawn=>{
                 if(room.name === spawn.room.name){
@@ -173,6 +177,8 @@ let creepsHelp = {
                 }
             })
         })
+        let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
+        output.writeToDebug("SPAWN CREEPS TOOK                    "+duration)
     },
     spawnSourceProxy: (room, spawn, creeps)=>{
         let sourcesWithOneSlot = _.filter(Memory.sources[room.name], source => source["availableSlots"] === 1)
