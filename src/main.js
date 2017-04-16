@@ -64,11 +64,11 @@ module.exports.loop = () =>{
         }
     })
     let durationCreepsRun=(Game.cpu.getUsed()-subTimeCreepsRun).toFixed(0);
-    output.writeToDebug("CREEPS WORKTIME TOOK                 "+durationCreepsRun)
+    output.workTimes("CREEPS WORKTIME TOOK                 "+durationCreepsRun)
 
     // WRITE ACTUAL TICK TO MEMORY
     let iteration = Memory.cpu.lengthLastTickTime
-    if(iteration === 5){
+    if(iteration >= settings.generalSettings.amountOfLastTimeTicksToSave){
         Memory.cpu.lengthLastTickTime = 0
         iteration = 0
         Memory.cpu.lastTickTime[0]=[Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-1]]
@@ -81,6 +81,6 @@ module.exports.loop = () =>{
     // CONSOLE OUTPUT
     output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles)
     output.writeCPU(Game.cpu)
-    output.allDuration(duration)
+    output.workTimes("All dt: "+duration)
     output.writeLog()
 }

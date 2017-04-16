@@ -31,7 +31,7 @@ let memory = {
             if(Memory.proxyContainer === undefined){Memory.proxyContainer = {}}
         })
         let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
-        output.writeToDebug("MEMORY INIT TOOK                     "+duration)
+        output.workTimes("MEMORY INIT TOOK                     "+duration)
     },
 }
 

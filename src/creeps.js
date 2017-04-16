@@ -134,7 +134,7 @@ let creepsHelp = {
             }
         })
         let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
-        output.writeToDebug("CREEPS GET ROLE TOOK                 "+duration)
+        output.workTimes("CREEPS GET ROLE TOOK                 "+duration)
         return creeps
     },
     spawnCreeps: (rooms, spawns, creeps)=>{
@@ -178,7 +178,7 @@ let creepsHelp = {
             })
         })
         let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
-        output.writeToDebug("SPAWN CREEPS TOOK                    "+duration)
+        output.workTimes("SPAWN CREEPS TOOK                    "+duration)
     },
     spawnSourceProxy: (room, spawn, creeps)=>{
         let sourcesWithOneSlot = _.filter(Memory.sources[room.name], source => source["availableSlots"] === 1)

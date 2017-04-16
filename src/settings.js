@@ -61,6 +61,7 @@ let settings = {
             },
             roomLength: 50,
             bucketLimit: 5000,
+            amountOfLastTimeTicksToSave: 5,
         }
     }
 }

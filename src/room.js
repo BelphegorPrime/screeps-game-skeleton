@@ -52,7 +52,7 @@ let room = {
             return room
         })
         let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
-        output.writeToDebug("ROOM INIT TOOK                       "+duration)
+        output.workTimes("ROOM INIT TOOK                       "+duration)
         return returnvalue
     }
 }

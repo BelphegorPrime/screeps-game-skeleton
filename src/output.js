@@ -1,5 +1,6 @@
 let tickMessage = "\n"
 let debugText = "\n"
+let workTimes = "\n"
 let output = {
 
     energyInRooms: (rooms)=>{
@@ -106,18 +107,19 @@ let output = {
     writeCPU: (cpu) =>{
         tickMessage += "CPU-Limit: "+cpu.limit + " | Tick-Limit: "+ cpu.tickLimit+ " | Bucket: "+ cpu.bucket+"\n"
     },
-    allDuration: (duration)=>{
-        tickMessage += "All dt: "+duration+"\n"
-    },
     writeToDebug: (text)=>{
         debugText += JSON.stringify(text)+"\n"
+    },
+    workTimes: (text)=>{
+        workTimes += text+"\n"
     },
     resetLog: ()=>{
         tickMessage = "\n"
         debugText = "\n"
+        workTimes = "\n"
     },
     writeLog: ()=>{
-        console.log(tickMessage+debugText)
+        console.log(tickMessage+workTimes+debugText)
         output.resetLog()
     }
 }
