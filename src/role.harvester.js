@@ -99,6 +99,11 @@ let roleHarvester = {
                         }
                     }
                 }
+            }else{
+                let source = creep.pos.findClosestByRange(FIND_SOURCES)
+                if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
+                    routerHelper.routeCreep(creep, source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                }
             }
         }
     }
