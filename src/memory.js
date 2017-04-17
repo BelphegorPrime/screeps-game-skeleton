@@ -7,17 +7,16 @@ let memoryHelper = {
             _.map(rooms, room =>{
                 // INIT CPU DATABASE
                 if(Memory.cpu === undefined){Memory.cpu = {}}
-                if(Memory.cpu.lengthLastTickTime === undefined){Memory.cpu.lengthLastTickTime = 0}
                 if(Memory.cpu.lastTickTime === undefined){Memory.cpu.lastTickTime = []}
                 if(Memory.cpu.lastTickTime[0] === undefined){Memory.cpu.lastTickTime[0] = []}
+                if(Memory.cpu.lengthLastTickTime === undefined){Memory.cpu.lengthLastTickTime = 0}
 
                 // INIT TERRAIN DATABASE
+                if(Memory.areas === undefined){Memory.areas ={}}
+                if(Memory.areas[room.name] === undefined){Memory.areas[room.name] = []}
                 if(Memory.terrain === undefined){Memory.terrain ={}}
                 if(Memory.terrain[room.name] === undefined){Memory.terrain[room.name] =[]}
                 if(Memory.terrain[room.name][0] === undefined){Memory.terrain[room.name][0] =[]}
-                if(Memory.terrain === undefined){Memory.terrain ={}}
-                if(Memory.areas === undefined){Memory.areas ={}}
-                if(Memory.areas[room.name] === undefined){Memory.areas[room.name] = []}
                 if(Memory.terrainX === undefined) {Memory.terrainX = 0}
 
                 // INIT SOURCE DATABASE
@@ -31,8 +30,16 @@ let memoryHelper = {
                 // INIT PROXYCONTAINER DATABASE
                 if(Memory.proxyContainer === undefined){Memory.proxyContainer = {}}
 
-                // INIT MEMORY CLEAR COUNTER
+                // INIT MEMORY CLEAR COUNTER DATABASE
                 if(Memory.memoryClearCounter === undefined){Memory.memoryClearCounter = 0}
+
+                // INIT PATH DATABASE
+                if(Memory.paths === undefined){Memory.paths = {}}
+                if(Memory.paths[room.name] === undefined){Memory.paths[room.name] = {}}
+
+                // INIT ENEMYS PRESENT
+                if(Memory.enemys === undefined){Memory.enemys ={}}
+                if(Memory.enemys[room.name] === undefined){Memory.enemys[room.name] = 0}
             })
             let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
             output.workTimes("MEMORY INIT TOOK                     "+duration)

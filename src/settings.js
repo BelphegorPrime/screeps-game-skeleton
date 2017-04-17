@@ -6,6 +6,7 @@ let settings = {
         if(settings.level <= 1 && !Number.isInteger(settings.level)){
             return {
                 level: settings.level,
+                minHarvester: 5,
                 numberLittleCreeps: 10,
                 numberMediumCreeps: 0,
                 numberBigCreeps: 0,
@@ -16,6 +17,7 @@ let settings = {
         }else if(settings.level === 2){
             return {
                 level: settings.level,
+                minHarvester: 5,
                 numberLittleCreeps: 2,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 0,
@@ -26,6 +28,7 @@ let settings = {
         }else if(settings.level === 3){
             return {
                 level: settings.level,
+                minHarvester: 5,
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 4,
@@ -36,6 +39,7 @@ let settings = {
         }else if(settings.level === 4){
             return {
                 level: settings.level,
+                minHarvester: 5,
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 7,
                 numberBigCreeps: 7,
@@ -46,9 +50,10 @@ let settings = {
         }else{
             return{
                 level: settings.level,
+                minHarvester: 5,
                 numberLittleCreeps: 1,
-                numberMediumCreeps: 10,
-                numberBigCreeps: 4,
+                numberMediumCreeps: 7,
+                numberBigCreeps: 7,
                 maxBuilder: 2,
                 maxLoader: 2,
                 generalSettings: settings.getGeneralSettings(),
@@ -59,6 +64,7 @@ let settings = {
         return {
             initDB: false,
             memoryClearCounter: 10,
+            newRouteOutdateCounter: 5,
             roles:{
                 harvester: "harvester",
                 upgrader: "upgrader",

@@ -5,7 +5,7 @@ let roleLoader = {
 
     run: (creep) =>{
         if(creep.carry.energy === creep.carryCapacity || creep.carry.energy >= 50) {
-            if(creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
+            if(Memory.enemys[creep.room.name] <= 0 && creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
                 let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
@@ -17,7 +17,6 @@ let roleLoader = {
                     }
                 }
             }
-
             let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType === STRUCTURE_TOWER) &&

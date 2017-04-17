@@ -19,7 +19,7 @@ let creepsHelp = {
             let noProxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
             let proxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] === 1)[0]
 
-            if(_.size(creeps) <= 3){
+            if(_.size(creeps) <= settings.minHarvester){
                 creeps= creeps.map(creep =>{
                     creep.memory.role = harvester
                     creep.memory.source = noProxySource

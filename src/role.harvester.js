@@ -4,16 +4,22 @@ let roleHarvester = {
 
     // TODO OPTIMISE RUN FUNCTION
     run: (creep) =>{
-        let subTimeHarvester=Game.cpu.getUsed();
         if(creep.carry.energy === creep.carryCapacity || creep.carry.energy >= 50) {
+            let subTimeHarvesterDelivery=Game.cpu.getUsed();
             roleHarvester.deliver(creep)
+            let durationHarvesterRunDelivery=(Game.cpu.getUsed()-subTimeHarvesterDelivery).toFixed(0);
+            if(durationHarvesterRunDelivery > 1){
+                output.writeToDebug("HARVESTER---DELIVERY-------->"+durationHarvesterRunDelivery)
+            }
         } else {
+            let subTimeHarvesterGetEnergy=Game.cpu.getUsed();
             roleHarvester.getEnergy(creep)
+            let durationHarvesterRunGetEnergy=(Game.cpu.getUsed()-subTimeHarvesterGetEnergy).toFixed(0);
+            if(durationHarvesterRunGetEnergy > 1){
+                output.writeToDebug("HARVESTER---GETENERGY------->"+durationHarvesterRunGetEnergy)
+            }
         }
-        let durationHarvesterRun=(Game.cpu.getUsed()-subTimeHarvester).toFixed(0);
-        if(durationHarvesterRun > 1){
-            output.writeToDebug("HARVESTER-------->"+durationHarvesterRun)
-        }
+
     },
     deliver: (creep) =>{
         if(creep.room.energyAvailable === creep.room.energyCapacityAvailable){

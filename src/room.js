@@ -9,6 +9,10 @@ let room = {
         let subTimeStart=Game.cpu.getUsed();
         output.energyInRooms(rooms)
         let returnvalue =  _.map(rooms, room =>{
+            // Set amount of enemys in a room
+            let closestHostiles = room.find(FIND_HOSTILE_CREEPS)
+            Memory.enemys[room.name] = _.size(closestHostiles)
+
             // Run Tower for specific ID
             towers.getTower(room)
             room = terrain.read(room)
