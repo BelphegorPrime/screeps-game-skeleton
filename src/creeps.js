@@ -18,7 +18,6 @@ let creepsHelp = {
             let SourcesToMoveTo = _(creepsHelp.getAvailableSources(creeps, _.size(allCreeps))).reverse().value()
             let noProxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
             let proxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] === 1)[0]
-            let sourceproxyCreeps = _.filter(creeps, creep => creep.memory.type === "sourceproxy")
 
             if(_.size(creeps) <= 3){
                 creeps= creeps.map(creep =>{
@@ -51,8 +50,6 @@ let creepsHelp = {
                     })[0]
                     if(source !== undefined){
                         if(creep.memory.type === settings.generalSettings.roles.sourceproxy && Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
-                            output.writeToDebug(creep.name)
-                            output.writeToDebug(creep.pos)
                             creep.memory.role = settings.generalSettings.roles.sourceproxy
                             creep.memory.source = source
                             creep.memory.fallbackSource = noProxySource
@@ -99,8 +96,6 @@ let creepsHelp = {
                     })[0]
                     if(source !== undefined){
                         if(creep.memory.type === settings.generalSettings.roles.sourceproxy &&  Memory.sources[creep.room.name][source.id] !== undefined && Memory.sources[creep.room.name][source.id]["availableSlots"] === 1){
-                            output.writeToDebug(creep.name)
-                            output.writeToDebug(creep.pos)
                             creep.memory.role = settings.generalSettings.roles.sourceproxy
                             creep.memory.source = source
                             creep.memory.fallbackSource = noProxySource

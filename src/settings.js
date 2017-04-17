@@ -38,7 +38,7 @@ let settings = {
                 level: settings.level,
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 7,
-                numberBigCreeps: 5,
+                numberBigCreeps: 7,
                 maxBuilder: 2,
                 maxLoader: 2,
                 generalSettings: settings.getGeneralSettings(),
@@ -57,6 +57,8 @@ let settings = {
     },
     getGeneralSettings: () =>{
         return {
+            initDB: false,
+            memoryClearCounter: 10,
             roles:{
                 harvester: "harvester",
                 upgrader: "upgrader",

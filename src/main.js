@@ -34,6 +34,7 @@ module.exports.loop = () =>{
     // Execute Commands for Creeper Role
     let subTimeCreepsRun=Game.cpu.getUsed();
     _.map(creeps, creep =>{
+        let subTimeCreepRun=Game.cpu.getUsed();
         if(creep.memory.role === settings.generalSettings.roles.harvester ||
             creep.memory.role === "harvester") {
             roleHarvester.run(creep)
@@ -53,6 +54,10 @@ module.exports.loop = () =>{
         if(creep.memory.role === settings.generalSettings.roles.sourceproxy ||
             creep.memory.role === "sourceproxy"){
             roleSourceProxy.run(creep)
+        }
+        let durationCreepRun=(Game.cpu.getUsed()-subTimeCreepRun).toFixed(0);
+        if(durationCreepRun > 1){
+            output.writeToDebug(creep.memory.role+" WORKTIME TOOK                 "+durationCreepRun)
         }
     })
     let durationCreepsRun=(Game.cpu.getUsed()-subTimeCreepsRun).toFixed(0);
