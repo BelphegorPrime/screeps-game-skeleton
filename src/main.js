@@ -32,7 +32,6 @@ module.exports.loop = () =>{
     creepsHelper.spawnCreeps(Game.rooms, Game.spawns, creeps)
 
     // Execute Commands for Creeper Role
-
     let subTimeCreepsRun=Game.cpu.getUsed();
     _.map(creeps, creep =>{
         if(creep.memory.role === settings.generalSettings.roles.harvester ||

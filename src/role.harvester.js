@@ -62,8 +62,17 @@ let roleHarvester = {
                             }
                         }
                     }else{
-                        if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                            routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                        output.writeToDebug(creep.memory.source.ticksToRegeneration)
+                        output.writeToDebug(creep.memory.source.energy)
+                        output.writeToDebug(creep.memory.source.energyCapacity)
+                        if(creep.memory.source.ticksToRegeneration > 75 && creep.memory.source.energy === 0){
+                            if(creep.harvest(creep.memory.proxysource) === ERR_NOT_IN_RANGE) {
+                                routerHelper.routeCreep(creep, creep.memory.proxysource, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            }
+                        }else {
+                            if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
+                                routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            }
                         }
                     }
                 }

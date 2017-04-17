@@ -185,28 +185,37 @@ let creepsHelp = {
         let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
         output.workTimes("SPAWN CREEPS TOOK                    "+duration)
     },
-    spawnSourceProxy: (room, spawn, creeps)=>{
-        let sourcesWithOneSlot = _.filter(Memory.sources[room.name], source => source["availableSlots"] === 1)
-        if(_.size(sourcesWithOneSlot) > 0){
-            let amountOfSourceproxyCreeps = _.size(_.filter(creeps, creep => creep.memory.type === "sourceproxy"))
-            output.writeToDebug(amountOfSourceproxyCreeps)
-            if(room.canBuildBigCreep && _.size(creeps)>3 && amountOfSourceproxyCreeps === 0){
-                spawn.createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE],"sourceproxy",{role: "sourceproxy", type: "sourceproxy"})
-                output.writeToDebug("Spawning new Big SOURCEPROXY within the room "+room.name)
-            }else{
-                if(room.canBuildMediumCreep && _.size(creeps)>3 && amountOfSourceproxyCreeps === 0){
-                    spawn.createCreep([WORK,WORK,WORK,CARRY,MOVE],"sourceproxy",{role: "sourceproxy", type: "sourceproxy"})
-                    output.writeToDebug("Spawning new Medium SOURCEPROXY within the room "+room.name)
+    spawnSourceProxy: (rooms, spawns, creeps)=>{
+        _.map(rooms, room =>{
+            _.map(spawns, spawn=>{
+                let sourcesWithOneSlot = _.filter(Memory.sources[room.name], source => source["availableSlots"] === 1)
+                if(_.size(sourcesWithOneSlot) > 0){
+                    let amountOfSourceproxyCreeps = _.size(_.filter(creeps, creep => creep.memory.type === "sourceproxy"))
+                    output.writeToDebug(amountOfSourceproxyCreeps)
+                    if(room.canBuildBigCreep && _.size(creeps)>3 && amountOfSourceproxyCreeps === 0){
+                        spawn.createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE],"sourceproxy",{role: "sourceproxy", type: "sourceproxy"})
+                        output.writeToDebug("Spawning new Big SOURCEPROXY within the room "+room.name)
+                    }else{
+                        if(room.canBuildMediumCreep && _.size(creeps)>3 && amountOfSourceproxyCreeps === 0){
+                            spawn.createCreep([WORK,WORK,WORK,CARRY,MOVE],"sourceproxy",{role: "sourceproxy", type: "sourceproxy"})
+                            output.writeToDebug("Spawning new Medium SOURCEPROXY within the room "+room.name)
+                        }else {
+                            if(_.size(creeps)>3 && amountOfSourceproxyCreeps === 0){
+                                spawn.createCreep([WORK,WORK,CARRY,MOVE],"sourceproxy",{role: "sourceproxy", type: "sourceproxy"})
+                                output.writeToDebug("Spawning new Little SOURCEPROXY within the room "+room.name)
+                            }
+                        }
+                    }
                 }
-            }
-        }
+            })
+        })
     },
     getAvailableSources: (creeps, amountOfCreeps)=>{
         let proxyCreeps= _.filter(creeps, creep => creep.memory.type === settings.generalSettings.roles.sourceproxy)
         let proxyCreepPresent = !!_.size(proxyCreeps)
         let proxyCreep = {}
         if(!proxyCreepPresent){
-            creepsHelp.spawnSourceProxy(creeps[0].room, Game.spawns['Spawn1'], creeps)
+            creepsHelp.spawnSourceProxy(Game.rooms, Game.spawns, creeps)
         }else{
             proxyCreep = proxyCreeps[0]
         }
