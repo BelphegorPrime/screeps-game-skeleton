@@ -9,6 +9,11 @@ let tower = {
         })
 
         towers.map(tower =>{
+            let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
+            if(closestHostile) {
+                tower.attack(closestHostile)
+            }
+
             let damagedStructures = room.find(FIND_STRUCTURES, {
                     filter: (structure) => structure.hits < structure.hitsMax
                 }
@@ -17,11 +22,6 @@ let tower = {
             damagedStructures = _.sortByOrder(damagedStructures, ['hits', 'hitsMax'], ['asc', 'asc']);
             if(_.size(damagedStructures) > 0){
                 tower.repair(damagedStructures[0])
-            }
-
-            let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
-            if(closestHostile) {
-                tower.attack(closestHostile)
             }
         })
     }

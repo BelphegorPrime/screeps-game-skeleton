@@ -1,5 +1,6 @@
 let output = require('./output')
 let settings = require('./settings').getSettingsForLevel()
+let routerHelper = require('./router')
 let roleBuilder = {
 
     run: (creep) =>{
@@ -16,7 +17,7 @@ let roleBuilder = {
             let target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES)
             if(target !== null) {
                 if(creep.build(target) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}})
+                    routerHelper.routeCreep(creep, target, {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }
         } else {
@@ -31,23 +32,23 @@ let roleBuilder = {
                     })[0]
 
                     if(creep.withdraw(realContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(realContainer, {visualizePathStyle: {stroke: '#ffaa00'}})
+                        routerHelper.routeCreep(creep, realContainer, {visualizePathStyle: {stroke: '#ffffff'}})
                     }
                 })
             }else {
                 if(creep.memory.source.structureType === "container"){
                     if(creep.memory.source.store.energy > 0){
                         if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
                         }
                     }else{
                         if(creep.harvest(creep.memory.fallbackSource) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(creep.memory.fallbackSource, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.fallbackSource, {visualizePathStyle: {stroke: '#ffaa00'}})
                         }
                     }
                 }else{
                     if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                        routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
                     }
                 }
             }

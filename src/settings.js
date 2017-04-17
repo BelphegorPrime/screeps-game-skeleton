@@ -29,8 +29,18 @@ let settings = {
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 4,
-                maxBuilder: 3,
-                maxLoader: 3,
+                maxBuilder: 2,
+                maxLoader: 2,
+                generalSettings: settings.getGeneralSettings(),
+            }
+        }else if(settings.level === 4){
+            return {
+                level: settings.level,
+                numberLittleCreeps: 1,
+                numberMediumCreeps: 7,
+                numberBigCreeps: 5,
+                maxBuilder: 2,
+                maxLoader: 2,
                 generalSettings: settings.getGeneralSettings(),
             }
         }else{
@@ -39,8 +49,8 @@ let settings = {
                 numberLittleCreeps: 1,
                 numberMediumCreeps: 10,
                 numberBigCreeps: 4,
-                maxBuilder: 3,
-                maxLoader: 3,
+                maxBuilder: 2,
+                maxLoader: 2,
                 generalSettings: settings.getGeneralSettings(),
             }
         }

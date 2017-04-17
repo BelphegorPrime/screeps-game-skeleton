@@ -32,6 +32,7 @@ let creepsHelp = {
             }
 
             let numberOfBuilder = roleBuilder.getNumberOfBuilder(constructionSites)
+            let numberOfLoader = roleLoader.getNumberOfLoader(room)
             let notFullContainer = room.containerToTransfer.filter(container => !container.isFull)
             let containers = room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -40,7 +41,6 @@ let creepsHelp = {
             })
 
             if(room.energyAvailable >= settings.generalSettings.costs.little*2 && (_.size(notFullContainer) > 0 || _.size(containers) === 0)){
-                let numberOfLoader = roleLoader.getNumberOfLoader(room)
                 creeps= creeps.map((creep, index) =>{
                     let source = SourcesToMoveTo.filter(source =>{
                         if(source.registeredCreeps !== undefined){
@@ -111,7 +111,12 @@ let creepsHelp = {
                                 creep.memory.source = source
                                 creep.memory.fallbackSource = noProxySource
                                 creep.memory.proxysource = proxySource
-                            }else if(index < numberOfBuilder+2){
+                            }else if(index < numberOfBuilder+numberOfLoader){
+                                creep.memory.role = loader
+                                creep.memory.source = source
+                                creep.memory.fallbackSource = noProxySource
+                                creep.memory.proxysource = proxySource
+                            }else if(index < numberOfBuilder+numberOfLoader+2){
                                 creep.memory.role = upgrader
                                 creep.memory.source = source
                                 creep.memory.fallbackSource = noProxySource

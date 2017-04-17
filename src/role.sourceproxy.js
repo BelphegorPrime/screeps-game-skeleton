@@ -1,7 +1,8 @@
 let output = require('./output')
+let routerHelper = require('./router')
 let roleSourceProxy = {
     run: (creep) =>{
-        if(creep.carry.energy === creep.carryCapacity) {
+        if(creep.carry.energy === creep.carryCapacity && creep.carry.energy >= 50) {
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: function(structure) {
                     return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
@@ -9,7 +10,7 @@ let roleSourceProxy = {
             });
             if(container !== null){
                 if(creep.transfer(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container, {visualizePathStyle: {stroke: '#ffffff'}})
+                    routerHelper.routeCreep(creep, container, {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }else{
                 let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -21,13 +22,13 @@ let roleSourceProxy = {
                 })
                 if(target!==null){
                     if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}})
+                        routerHelper.routeCreep(creep, target, {visualizePathStyle: {stroke: '#ffffff'}})
                     }
                 }
             }
         } else {
             if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
             }
         }
     }

@@ -16,13 +16,6 @@ let settings = require('./settings').getSettingsForLevel()
 module.exports.loop = () =>{
 
     let subTimeStart=Game.cpu.getUsed();
-    // Cleanup Memory
-    _.map(Memory.creeps, (creep, creepName) =>{
-        if(!Game.creeps[creepName]) {
-            delete Memory.creeps[creepName]
-            console.log('Clearing non-existing creep memory: ', creepName)
-        }
-    })
 
     memoryHelper.init(Game.rooms)
 

@@ -1,4 +1,5 @@
 let output = require('./output')
+let routerHelper = require('./router')
 let roleUpgrader = {
     run: (creep) =>{
         if(creep.memory.upgrading && creep.carry.energy === 0) {
@@ -12,23 +13,23 @@ let roleUpgrader = {
 
         if(creep.memory.upgrading) {
             if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
+                routerHelper.routeCreep(creep, creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
             }
         }else {
             if(creep.memory.source !== undefined){
                 if(creep.memory.source.structureType === "container"){
                     if(creep.memory.source.store.energy > 0){
                         if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
                         }
                     }else{
                         if(creep.harvest(creep.memory.fallbackSource) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(creep.memory.fallbackSource, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.fallbackSource, {visualizePathStyle: {stroke: '#ffaa00'}})
                         }
                     }
                 }else{
                     if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                        routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
                     }
                 }
             }

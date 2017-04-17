@@ -1,5 +1,5 @@
 let output = require('./output')
-let memory = {
+let memoryHelper = {
     init: (rooms)=>{
         let subTimeStart=Game.cpu.getUsed();
 
@@ -32,7 +32,22 @@ let memory = {
         })
         let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
         output.workTimes("MEMORY INIT TOOK                     "+duration)
+        memoryHelper.clear()
+    },
+    clear:()=>{
+        let subTimeStart=Game.cpu.getUsed();
+        // Cleanup Memory
+        if(_.size(Game.creeps) !== _.size(Memory.creeps)){
+            _.map(Memory.creeps, (creep, creepName) =>{
+                if(!Game.creeps[creepName]) {
+                    delete Memory.creeps[creepName]
+                    console.log('Clearing non-existing creep memory: ', creepName)
+                }
+            })
+        }
+        let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
+        output.workTimes("MEMORY CLEANUP TOOK                  "+duration)
     },
 }
 
-module.exports = memory
+module.exports = memoryHelper
