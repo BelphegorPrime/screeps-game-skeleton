@@ -57,10 +57,9 @@ let roleBuilder = {
     },
     getNumberOfBuilder: (constructionSites)=>{
         // Set the Amount Of Creeps with the role Builder
-        let amountOfSourceproxy = _.size(_.filter(Memory.creeps, creep => creep.role === "sourceproxy"))
-        let numberOfBuilder = 1 + amountOfSourceproxy
+        let numberOfBuilder = 1
         let amountOfConstructionSites = _.size(constructionSites)
-        if(amountOfConstructionSites*2 > settings.maxBuilder){
+        if(amountOfConstructionSites > settings.maxBuilder){
             numberOfBuilder = settings.maxBuilder
         }else if(amountOfConstructionSites === 0){
             numberOfBuilder = 0
