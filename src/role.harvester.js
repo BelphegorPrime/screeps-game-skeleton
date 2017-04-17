@@ -34,6 +34,10 @@ let roleHarvester = {
                     if(creep.transfer(towers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         routerHelper.routeCreep(creep, towers[0], {visualizePathStyle: {stroke: '#ffffff'}})
                     }
+                }else {
+                    if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+                        routerHelper.routeCreep(creep, creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
+                    }
                 }
             }else {
                 let containers = creep.room.find(FIND_STRUCTURES, {
@@ -44,6 +48,10 @@ let roleHarvester = {
                 if(containers.length > 0) {
                     if(creep.transfer(containers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         routerHelper.routeCreep(creep, containers[0], {visualizePathStyle: {stroke: '#ffffff'}})
+                    }
+                }else{
+                    if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+                        routerHelper.routeCreep(creep, creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
                     }
                 }
             }

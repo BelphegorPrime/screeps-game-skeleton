@@ -6,15 +6,14 @@ let settings = require('./settings').getSettingsForLevel()
 
 let creepsHelp = {
     getCreeps: (allCreeps, rooms, constructionSites)=>{
-        let subTimeStart=Game.cpu.getUsed();
-        creeps = _.map(allCreeps, creep =>{return creep})
+        let subTimeStart=Game.cpu.getUsed()
+        let creeps = _.values(allCreeps)
         let harvester = settings.generalSettings.roles.harvester
         let upgrader = settings.generalSettings.roles.upgrader
         let builder = settings.generalSettings.roles.builder
         let loader = settings.generalSettings.roles.loader
 
         _.map(rooms, room =>{
-
             let SourcesToMoveTo = _(creepsHelp.getAvailableSources(creeps, _.size(allCreeps))).reverse().value()
             let noProxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] !== 1)[0]
             let proxySource = SourcesToMoveTo.filter(source => source!== undefined && Memory.sources[room.name][source.id] !== undefined && Memory.sources[room.name][source.id]["availableSlots"] === 1)[0]
@@ -225,30 +224,36 @@ let creepsHelp = {
                 if(Memory.sources[creep.room.name][source.id]["availableSlots"] === undefined){
                     output.writeToDebug("Memory.sources[creep.room.name][source.id]['availableSlots'] ist für "+source.id+" undefined")
                     let amountOfSurroundingWalls = 0
-                    if (Memory.terrain[creep.room.name][source.pos.x - 1][source.pos.y - 1].terrain[0] === "wall") {
-                        amountOfSurroundingWalls += 1
+                    if(Memory.terrain[creep.room.name][source.pos.x - 1] !== undefined &&
+                        Memory.terrain[creep.room.name][source.pos.x] !== undefined &&
+                        Memory.terrain[creep.room.name][source.pos.x + 1] !== undefined){
+
+                        if (Memory.terrain[creep.room.name][source.pos.x - 1][source.pos.y - 1].terrain[0] === "wall") {
+                            amountOfSurroundingWalls += 1
+                        }
+                        if (Memory.terrain[creep.room.name][source.pos.x][source.pos.y - 1].terrain[0] === "wall") {
+                            amountOfSurroundingWalls += 1
+                        }
+                        if(Memory.terrain[creep.room.name][source.pos.x+1][source.pos.y-1].terrain[0] === "wall"){
+                            amountOfSurroundingWalls += 1
+                        }
+                        if(Memory.terrain[creep.room.name][source.pos.x-1][source.pos.y].terrain[0] === "wall"){
+                            amountOfSurroundingWalls += 1
+                        }
+                        if(Memory.terrain[creep.room.name][source.pos.x+1][source.pos.y].terrain[0] === "wall"){
+                            amountOfSurroundingWalls += 1
+                        }
+                        if(Memory.terrain[creep.room.name][source.pos.x-1][source.pos.y+1].terrain[0] === "wall"){
+                            amountOfSurroundingWalls += 1
+                        }
+                        if(Memory.terrain[creep.room.name][source.pos.x][source.pos.y+1].terrain[0] === "wall"){
+                            amountOfSurroundingWalls += 1
+                        }
+                        if(Memory.terrain[creep.room.name][source.pos.x+1][source.pos.y+1].terrain[0] === "wall"){
+                            amountOfSurroundingWalls += 1
+                        }
                     }
-                    if (Memory.terrain[creep.room.name][source.pos.x][source.pos.y - 1].terrain[0] === "wall") {
-                        amountOfSurroundingWalls += 1
-                    }
-                    if(Memory.terrain[creep.room.name][source.pos.x+1][source.pos.y-1].terrain[0] === "wall"){
-                        amountOfSurroundingWalls += 1
-                    }
-                    if(Memory.terrain[creep.room.name][source.pos.x-1][source.pos.y].terrain[0] === "wall"){
-                        amountOfSurroundingWalls += 1
-                    }
-                    if(Memory.terrain[creep.room.name][source.pos.x+1][source.pos.y].terrain[0] === "wall"){
-                        amountOfSurroundingWalls += 1
-                    }
-                    if(Memory.terrain[creep.room.name][source.pos.x-1][source.pos.y+1].terrain[0] === "wall"){
-                        amountOfSurroundingWalls += 1
-                    }
-                    if(Memory.terrain[creep.room.name][source.pos.x][source.pos.y+1].terrain[0] === "wall"){
-                        amountOfSurroundingWalls += 1
-                    }
-                    if(Memory.terrain[creep.room.name][source.pos.x+1][source.pos.y+1].terrain[0] === "wall"){
-                        amountOfSurroundingWalls += 1
-                    }
+
                     Memory.sources[creep.room.name][source.id]["availableSlots"] = 8 - amountOfSurroundingWalls
                 }
 
