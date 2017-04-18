@@ -3,7 +3,7 @@ let settings = require('./settings').getSettingsForLevel()
 let routerHelper = require('./router')
 let roleBuilder = {
 
-    run: (creep) =>{
+    run: (creep:Creep) =>{
         if(creep.memory.building && creep.carry.energy === 0) {
             creep.memory.building = false
             creep.say('harvest')
@@ -22,10 +22,10 @@ let roleBuilder = {
             }
         } else {
             if(_.size(creep.room.containerToGetFrom) > 0){
-                creep.room.containerToGetFrom.map( container =>{
+                creep.room.containerToGetFrom.map( (container:Container) =>{
                     let realContainer = creep.room.find(FIND_STRUCTURES, {
-                        filter: (structure) => {
-                            return structure.structureType === STRUCTURE_CONTAINER &&
+                        filter: (structure:Container|Structure) => {
+                            return structure.structureType === "container" &&
                                 structure.pos.x === container.pos.x &&
                                 structure.pos.y === container.pos.y
                         }
@@ -55,7 +55,7 @@ let roleBuilder = {
 
         }
     },
-    getNumberOfBuilder: (constructionSites)=>{
+    getNumberOfBuilder: (constructionSites: [ConstructionSite])=>{
         // Set the Amount Of Creeps with the role Builder
         let numberOfBuilder = 1
         let amountOfConstructionSites = _.size(constructionSites)

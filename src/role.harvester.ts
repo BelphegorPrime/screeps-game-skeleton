@@ -3,7 +3,7 @@ let routerHelper = require('./router')
 let roleHarvester = {
 
     // TODO OPTIMISE RUN FUNCTION
-    run: (creep) =>{
+    run: (creep:Creep) =>{
         if(creep.carry.energy === creep.carryCapacity || creep.carry.energy >= 50) {
             let subTimeHarvesterDelivery=Game.cpu.getUsed();
             roleHarvester.deliver(creep)
@@ -21,12 +21,12 @@ let roleHarvester = {
         }
 
     },
-    deliver: (creep) =>{
+    deliver: (creep:Creep) =>{
         if(creep.room.energyAvailable === creep.room.energyCapacityAvailable){
             if(_.size(creep.room.containerToTransfer) <= 0){
                 let towers = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType === STRUCTURE_TOWER) &&
+                    filter: (structure:Tower|Structure) => {
+                        return (structure.structureType === "tower") &&
                             (structure.energy < structure.energyCapacity)
                     }
                 })
@@ -41,8 +41,8 @@ let roleHarvester = {
                 }
             }else {
                 let containers = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
+                    filter: (structure:Container|Structure) => {
+                        return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                     }
                 })
                 if(containers.length > 0) {
@@ -58,7 +58,7 @@ let roleHarvester = {
         }
 
         let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {
+            filter: (structure:Extension|Spawn|Structure) => {
                 return (structure.structureType === STRUCTURE_EXTENSION ||
                     structure.structureType === STRUCTURE_SPAWN) &&
                     (structure.energy < structure.energyCapacity)
@@ -70,7 +70,7 @@ let roleHarvester = {
             }
         }
     },
-    getEnergy: (creep)=>{
+    getEnergy: (creep:Creep)=>{
         let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
         if(target) {
             if(creep.pickup(target) === ERR_NOT_IN_RANGE) {

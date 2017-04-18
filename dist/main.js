@@ -1,5 +1,17 @@
 'use strict';
 
+var _lodash = require('lodash');
+
+var _ = _interopRequireWildcard(_lodash);
+
+var _output = require('./output');
+
+var _output2 = _interopRequireDefault(_output);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 // notice to myself: "lodash version is 3.10.1 :O"
 var roleHarvester = require('./role.harvester');
 var roleUpgrader = require('./role.upgrader');
@@ -9,7 +21,7 @@ var roleSourceProxy = require('./role.sourceproxy');
 var room = require('./room');
 var creepsHelper = require('./creeps');
 var memoryHelper = require('./memory');
-var output = require('./output');
+
 var settings = require('./settings').getSettingsForLevel();
 module.exports.loop = function () {
     var subTimeStart = Game.cpu.getUsed();
@@ -47,12 +59,12 @@ module.exports.loop = function () {
             }
             var durationCreepRun = (Game.cpu.getUsed() - subTimeCreepRun).toFixed(0);
             if (durationCreepRun > 1) {
-                output.writeToDebug(creep.memory.role + " WORKTIME TOOK                 " + durationCreepRun);
+                _output2.default.writeToDebug(creep.memory.role + " WORKTIME TOOK                 " + durationCreepRun);
             }
         }
     });
     var durationCreepsRun = (Game.cpu.getUsed() - subTimeCreepsRun).toFixed(0);
-    output.workTimes("CREEPS WORKTIME TOOK                 " + durationCreepsRun);
+    _output2.default.workTimes("CREEPS WORKTIME TOOK                 " + durationCreepsRun);
     // WRITE ACTUAL TICK TO MEMORY
     var iteration = Memory.cpu.lengthLastTickTime;
     if (iteration >= settings.generalSettings.amountOfLastTimeTicksToSave) {
@@ -64,9 +76,9 @@ module.exports.loop = function () {
     var duration = (Game.cpu.getUsed() - subTimeStart).toFixed(0);
     Memory.cpu.lastTickTime[0] = [].concat(Memory.cpu.lastTickTime[0], duration);
     // CONSOLE OUTPUT
-    output.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles);
-    output.writeCPU(Game.cpu);
-    output.workTimes("All dt: " + duration);
-    output.writeLog();
+    _output2.default.showCreepRoles(Game.rooms, creeps, settings.generalSettings.roles);
+    _output2.default.writeCPU(Game.cpu);
+    _output2.default.workTimes("All dt: " + duration);
+    _output2.default.writeLog();
 };
 //# sourceMappingURL=main.js.map

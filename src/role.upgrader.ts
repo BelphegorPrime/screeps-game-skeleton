@@ -1,7 +1,7 @@
 let output = require('./output')
 let routerHelper = require('./router')
 let roleUpgrader = {
-    run: (creep) =>{
+    run: (creep:Creep) =>{
         if(creep.memory.upgrading && creep.carry.energy === 0) {
             creep.memory.upgrading = false
             creep.say('harvest')

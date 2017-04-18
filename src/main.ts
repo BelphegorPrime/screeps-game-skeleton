@@ -1,3 +1,4 @@
+import * as _ from "lodash"
 // notice to myself: "lodash version is 3.10.1 :O"
 
 let roleHarvester = require('./role.harvester')
@@ -10,7 +11,7 @@ let room = require('./room')
 let creepsHelper = require('./creeps')
 let memoryHelper = require('./memory')
 
-let output = require('./output')
+import output from "./output"
 let settings = require('./settings').getSettingsForLevel()
 
 module.exports.loop = () =>{
@@ -33,7 +34,7 @@ module.exports.loop = () =>{
 
     // Execute Commands for Creeper Role
     let subTimeCreepsRun=Game.cpu.getUsed();
-    _.map(creeps, creep =>{
+    _.map(creeps, (creep:Creep) =>{
         if(Memory.enemys[creep.room.name] > 0){
             roleLoader.run(creep)
         }else{

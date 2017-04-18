@@ -19,7 +19,7 @@ var room = {
             room.canBuildBigCreep = room.energyAvailable >= settings.generalSettings.costs.big;
             var containers = room.find(FIND_STRUCTURES, {
                 filter: function filter(structure) {
-                    return structure.structureType === STRUCTURE_CONTAINER;
+                    return structure.structureType === "container";
                 }
             });
             if (room.containerToTransfer === undefined) {

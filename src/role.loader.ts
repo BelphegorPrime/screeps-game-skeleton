@@ -3,12 +3,12 @@ let settings = require('./settings').getSettingsForLevel()
 let routerHelper = require('./router')
 let roleLoader = {
 
-    run: (creep) =>{
+    run: (creep:Creep) =>{
         if(creep.carry.energy === creep.carryCapacity || creep.carry.energy >= 50) {
             if(Memory.enemys[creep.room.name] <= 0 && creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
                 let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
+                    filter: (structure:Container|Structure) => {
+                        return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                     }
                 })
                 if(container !== null) {
@@ -18,8 +18,8 @@ let roleLoader = {
                 }
             }
             let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType === STRUCTURE_TOWER) &&
+                filter: (structure:Tower|Structure) => {
+                    return (structure.structureType === "tower") &&
                         (structure.energy < structure.energyCapacity)
                 }
             })
@@ -34,7 +34,7 @@ let roleLoader = {
                     }
                 }else{
                     let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: (structure) => {
+                        filter: (structure:Extension|Spawn|Structure) => {
                             return (structure.structureType === STRUCTURE_EXTENSION ||
                                 structure.structureType === STRUCTURE_SPAWN) &&
                                 (structure.energy < structure.energyCapacity)
@@ -72,10 +72,10 @@ let roleLoader = {
             }
         }
     },
-    getNumberOfLoader: (room)=>{
+    getNumberOfLoader: (room:Room)=>{
         let structures = room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_CONTAINER
+            filter: (structure:Tower|Container|Structure) => {
+                return structure.structureType === "tower" || structure.structureType === "container"
             }
         })
         if(room.energyAvailable >= settings.generalSettings.costs.little*2 && _.size(structures) > 0){

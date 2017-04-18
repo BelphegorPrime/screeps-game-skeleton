@@ -16,10 +16,16 @@
     "src/tower.ts"
   ],
   "compilerOptions": {
+    "types": ["node"],
     "noImplicitAny": true,
-    "target": "es2015"
+    "target": "es2015",
+    "module": "es6"
   },
+  "typeRoots": [
+    "../node_modules/@types"
+  ],
   "include": [
+    "src/**/*.ts",
     "typings/**/*.d.ts"
   ],
   "exclude": [

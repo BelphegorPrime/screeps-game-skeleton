@@ -1,9 +1,23 @@
-'use strict';
+"use strict";
 
-var output = require('./output');
-var generalFunctions = require('./general');
-var roleBuilder = require('./role.builder');
-var roleLoader = require('./role.loader');
+var _output = require("./output");
+
+var _output2 = _interopRequireDefault(_output);
+
+var _general = require("./general");
+
+var _general2 = _interopRequireDefault(_general);
+
+var _role = require("./role.builder");
+
+var _role2 = _interopRequireDefault(_role);
+
+var _role3 = require("./role.loader");
+
+var _role4 = _interopRequireDefault(_role3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var settings = require('./settings').getSettingsForLevel();
 var creepsHelp = {
     getCreeps: function getCreeps(allCreeps, rooms, constructionSites) {
@@ -31,14 +45,14 @@ var creepsHelp = {
                 });
                 return creeps;
             }
-            var numberOfBuilder = roleBuilder.getNumberOfBuilder(constructionSites);
-            var numberOfLoader = roleLoader.getNumberOfLoader(room);
+            var numberOfBuilder = _role2.default.getNumberOfBuilder(constructionSites);
+            var numberOfLoader = _role4.default.getNumberOfLoader(room);
             var notFullContainer = room.containerToTransfer.filter(function (container) {
                 return !container.isFull;
             });
             var containers = room.find(FIND_STRUCTURES, {
                 filter: function filter(structure) {
-                    return structure.structureType === STRUCTURE_CONTAINER && structure.registeredCreeps === undefined;
+                    return structure.structureType === "container" && structure.registeredCreeps === undefined;
                 }
             });
             if (room.energyAvailable >= settings.generalSettings.costs.little * 2 && (_.size(notFullContainer) > 0 || _.size(containers) === 0)) {
@@ -136,7 +150,7 @@ var creepsHelp = {
             }
         });
         var duration = (Game.cpu.getUsed() - subTimeStart).toFixed(0);
-        output.workTimes("CREEPS GET ROLE TOOK                 " + duration);
+        _output2.default.workTimes("CREEPS GET ROLE TOOK                 " + duration);
         return creeps;
     },
     spawnCreeps: function spawnCreeps(rooms, spawns, creeps) {
@@ -154,25 +168,25 @@ var creepsHelp = {
                         return creep.memory.type === "big";
                     });
                     if (_.size(littleCreeps) < settings.numberLittleCreeps) {
-                        var creepNumber = generalFunctions.getUnitNumber(littleCreeps);
-                        var newName = spawn.createCreep([WORK, CARRY, MOVE], "LittleCreep-" + creepNumber + "|" + generalFunctions.getRandomID(), { role: settings.generalSettings.roles.harvester, type: "little" });
+                        var creepNumber = _general2.default.getUnitNumber(littleCreeps);
+                        var newName = spawn.createCreep([WORK, CARRY, MOVE], "LittleCreep-" + creepNumber + "|" + _general2.default.getRandomID(), { role: settings.generalSettings.roles.harvester, type: "little" });
                         console.log('Spawning new littleCreep ' + newName + " within the room " + room.name);
                     }
                     if (room.canBuildMediumCreep && _.size(mediumCreeps) < settings.numberMediumCreeps) {
-                        var mediumCreepNumber = generalFunctions.getUnitNumber(mediumCreeps);
-                        var _newName = spawn.createCreep([WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE], "MediumCreep-" + mediumCreepNumber + "|" + generalFunctions.getRandomID(), { role: settings.generalSettings.roles.harvester, type: "medium" });
+                        var mediumCreepNumber = _general2.default.getUnitNumber(mediumCreeps);
+                        var _newName = spawn.createCreep([WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE], "MediumCreep-" + mediumCreepNumber + "|" + _general2.default.getRandomID(), { role: settings.generalSettings.roles.harvester, type: "medium" });
                         console.log('Spawning new mediumCreep ' + _newName + " within the room " + room.name);
                     }
                     if (room.canBuildBigCreep && _.size(bigCreeps) < settings.numberBigCreeps) {
-                        var bigCreepNumber = generalFunctions.getUnitNumber(bigCreeps);
-                        var _newName2 = spawn.createCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], "BigCreep-" + bigCreepNumber + "|" + generalFunctions.getRandomID(), { role: settings.generalSettings.roles.harvester, type: "big" });
+                        var bigCreepNumber = _general2.default.getUnitNumber(bigCreeps);
+                        var _newName2 = spawn.createCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], "BigCreep-" + bigCreepNumber + "|" + _general2.default.getRandomID(), { role: settings.generalSettings.roles.harvester, type: "big" });
                         console.log('Spawning new bigCreep ' + _newName2 + " within the room " + room.name);
                     }
                 }
             });
         });
         var duration = (Game.cpu.getUsed() - subTimeStart).toFixed(0);
-        output.workTimes("SPAWN CREEPS TOOK                    " + duration);
+        _output2.default.workTimes("SPAWN CREEPS TOOK                    " + duration);
     },
     spawnSourceProxy: function spawnSourceProxy(rooms, spawns, creeps) {
         _.map(rooms, function (room) {
@@ -184,18 +198,18 @@ var creepsHelp = {
                     var amountOfSourceproxyCreeps = _.size(_.filter(creeps, function (creep) {
                         return creep.memory.type === "sourceproxy";
                     }));
-                    output.writeToDebug(amountOfSourceproxyCreeps);
+                    _output2.default.writeToDebug(amountOfSourceproxyCreeps);
                     if (room.canBuildBigCreep && _.size(creeps) > 3 && amountOfSourceproxyCreeps === 0) {
                         spawn.createCreep([WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE], "sourceproxy", { role: "sourceproxy", type: "sourceproxy" });
-                        output.writeToDebug("Spawning new Big SOURCEPROXY within the room " + room.name);
+                        _output2.default.writeToDebug("Spawning new Big SOURCEPROXY within the room " + room.name);
                     } else {
                         if (room.canBuildMediumCreep && _.size(creeps) > 3 && amountOfSourceproxyCreeps === 0) {
                             spawn.createCreep([WORK, WORK, WORK, CARRY, MOVE], "sourceproxy", { role: "sourceproxy", type: "sourceproxy" });
-                            output.writeToDebug("Spawning new Medium SOURCEPROXY within the room " + room.name);
+                            _output2.default.writeToDebug("Spawning new Medium SOURCEPROXY within the room " + room.name);
                         } else {
                             if (_.size(creeps) > 3 && amountOfSourceproxyCreeps === 0) {
                                 spawn.createCreep([WORK, WORK, CARRY, MOVE], "sourceproxy", { role: "sourceproxy", type: "sourceproxy" });
-                                output.writeToDebug("Spawning new Little SOURCEPROXY within the room " + room.name);
+                                _output2.default.writeToDebug("Spawning new Little SOURCEPROXY within the room " + room.name);
                             }
                         }
                     }
@@ -223,7 +237,7 @@ var creepsHelp = {
             var maxCreeps = Math.round(amountOfCreeps / amountOfSources);
             sources = sources.map(function (source, sourceIndex) {
                 if (Memory.sources[creep.room.name][source.id]["availableSlots"] === undefined) {
-                    output.writeToDebug("Memory.sources[creep.room.name][source.id]['availableSlots'] ist für " + source.id + " undefined");
+                    _output2.default.writeToDebug("Memory.sources[creep.room.name][source.id]['availableSlots'] ist für " + source.id + " undefined");
                     var amountOfSurroundingWalls = 0;
                     if (Memory.terrain[creep.room.name][source.pos.x - 1] !== undefined && Memory.terrain[creep.room.name][source.pos.x] !== undefined && Memory.terrain[creep.room.name][source.pos.x + 1] !== undefined) {
                         if (Memory.terrain[creep.room.name][source.pos.x - 1][source.pos.y - 1].terrain[0] === "wall") {
@@ -294,7 +308,7 @@ var creepsHelp = {
                     if (source.amountOfSupportCreeps > 0) {
                         var container = source.pos.findClosestByRange(FIND_STRUCTURES, {
                             filter: function filter(structure) {
-                                return structure.structureType === STRUCTURE_CONTAINER;
+                                return structure.structureType === "container";
                             }
                         });
                         if (container !== null) {

@@ -3,7 +3,7 @@ let settings = require('./settings').getSettingsForLevel()
 
 //TODO Implement own cache for routes
 let routerHelp = {
-    routeCreep: (creep, target, visual)=>{
+    routeCreep: (creep:Creep, target:Structure, visual:Object)=>{
         let locStr = creep.pos.x+","+creep.pos.y+","+target.pos.x+","+target.pos.y
         routerHelp.createPath(creep, target, visual, locStr)
         let path = JSON.parse(Memory.paths[creep.room.name][locStr].path)
@@ -11,7 +11,7 @@ let routerHelp = {
             creep.moveByPath(path);
         }
     },
-    createPath: (creep, target, visual, locStr)=>{
+    createPath: (creep:Creep, target:Structure, visual:Object, locStr:string)=>{
         if(Memory.paths[creep.room.name][locStr] === undefined){
             let path = routerHelp.findPath(creep, target, visual)
             Memory.paths[creep.room.name][locStr] = {
@@ -26,7 +26,7 @@ let routerHelp = {
             }
         }
     },
-    findPath: (creep, target, visual)=>{
+    findPath: (creep:Creep, target:Structure, visual:Object)=>{
         let path = creep.pos.findPathTo(target, _.merge(visual, {maxOps: 200}));
         if( !path.length) {
             path = creep.pos.findPathTo(target, _.merge(visual, {maxOps: 1000, ignoreDestructibleStructures: true}));

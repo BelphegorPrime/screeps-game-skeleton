@@ -25,7 +25,7 @@ var roleBuilder = {
                 creep.room.containerToGetFrom.map(function (container) {
                     var realContainer = creep.room.find(FIND_STRUCTURES, {
                         filter: function filter(structure) {
-                            return structure.structureType === STRUCTURE_CONTAINER && structure.pos.x === container.pos.x && structure.pos.y === container.pos.y;
+                            return structure.structureType === "container" && structure.pos.x === container.pos.x && structure.pos.y === container.pos.y;
                         }
                     })[0];
                     if (creep.withdraw(realContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

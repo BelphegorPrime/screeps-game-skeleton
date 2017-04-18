@@ -10,7 +10,7 @@ var output = {
             var energyMaxAmountInContainer = 0;
             room.find(FIND_STRUCTURES, {
                 filter: function filter(structure) {
-                    return structure.structureType === STRUCTURE_CONTAINER;
+                    return structure.structureType === "container";
                 }
             }).map(function (container) {
                 energyAmountInContainer += container.store[RESOURCE_ENERGY];

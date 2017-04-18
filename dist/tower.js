@@ -9,7 +9,7 @@ var towerHelper = {
         } else {
             var damagedContainers = room.find(FIND_STRUCTURES, {
                 filter: function filter(structure) {
-                    return structure.structureType === STRUCTURE_CONTAINER && structure.hits < structure.hitsMax;
+                    return structure.structureType === "container" && structure.hits < structure.hitsMax;
                 }
             });
             if (_.size(damagedContainers) > 0) {
@@ -18,7 +18,7 @@ var towerHelper = {
             } else {
                 var damagedRamparts = room.find(FIND_STRUCTURES, {
                     filter: function filter(structure) {
-                        return structure.structureType === STRUCTURE_RAMPART && structure.hits < structure.hitsMax;
+                        return structure.structureType === "rampart" && structure.hits < structure.hitsMax;
                     }
                 });
                 if (_.size(damagedRamparts) > 0) {
@@ -40,7 +40,7 @@ var towerHelper = {
     },
     getTower: function getTower(room) {
         var towers = room.find(FIND_STRUCTURES, { filter: function filter(structure) {
-                return structure.structureType === STRUCTURE_TOWER;
+                return structure.structureType === "tower";
             } });
         towers.map(function (tower) {
             towerHelper.run(tower, room);

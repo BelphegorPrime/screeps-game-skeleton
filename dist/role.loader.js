@@ -9,7 +9,7 @@ var roleLoader = {
             if (Memory.enemys[creep.room.name] <= 0 && creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
                 var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: function filter(structure) {
-                        return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
+                        return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
                     }
                 });
                 if (container !== null) {
@@ -20,7 +20,7 @@ var roleLoader = {
             }
             var tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: function filter(structure) {
-                    return structure.structureType === STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
+                    return structure.structureType === "tower" && structure.energy < structure.energyCapacity;
                 }
             });
             if (tower !== null) {
@@ -73,7 +73,7 @@ var roleLoader = {
     getNumberOfLoader: function getNumberOfLoader(room) {
         var structures = room.find(FIND_STRUCTURES, {
             filter: function filter(structure) {
-                return structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_CONTAINER;
+                return structure.structureType === "tower" || structure.structureType === "container";
             }
         });
         if (room.energyAvailable >= settings.generalSettings.costs.little * 2 && _.size(structures) > 0) {

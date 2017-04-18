@@ -1,1 +1,5 @@
+/// <reference path="globals/es6-collections/index.d.ts" />
+/// <reference path="globals/es6-promise/index.d.ts" />
+/// <reference path="globals/lodash/index.d.ts" />
 /// <reference path="globals/screeps/index.d.ts" />
+/// <reference path="modules/lodash/index.d.ts" />

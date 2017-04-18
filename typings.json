@@ -1,5 +1,12 @@
 {
+  "name": "screeps-game-skeleton",
+  "dependencies": {
+    "lodash": "registry:dt/lodash#4.14.0+20170324155812"
+  },
   "globalDependencies": {
-    "screeps": "github:screepers/Screeps-Typescript-Declarations/dist/screeps.d.ts#TS2"
+    "es6-collections": "registry:dt/es6-collections#0.5.1+20160510002910",
+    "es6-promise": "registry:dt/es6-promise#0.0.0+20160726191732",
+    "lodash": "registry:dt/lodash#3.10.0+20160619033623",
+    "screeps": "github:screepers/Screeps-Typescript-Declarations/dist/screeps.d.ts"
   }
 }

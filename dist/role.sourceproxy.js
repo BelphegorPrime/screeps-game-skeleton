@@ -7,7 +7,7 @@ var roleSourceProxy = {
         if (creep.carry.energy === creep.carryCapacity && creep.carry.energy >= 50) {
             var container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: function filter(structure) {
-                    return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
+                    return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
                 }
             });
             if (container !== null) {

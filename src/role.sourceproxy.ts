@@ -1,11 +1,11 @@
 let output = require('./output')
 let routerHelper = require('./router')
 let roleSourceProxy = {
-    run: (creep) =>{
+    run: (creep:Creep) =>{
         if(creep.carry.energy === creep.carryCapacity && creep.carry.energy >= 50) {
             let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: function(structure) {
-                    return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
+                filter: function(structure:Container|Structure) {
+                    return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                 }
             });
             if(container !== null){
@@ -14,7 +14,7 @@ let roleSourceProxy = {
                 }
             }else{
                 let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => {
+                    filter: (structure:Extension|Spawn|Structure) => {
                         return (structure.structureType === STRUCTURE_EXTENSION ||
                             structure.structureType === STRUCTURE_SPAWN) &&
                             (structure.energy < structure.energyCapacity)

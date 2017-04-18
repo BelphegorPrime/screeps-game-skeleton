@@ -1,7 +1,7 @@
 let output = require('./output')
 let settings = require('./settings').getSettingsForLevel()
 let memoryHelper = {
-    init: (rooms)=>{
+    init: (rooms:[Room])=>{
         if(settings.generalSettings.initDB){
             let subTimeStart=Game.cpu.getUsed();
             _.map(rooms, room =>{
@@ -23,7 +23,7 @@ let memoryHelper = {
                 if(Memory.sources === undefined){Memory.sources = {}}
                 if(Memory.sources[room.name] === undefined){Memory.sources[room.name] = {}}
                 let sources = room.find(FIND_SOURCES)
-                _.map(sources, source =>{
+                _.map(sources, (source:Source) =>{
                     if(Memory.sources[room.name][source.id] === undefined){Memory.sources[room.name][source.id] = {}}
                 })
 

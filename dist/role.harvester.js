@@ -26,7 +26,7 @@ var roleHarvester = {
             if (_.size(creep.room.containerToTransfer) <= 0) {
                 var towers = creep.room.find(FIND_STRUCTURES, {
                     filter: function filter(structure) {
-                        return structure.structureType === STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
+                        return structure.structureType === "tower" && structure.energy < structure.energyCapacity;
                     }
                 });
                 if (towers.length > 0) {
@@ -41,7 +41,7 @@ var roleHarvester = {
             } else {
                 var containers = creep.room.find(FIND_STRUCTURES, {
                     filter: function filter(structure) {
-                        return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
+                        return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
                     }
                 });
                 if (containers.length > 0) {

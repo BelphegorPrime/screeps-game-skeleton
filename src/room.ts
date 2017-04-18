@@ -5,7 +5,7 @@ let terrain = require('./terrain')
 let settings = require('./settings').getSettingsForLevel()
 
 let room = {
-    init: (rooms)=>{
+    init: (rooms:[Room])=>{
         let subTimeStart=Game.cpu.getUsed();
         output.energyInRooms(rooms)
         let returnvalue =  _.map(rooms, room =>{
@@ -22,7 +22,7 @@ let room = {
 
             let containers = room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.structureType === STRUCTURE_CONTAINER
+                    return structure.structureType === "container"
                 }
             })
 
@@ -35,7 +35,7 @@ let room = {
 
             let energyAmountInContainer = 0
             let energyMaxAmountInContainer = 0
-            containers.map(container =>{
+            containers.map((container:Container|Structure) =>{
                 let containerData = [{
                     "pos":container.pos,
                     "isFull": true

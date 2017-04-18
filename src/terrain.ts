@@ -2,7 +2,7 @@ let output = require('./output')
 let settings = require('./settings')
 
 let terrain = {
-    read: (room)=>{
+    read: (room:Room)=>{
         let lastTick = Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-1]
         let tickBefireLastTick = Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-2]
         if(lastTick >= Game.cpu.limit || tickBefireLastTick >= Game.cpu.limit){
@@ -14,7 +14,7 @@ let terrain = {
                     iteration = 0
                 }
 
-                let data = []
+                let data:Array<Object> = []
                 for (let i = 0; i < settings.getGeneralSettings().roomLength; i++) {
                     data = [].concat(data, {
                         x: iteration,

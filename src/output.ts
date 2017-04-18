@@ -3,12 +3,12 @@ let debugText = "\n"
 let workTimes = "\n"
 let output = {
 
-    energyInRooms: (rooms)=>{
+    energyInRooms: (rooms:[Room])=>{
         let rows = _.map(rooms, room => {
             let energyAmountInContainer = 0
             let energyMaxAmountInContainer = 0
             room.find(FIND_STRUCTURES, {
-                filter: (structure) => {return structure.structureType === STRUCTURE_CONTAINER}
+                filter: (structure:Container|Structure) => {return structure.structureType === "container"}
             }).map(container =>{
                 energyAmountInContainer += container.store[RESOURCE_ENERGY]
                 energyMaxAmountInContainer += container.storeCapacity
@@ -19,7 +19,7 @@ let output = {
         })
         tickMessage += "ROOMNAME | ROOM_ENERGY | CONTAINER_ENERGY  |                  |                 |\n"+rows+"\n"
     },
-    showCreepRoles: (rooms, creeps, settingsRoles)=>{
+    showCreepRoles: (rooms:[Room], creeps:[Creep], settingsRoles: object)=>{
         let amountOfLittleHarvester = 0
         let amountOfLittleUpgrader = 0
         let amountOfLittleBuilder = 0
@@ -104,13 +104,13 @@ let output = {
 
         tickMessage += "         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |      LOADER      |    SOURCEPROXY   |\n"+rows +"\n"
     },
-    writeCPU: (cpu) =>{
+    writeCPU: (cpu: CPU) =>{
         tickMessage += "CPU-Limit: "+cpu.limit + " | Tick-Limit: "+ cpu.tickLimit+ " | Bucket: "+ cpu.bucket+"\n"
     },
-    writeToDebug: (text)=>{
+    writeToDebug: (text: string)=>{
         debugText += JSON.stringify(text)+"\n"
     },
-    workTimes: (text)=>{
+    workTimes: (text:string)=>{
         workTimes += text+"\n"
     },
     resetLog: ()=>{
