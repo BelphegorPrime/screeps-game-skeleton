@@ -16,24 +16,14 @@ let routerHelp = {
             let path = routerHelp.findPath(creep, target, visual)
             Memory.paths[creep.room.name][locStr] = {
                 path: JSON.stringify(path),
-                start: creep.pos,
-                end: target.pos,
-                length: path.length,
                 creattime:Game.time
             }
         }else if(Game.time - Memory.paths[creep.room.name][locStr].creattime > settings.generalSettings.newRouteOutdateCounter){
             let path = routerHelp.findPath(creep, target, visual)
-            // if(Memory.paths[creep.room.name][locStr].length > path.length){
-                Memory.paths[creep.room.name][locStr] = {
-                    path: JSON.stringify(path),
-                    start: creep.pos,
-                    end: target.pos,
-                    length: path.length,
-                    creattime:Game.time
-                }
-            // }else{
-            //     Memory.paths[creep.room.name][locStr].creattime = Game.time
-            // }
+            Memory.paths[creep.room.name][locStr] = {
+                path: JSON.stringify(path),
+                creattime:Game.time
+            }
         }
     },
     findPath: (creep, target, visual)=>{

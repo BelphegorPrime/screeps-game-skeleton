@@ -1,0 +1,30 @@
+{
+  "files": [
+    "src/creeps.ts",
+    "src/general.ts",
+    "src/main.ts",
+    "src/memory.ts",
+    "src/output.ts",
+    "src/role.builder.ts",
+    "src/role.harvester.ts",
+    "src/role.loader.ts",
+    "src/role.sourceproxy.ts",
+    "src/role.upgrader.ts",
+    "src/room.ts",
+    "src/settings.ts",
+    "src/terrain.ts",
+    "src/tower.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es2015"
+  },
+  "include": [
+    "typings/**/*.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "libs"
+  ]
+}
