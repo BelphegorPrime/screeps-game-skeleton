@@ -3,12 +3,14 @@ let sourcemaps = require('gulp-sourcemaps');
 let ts = require('gulp-typescript');
 let tsProject = ts.createProject('./tsconfig.json');
 let babel = require('gulp-babel');
+let webpack = require('gulp-webpack');
+let rename = require("gulp-rename");
 
 gulp.task('ts', function() {
-    return gulp.src('./src/*.ts')
-        .pipe(sourcemaps.init())
+    return gulp.src("src/*.ts")
         .pipe(tsProject())
         .pipe(babel())
-        .pipe(sourcemaps.write('.'))
+        .pipe(webpack())
+        .pipe(rename("main.js"))
         .pipe(gulp.dest('./dist'));
 });
