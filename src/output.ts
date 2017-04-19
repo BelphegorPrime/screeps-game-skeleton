@@ -1,13 +1,14 @@
+import {stringify} from "querystring"
 let tickMessage = "\n"
 let debugText = "\n"
 let workTimes = "\n"
 let output = {
 
-    energyInRooms: (rooms:[Room])=>{
+    energyInRooms: (rooms:[Room]):void=>{
         let rows = _.map(rooms, room => {
             let energyAmountInContainer = 0
             let energyMaxAmountInContainer = 0
-            room.find(FIND_STRUCTURES, {
+            room.find<Container>(FIND_STRUCTURES, {
                 filter: (structure:Container|Structure) => {return structure.structureType === "container"}
             }).map(container =>{
                 energyAmountInContainer += container.store[RESOURCE_ENERGY]
@@ -19,7 +20,7 @@ let output = {
         })
         tickMessage += "ROOMNAME | ROOM_ENERGY | CONTAINER_ENERGY  |                  |                 |\n"+rows+"\n"
     },
-    showCreepRoles: (rooms:[Room], creeps:[Creep], settingsRoles: object)=>{
+    showCreepRoles: (rooms:[Room], creeps:[Creep], settingsRoles: any):void=>{
         let amountOfLittleHarvester = 0
         let amountOfLittleUpgrader = 0
         let amountOfLittleBuilder = 0
@@ -104,24 +105,24 @@ let output = {
 
         tickMessage += "         |     TYPE    |     HARVESTER     |     UPGRADER     |     BUILDER     |      LOADER      |    SOURCEPROXY   |\n"+rows +"\n"
     },
-    writeCPU: (cpu: CPU) =>{
+    writeCPU: (cpu: CPU):void =>{
         tickMessage += "CPU-Limit: "+cpu.limit + " | Tick-Limit: "+ cpu.tickLimit+ " | Bucket: "+ cpu.bucket+"\n"
     },
-    writeToDebug: (text: string)=>{
+    writeToDebug: (text: string):void=>{
         debugText += JSON.stringify(text)+"\n"
     },
-    workTimes: (text:string)=>{
+    workTimes: (text:string):void=>{
         workTimes += text+"\n"
     },
-    resetLog: ()=>{
+    resetLog: ():void=>{
         tickMessage = "\n"
         debugText = "\n"
         workTimes = "\n"
     },
-    writeLog: ()=>{
+    writeLog: ():void=>{
         console.log(tickMessage+workTimes+debugText)
         output.resetLog()
     }
 }
 
-module.exports = output
+export default output

@@ -2,12 +2,13 @@ import output from "./output"
 import generalFunctions from "./general"
 import roleBuilder from "./role.builder"
 import roleLoader from "./role.loader"
-let settings = require('./settings').getSettingsForLevel()
+import settingsHelp from "./settings"
+let settings = settingsHelp.getSettingsForLevel()
 
 let creepsHelp = {
     getCreeps: (allCreeps: [Creep], rooms:[Room], constructionSites: [ConstructionSite])=>{
         let subTimeStart:number=Game.cpu.getUsed()
-        let creeps = _.values(allCreeps)
+        let creeps:any= _.values(allCreeps)
         let harvester:string = settings.generalSettings.roles.harvester
         let upgrader:string = settings.generalSettings.roles.upgrader
         let builder:string = settings.generalSettings.roles.builder
@@ -39,7 +40,7 @@ let creepsHelp = {
             })
 
             if(room.energyAvailable >= settings.generalSettings.costs.little*2 && (_.size(notFullContainer) > 0 || _.size(containers) === 0)){
-                creeps= creeps.map((creep:Creep, index) =>{
+                creeps = creeps.map((creep:Creep, index:number) =>{
                     let source = SourcesToMoveTo.filter((source:Source|Structure) =>{
                         if(source.registeredCreeps !== undefined){
                             return source.registeredCreeps.indexOf(creep.id) > -1
@@ -85,8 +86,8 @@ let creepsHelp = {
                     return creep
                 })
             }else{
-                creeps= creeps.map((creep:Creep, index) =>{
-                    let source = SourcesToMoveTo.filter((source:Source|Structure) =>{
+                creeps= creeps.map((creep:Creep, index:number) =>{
+                    let source:Source = SourcesToMoveTo.filter((source:Source):boolean =>{
                         if(source !== undefined && source.registeredCreeps !== undefined){
                             return source.registeredCreeps.indexOf(creep.id) > -1
                         }else {
@@ -136,14 +137,14 @@ let creepsHelp = {
         output.workTimes("CREEPS GET ROLE TOOK                 "+duration)
         return creeps
     },
-    spawnCreeps: (rooms:[Room], spawns:[Spawn], creeps:[Creep])=>{
-        let subTimeStart=Game.cpu.getUsed();
-        _.map(rooms, room =>{
-            _.map(spawns, spawn=>{
+    spawnCreeps: (rooms:Room[], spawns:Spawn[], creeps:Creep[]):void => {
+        let subTimeStart:number = Game.cpu.getUsed();
+        _.map(rooms, (room:Room) =>{
+            _.map(spawns, (spawn:Spawn) =>{
                 if(room.name === spawn.room.name){
-                    let littleCreeps = creeps.filter(creep => creep.memory.type === "little")
-                    let mediumCreeps = creeps.filter(creep => creep.memory.type === "medium")
-                    let bigCreeps = creeps.filter(creep => creep.memory.type === "big")
+                    let littleCreeps:Creep[] = creeps.filter(creep => creep.memory.type === "little")
+                    let mediumCreeps:Creep[] = creeps.filter(creep => creep.memory.type === "medium")
+                    let bigCreeps:Creep[] = creeps.filter(creep => creep.memory.type === "big")
                     if(_.size(littleCreeps) < settings.numberLittleCreeps){
                         let creepNumber =generalFunctions.getUnitNumber(littleCreeps)
                         let newName = spawn.createCreep(
@@ -155,8 +156,8 @@ let creepsHelp = {
                     }
 
                     if(room.canBuildMediumCreep && _.size(mediumCreeps) < settings.numberMediumCreeps){
-                        let mediumCreepNumber =generalFunctions.getUnitNumber(mediumCreeps)
-                        let newName = spawn.createCreep(
+                        let mediumCreepNumber:number = generalFunctions.getUnitNumber(mediumCreeps)
+                        let newName:string|number = spawn.createCreep(
                             [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],
                             "MediumCreep-"+mediumCreepNumber+"|"+generalFunctions.getRandomID(),
                             {role: settings.generalSettings.roles.harvester, type: "medium"}
@@ -179,12 +180,12 @@ let creepsHelp = {
         let duration=(Game.cpu.getUsed()-subTimeStart).toFixed(0);
         output.workTimes("SPAWN CREEPS TOOK                    "+duration)
     },
-    spawnSourceProxy: (rooms:[Room], spawns:[Spawn], creeps:[Creep])=>{
+    spawnSourceProxy: (rooms:Room[], spawns:Spawn[], creeps:Creep[])=>{
         _.map(rooms, (room:Room) =>{
             _.map(spawns, (spawn:Spawn)=>{
-                let sourcesWithOneSlot:Array<Source> = _.filter(Memory.sources[room.name], (source:Source) => source["availableSlots"] === 1)
+                let sourcesWithOneSlot:Source[] = _.filter(Memory.sources[room.name], (source:Source) => source["availableSlots"] === 1)
                 if(_.size(sourcesWithOneSlot) > 0){
-                    let amountOfSourceproxyCreeps:number = _.size(_.filter(creeps, creep => creep.memory.type === "sourceproxy"))
+                    let amountOfSourceproxyCreeps:number = _.size(_.filter(creeps, (creep:Creep):boolean => creep.memory.type === "sourceproxy"))
                     output.writeToDebug(amountOfSourceproxyCreeps)
                     if(room.canBuildBigCreep && _.size(creeps)>3 && amountOfSourceproxyCreeps === 0){
                         spawn.createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE],"sourceproxy",{role: "sourceproxy", type: "sourceproxy"})
@@ -204,10 +205,10 @@ let creepsHelp = {
             })
         })
     },
-    getAvailableSources: (creeps:[Creep], amountOfCreeps: number)=>{
-        let proxyCreeps= _.filter(creeps, (creep:Creep) => creep.memory.type === settings.generalSettings.roles.sourceproxy)
-        let proxyCreepPresent = !!_.size(proxyCreeps)
-        let proxyCreep:Object|Creep = {}
+    getAvailableSources: (creeps:Creep[], amountOfCreeps: number):(Source|Container)[] =>{
+        let proxyCreeps:Creep[] = _.filter(creeps, (creep:Creep):boolean => creep.memory.type === settings.generalSettings.roles.sourceproxy)
+        let proxyCreepPresent:boolean = !!_.size(proxyCreeps)
+        let proxyCreep:any = {}
         if(!proxyCreepPresent){
             creepsHelp.spawnSourceProxy(Game.rooms , Game.spawns, creeps)
         }else{
@@ -215,7 +216,7 @@ let creepsHelp = {
         }
 
         return creeps.map((creep:Creep) =>{
-            let sources = creep.room.find(FIND_SOURCES)
+            let sources:Source[] = creep.room.find<Source>(FIND_SOURCES)
             sources = sources.filter((source:Source)=> source.energy !== 0)
             let amountOfSources = _.size(sources)
             let maxCreeps = Math.round(amountOfCreeps/amountOfSources)
@@ -289,7 +290,7 @@ let creepsHelp = {
                 return source
             })
 
-            let sourceToReturn = sources.filter(source => {
+            let sourceToReturn:Source|Container = sources.filter((source:Source) => {
                 return source.registeredCreeps.indexOf(creep.id) > -1
             })[0]
 
@@ -297,8 +298,8 @@ let creepsHelp = {
             if(sourceToReturn === undefined){
                 sourceToReturn = sources.map((source:Source) => {
                     if(source.amountOfSupportCreeps > 0){
-                        let container:Object = source.pos.findClosestByRange(FIND_STRUCTURES,{
-                            filter: (structure:Container|Structure) => {
+                        let container:Container = source.pos.findClosestByRange<Container>(FIND_STRUCTURES,{
+                            filter: (structure:Container) => {
                                 return structure.structureType === "container"
                             }
                         })
@@ -321,4 +322,4 @@ let creepsHelp = {
     }
 }
 
-module.exports = creepsHelp
+export default creepsHelp

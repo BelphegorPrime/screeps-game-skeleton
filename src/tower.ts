@@ -1,26 +1,27 @@
-let output = require('./output')
+import output from "./output"
+
 let towerHelper = {
     run: (tower: Tower, room: Room)=>{
-        let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
+        let closestHostile = tower.pos.findClosestByRange<Creep>(FIND_HOSTILE_CREEPS)
         if(closestHostile) {
             tower.attack(closestHostile)
         }else{
-            let damagedContainers = room.find(FIND_STRUCTURES, {
-                filter: (structure: Container | Structure) => structure.structureType === "container" && structure.hits < structure.hitsMax
+            let damagedContainers:Container[] = room.find<Container>(FIND_STRUCTURES, {
+                filter: (structure: Container) => structure.structureType === "container" && structure.hits < structure.hitsMax
             })
 
             if(_.size(damagedContainers) > 0){
                 damagedContainers = _.sortByOrder(damagedContainers, ['hits', 'hitsMax'], ['asc', 'asc'])
                 tower.repair(damagedContainers[0])
             }else{
-                let damagedRamparts = room.find(FIND_STRUCTURES, {
-                    filter: (structure: Rampart | Structure) => structure.structureType === "rampart" && structure.hits < structure.hitsMax
+                let damagedRamparts:Rampart[] = room.find<Rampart>(FIND_STRUCTURES, {
+                    filter: (structure: Rampart) => structure.structureType === "rampart" && structure.hits < structure.hitsMax
                 })
                 if(_.size(damagedRamparts) > 0){
                     damagedRamparts = _.sortByOrder(damagedRamparts, ['hits', 'hitsMax'], ['asc', 'asc'])
                     tower.repair(damagedRamparts[0])
                 }else{
-                    let damagedStructures = room.find(FIND_STRUCTURES, {
+                    let damagedStructures:Structure[] = room.find<Structure>(FIND_STRUCTURES, {
                         filter: (structure: Structure) => structure.hits < structure.hitsMax
                     })
                     if(_.size(damagedStructures) > 0){
@@ -32,9 +33,9 @@ let towerHelper = {
         }
     },
     getTower: (room: Room)=>{
-        let towers = room.find(FIND_STRUCTURES, {filter: (structure: Tower) => {return structure.structureType === "tower"}})
-        towers.map((tower:Tower|Structure) =>{towerHelper.run(tower, room)})
+        let towers:Tower[] = room.find<Tower>(FIND_STRUCTURES, {filter: (structure: Tower) => {return structure.structureType === "tower"}})
+        towers.map((tower:Tower) =>{towerHelper.run(tower, room)})
     },
 }
 
-module.exports = towerHelper
+export default towerHelper

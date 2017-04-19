@@ -1,10 +1,11 @@
-let output = require('./output')
-let routerHelper = require('./router')
+import output from "./output"
+import routerHelper from "./router"
+
 let roleSourceProxy = {
     run: (creep:Creep) =>{
         if(creep.carry.energy === creep.carryCapacity && creep.carry.energy >= 50) {
-            let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: function(structure:Container|Structure) {
+            let container:Container = creep.pos.findClosestByRange<Container>(FIND_STRUCTURES, {
+                filter: function(structure:Container) {
                     return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                 }
             });
@@ -13,11 +14,11 @@ let roleSourceProxy = {
                     routerHelper.routeCreep(creep, container, {visualizePathStyle: {stroke: '#ffffff'}})
                 }
             }else{
-                let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure:Extension|Spawn|Structure) => {
+                let target:Extension|Spawn = creep.pos.findClosestByRange<Extension|Spawn>(FIND_STRUCTURES, {
+                    filter: (structure:Extension|Spawn) => {
                         return (structure.structureType === STRUCTURE_EXTENSION ||
                             structure.structureType === STRUCTURE_SPAWN) &&
-                            (structure.energy < structure.energyCapacity)
+                            structure.energy < structure.energyCapacity
                     }
                 })
                 if(target!==null){
@@ -34,4 +35,4 @@ let roleSourceProxy = {
     }
 }
 
-module.exports = roleSourceProxy
+export default roleSourceProxy

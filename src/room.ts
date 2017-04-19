@@ -1,14 +1,15 @@
-let output = require('./output')
-let towers = require('./tower')
-let terrain = require('./terrain')
+import output from "./output"
+import towers from "./tower"
+import terrain from "./terrain"
+import settingsHelp from "./settings"
 
-let settings = require('./settings').getSettingsForLevel()
+let settings = settingsHelp.getSettingsForLevel()
 
-let room = {
-    init: (rooms:[Room])=>{
-        let subTimeStart=Game.cpu.getUsed();
+let roomHelp = {
+    init: (rooms:Room[]):Room[] => {
+        let subTimeStart:number = Game.cpu.getUsed();
         output.energyInRooms(rooms)
-        let returnvalue =  _.map(rooms, room =>{
+        let returnvalue:Room[] =  _.map(rooms, (room:Room) =>{
             // Set amount of enemys in a room
             let closestHostiles = room.find(FIND_HOSTILE_CREEPS)
             Memory.enemys[room.name] = _.size(closestHostiles)
@@ -20,8 +21,8 @@ let room = {
             room.canBuildMediumCreep = room.energyAvailable >= settings.generalSettings.costs.medium
             room.canBuildBigCreep = room.energyAvailable >= settings.generalSettings.costs.big
 
-            let containers = room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
+            let containers:Container[] = room.find<Container>(FIND_STRUCTURES, {
+                filter: (structure:Container) => {
                     return structure.structureType === "container"
                 }
             })
@@ -35,7 +36,7 @@ let room = {
 
             let energyAmountInContainer = 0
             let energyMaxAmountInContainer = 0
-            containers.map((container:Container|Structure) =>{
+            containers.map((container:Container) =>{
                 let containerData = [{
                     "pos":container.pos,
                     "isFull": true
@@ -61,4 +62,4 @@ let room = {
     }
 }
 
-module.exports = room
+export default roomHelp

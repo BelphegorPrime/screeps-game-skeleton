@@ -1,17 +1,17 @@
 import * as _ from "lodash"
 // notice to myself: "lodash version is 3.10.1 :O"
 
-let roleHarvester = require('./role.harvester')
-let roleUpgrader = require('./role.upgrader')
-let roleBuilder = require('./role.builder')
-let roleLoader = require('./role.loader')
-let roleSourceProxy = require('./role.sourceproxy')
-
-let room = require('./room')
-let creepsHelper = require('./creeps')
-let memoryHelper = require('./memory')
-
 import output from "./output"
+import roleHarvester from "./role.harvester"
+import roleUpgrader from "./role.upgrader"
+import roleBuilder from "./role.builder"
+import roleLoader from "./role.loader"
+import roleSourceProxy from "./role.sourceproxy"
+
+import room from "./room"
+import creepsHelper from "./creeps"
+import memoryHelper from "./memory"
+
 let settings = require('./settings').getSettingsForLevel()
 
 module.exports.loop = () =>{
@@ -59,7 +59,7 @@ module.exports.loop = () =>{
                 creep.memory.role === "sourceproxy"){
                 roleSourceProxy.run(creep)
             }
-            let durationCreepRun=(Game.cpu.getUsed()-subTimeCreepRun).toFixed(0);
+            let durationCreepRun:number = parseInt((Game.cpu.getUsed()-subTimeCreepRun).toFixed(0));
             if(durationCreepRun > 1){
                 output.writeToDebug(creep.memory.role+" WORKTIME TOOK                 "+durationCreepRun)
             }

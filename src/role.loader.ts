@@ -1,13 +1,15 @@
-let output = require('./output')
-let settings = require('./settings').getSettingsForLevel()
-let routerHelper = require('./router')
+import output from "./output"
+import settingsHelp from "./settings"
+import routerHelper from "./router"
+
+let settings = settingsHelp.getSettingsForLevel()
 let roleLoader = {
 
     run: (creep:Creep) =>{
         if(creep.carry.energy === creep.carryCapacity || creep.carry.energy >= 50) {
             if(Memory.enemys[creep.room.name] <= 0 && creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
-                let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure:Container|Structure) => {
+                let container:Container = creep.pos.findClosestByRange<Container>(FIND_STRUCTURES, {
+                    filter: (structure:Container) => {
                         return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                     }
                 })
@@ -17,8 +19,8 @@ let roleLoader = {
                     }
                 }
             }
-            let tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure:Tower|Structure) => {
+            let tower:Tower = creep.pos.findClosestByRange<Tower>(FIND_STRUCTURES, {
+                filter: (structure:Tower) => {
                     return (structure.structureType === "tower") &&
                         (structure.energy < structure.energyCapacity)
                 }
@@ -33,11 +35,11 @@ let roleLoader = {
                         routerHelper.routeCreep(creep, creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
                     }
                 }else{
-                    let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: (structure:Extension|Spawn|Structure) => {
+                    let target:Extension|Spawn = creep.pos.findClosestByRange<Extension|Spawn>(FIND_STRUCTURES, {
+                        filter: (structure:Extension|Spawn) => {
                             return (structure.structureType === STRUCTURE_EXTENSION ||
                                 structure.structureType === STRUCTURE_SPAWN) &&
-                                (structure.energy < structure.energyCapacity)
+                                structure.energy < structure.energyCapacity
                         }
                     })
                     if(target!==null){
@@ -65,14 +67,14 @@ let roleLoader = {
                     }
                 }
             }else{
-                let source = creep.pos.findClosestByRange(FIND_SOURCES)
+                let source:Source = creep.pos.findClosestByRange<Source>(FIND_SOURCES)
                 if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
                     routerHelper.routeCreep(creep, source, {visualizePathStyle: {stroke: '#ffaa00'}})
                 }
             }
         }
     },
-    getNumberOfLoader: (room:Room)=>{
+    getNumberOfLoader: (room:Room):number =>{
         let structures = room.find(FIND_STRUCTURES, {
             filter: (structure:Tower|Container|Structure) => {
                 return structure.structureType === "tower" || structure.structureType === "container"
@@ -85,4 +87,4 @@ let roleLoader = {
     }
 }
 
-module.exports = roleLoader
+export default roleLoader

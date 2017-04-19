@@ -1,8 +1,10 @@
-let output = require('./output')
-let settings = require('./settings').getSettingsForLevel()
-let routerHelper = require('./router')
-let roleBuilder = {
+import output from './output'
+import settingsHelp from "./settings"
+import routerHelper from "./router"
 
+let settings = settingsHelp.getSettingsForLevel()
+
+let roleBuilder = {
     run: (creep:Creep) =>{
         if(creep.memory.building && creep.carry.energy === 0) {
             creep.memory.building = false
@@ -14,7 +16,7 @@ let roleBuilder = {
         }
 
         if(creep.memory.building) {
-            let target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES)
+            let target = creep.pos.findClosestByRange<ConstructionSite>(FIND_CONSTRUCTION_SITES)
             if(target !== null) {
                 if(creep.build(target) === ERR_NOT_IN_RANGE) {
                     routerHelper.routeCreep(creep, target, {visualizePathStyle: {stroke: '#ffffff'}})
@@ -23,7 +25,7 @@ let roleBuilder = {
         } else {
             if(_.size(creep.room.containerToGetFrom) > 0){
                 creep.room.containerToGetFrom.map( (container:Container) =>{
-                    let realContainer = creep.room.find(FIND_STRUCTURES, {
+                    let realContainer = creep.room.find<Container>(FIND_STRUCTURES, {
                         filter: (structure:Container|Structure) => {
                             return structure.structureType === "container" &&
                                 structure.pos.x === container.pos.x &&
@@ -68,4 +70,4 @@ let roleBuilder = {
     },
 }
 
-module.exports = roleBuilder
+export default roleBuilder

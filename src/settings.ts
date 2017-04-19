@@ -1,8 +1,8 @@
-let output = require('./output')
-let room = _.map(Game.rooms, room =>{return room})[0]
+import output from "./output"
+let room = _.map(Game.rooms, (room:Room):Room =>{return room})[0]
 let settings = {
     level: room.controller.level,
-    getSettingsForLevel: ()=>{
+    getSettingsForLevel: ():any=>{
         if(settings.level <= 1 || !Number.isInteger(settings.level)){
             return {
                 level: settings.level,
@@ -60,7 +60,7 @@ let settings = {
             }
         }
     },
-    getGeneralSettings: () =>{
+    getGeneralSettings: ():any =>{
         return {
             initDB: false,
             memoryClearCounter: 10,
@@ -84,4 +84,4 @@ let settings = {
     }
 }
 
-module.exports = settings
+export default settings

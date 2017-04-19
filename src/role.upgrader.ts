@@ -1,5 +1,6 @@
-let output = require('./output')
-let routerHelper = require('./router')
+import output from "./output"
+import routerHelper from "./router"
+
 let roleUpgrader = {
     run: (creep:Creep) =>{
         if(creep.memory.upgrading && creep.carry.energy === 0) {
@@ -37,4 +38,4 @@ let roleUpgrader = {
     }
 }
 
-module.exports = roleUpgrader
+export default roleUpgrader

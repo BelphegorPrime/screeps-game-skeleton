@@ -1,6 +1,6 @@
 import output from "./output"
 export default {
-    getUnitNumber: (creepArray:[Creep])=>{
+    getUnitNumber: (creepArray:Creep[]):number => {
         let intVal = 0
         _.map(creepArray, (creep)=>{
             let creepNumber= parseInt(creep.name.split("-")[1])

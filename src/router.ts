@@ -1,5 +1,6 @@
-let output = require('./output')
-let settings = require('./settings').getSettingsForLevel()
+import output from "./output"
+import settingsHelp from "./settings"
+let settings = settingsHelp.getSettingsForLevel()
 
 //TODO Implement own cache for routes
 let routerHelp = {
@@ -35,4 +36,4 @@ let routerHelp = {
     }
 }
 
-module.exports = routerHelp
+export default routerHelp

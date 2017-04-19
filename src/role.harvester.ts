@@ -1,20 +1,20 @@
-let output = require('./output')
-let routerHelper = require('./router')
-let roleHarvester = {
+import output from "./output"
+import routerHelper from "./router"
 
+let roleHarvester = {
     // TODO OPTIMISE RUN FUNCTION
     run: (creep:Creep) =>{
         if(creep.carry.energy === creep.carryCapacity || creep.carry.energy >= 50) {
             let subTimeHarvesterDelivery=Game.cpu.getUsed();
             roleHarvester.deliver(creep)
-            let durationHarvesterRunDelivery=(Game.cpu.getUsed()-subTimeHarvesterDelivery).toFixed(0);
+            let durationHarvesterRunDelivery:number = parseInt((Game.cpu.getUsed()-subTimeHarvesterDelivery).toFixed(0));
             if(durationHarvesterRunDelivery > 1){
                 output.writeToDebug("HARVESTER---DELIVERY-------->"+durationHarvesterRunDelivery)
             }
         } else {
             let subTimeHarvesterGetEnergy=Game.cpu.getUsed();
             roleHarvester.getEnergy(creep)
-            let durationHarvesterRunGetEnergy=(Game.cpu.getUsed()-subTimeHarvesterGetEnergy).toFixed(0);
+            let durationHarvesterRunGetEnergy:number = parseInt((Game.cpu.getUsed()-subTimeHarvesterGetEnergy).toFixed(0));
             if(durationHarvesterRunGetEnergy > 1){
                 output.writeToDebug("HARVESTER---GETENERGY------->"+durationHarvesterRunGetEnergy)
             }
@@ -24,10 +24,9 @@ let roleHarvester = {
     deliver: (creep:Creep) =>{
         if(creep.room.energyAvailable === creep.room.energyCapacityAvailable){
             if(_.size(creep.room.containerToTransfer) <= 0){
-                let towers = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure:Tower|Structure) => {
-                        return (structure.structureType === "tower") &&
-                            (structure.energy < structure.energyCapacity)
+                let towers = creep.room.find<Tower>(FIND_STRUCTURES, {
+                    filter: (structure:Tower) => {
+                        return structure.structureType === "tower" && structure.energy < structure.energyCapacity
                     }
                 })
                 if(towers.length > 0) {
@@ -40,8 +39,8 @@ let roleHarvester = {
                     }
                 }
             }else {
-                let containers = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure:Container|Structure) => {
+                let containers = creep.room.find<Container>(FIND_STRUCTURES, {
+                    filter: (structure:Container) => {
                         return structure.structureType === "container" && structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                     }
                 })
@@ -57,11 +56,11 @@ let roleHarvester = {
             }
         }
 
-        let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure:Extension|Spawn|Structure) => {
+        let target:Extension|Spawn = creep.pos.findClosestByRange<Extension|Spawn>(FIND_STRUCTURES, {
+            filter: (structure:Extension|Spawn) => {
                 return (structure.structureType === STRUCTURE_EXTENSION ||
                     structure.structureType === STRUCTURE_SPAWN) &&
-                    (structure.energy < structure.energyCapacity)
+                    structure.energy < structure.energyCapacity
             }
         })
         if(target!==null){
@@ -71,7 +70,7 @@ let roleHarvester = {
         }
     },
     getEnergy: (creep:Creep)=>{
-        let target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+        let target = creep.pos.findClosestByRange<Resource>(FIND_DROPPED_ENERGY);
         if(target) {
             if(creep.pickup(target) === ERR_NOT_IN_RANGE) {
                 routerHelper.routeCreep(creep, target, {visualizePathStyle: {stroke: '#ffaa00'}})
@@ -100,7 +99,7 @@ let roleHarvester = {
                     }
                 }
             }else{
-                let source = creep.pos.findClosestByRange(FIND_SOURCES)
+                let source:Source = creep.pos.findClosestByRange<Source>(FIND_SOURCES)
                 if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
                     routerHelper.routeCreep(creep, source, {visualizePathStyle: {stroke: '#ffaa00'}})
                 }
@@ -109,4 +108,4 @@ let roleHarvester = {
     }
 }
 
-module.exports = roleHarvester
+export default roleHarvester
