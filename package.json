@@ -5,7 +5,10 @@
   "license": "MIT",
   "version": "0.0.0",
   "scripts": {
-    "start": "gulp ts && grunt screeps"
+    "start": "npm run clean && npm run build && npm run deploy",
+    "clean": "rm dist/*",
+    "build": "gulp ts",
+    "deploy": "grunt screeps"
   },
   "devDependencies": {
     "@types/node": "^7.0.13",
