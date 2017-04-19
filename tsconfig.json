@@ -1,8 +1,8 @@
 {
   "files": [
+    "src/main.ts",
     "src/creeps.ts",
     "src/general.ts",
-    "src/main.ts",
     "src/memory.ts",
     "src/output.ts",
     "src/role.builder.ts",

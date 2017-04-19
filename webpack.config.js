@@ -1,12 +1,14 @@
 var webpack = require('webpack');
-
+var path = require('path');
 module.exports = {
-    context: __dirname,
-    entry: "./dist/main.js",
-    output: {
-        path: __dirname + "./dist/js",
-        filename: "scripts.min.js"
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader'
+            },
+        ],
     },
-    plugins: [
-    ],
 };
+

@@ -10,7 +10,7 @@ gulp.task('ts', function() {
     return gulp.src("src/*.ts")
         .pipe(tsProject())
         .pipe(babel())
-        .pipe(webpack())
+        .pipe(webpack( require('./webpack.config.js') ))
         .pipe(rename("main.js"))
         .pipe(gulp.dest('./dist'));
 });
