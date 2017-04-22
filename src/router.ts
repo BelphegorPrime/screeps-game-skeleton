@@ -4,15 +4,27 @@ let settings = settingsHelp.getSettingsForLevel()
 
 //TODO RE-Implement own cache for routes
 let routerHelp = {
-    routeCreep: (creep:Creep, target:Structure, visual:Object)=>{
-        let locStr = creep.pos.x+","+creep.pos.y+","+target.pos.x+","+target.pos.y
+    routeCreep: (creep:Creep, target:Structure|Resource|Source, visualizePathStyle:Object)=>{
+
+        creep.moveTo(target, {reusePath:50, visualizePathStyle:visualizePathStyle})
+
+
+        // Execute moves by cached paths at first
+        //creep.moveTo(target, _.merge(visual, {noPathFinding: true}));
+
+        // Perform pathfinding only if we have enough CPU
+        //if(Game.cpu.tickLimit - Game.cpu.getUsed() > 20) {
+        //    creep.moveTo(target, visual);
+        //}
+
+        //let locStr = creep.pos.x+","+creep.pos.y+","+target.pos.x+","+target.pos.y
         //routerHelp.createPath(creep, target, visual, locStr)
         //let path = JSON.parse(Memory.paths[creep.room.name][locStr].path)
-        let path = creep.pos.findPathTo(target, _.merge(visual, {maxOps: 1000, ignoreDestructibleStructures: true}));
+        //let path = creep.pos.findPathTo(target, _.merge(visual, {maxOps: 1000, ignoreDestructibleStructures: true}));
 
-        if( path.length ) {
-            creep.moveByPath(path);
-        }
+        //if( path.length ) {
+        //    creep.moveByPath(path);
+        //}
     },
     createPath: (creep:Creep, target:Structure, visual:Object, locStr:string)=>{
         if(Memory.paths[creep.room.name][locStr] === undefined){

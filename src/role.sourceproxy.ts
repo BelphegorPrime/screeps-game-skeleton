@@ -11,7 +11,7 @@ let roleSourceProxy = {
             });
             if(container !== null){
                 if(creep.transfer(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    routerHelper.routeCreep(creep, container, {visualizePathStyle: {stroke: '#ffffff'}})
+                    routerHelper.routeCreep(creep, container, {stroke: '#ffffff'})
                 }
             }else{
                 let target:Extension|Spawn = creep.pos.findClosestByRange<Extension|Spawn>(FIND_STRUCTURES, {
@@ -23,13 +23,13 @@ let roleSourceProxy = {
                 })
                 if(target!==null){
                     if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        routerHelper.routeCreep(creep, target, {visualizePathStyle: {stroke: '#ffffff'}})
+                        routerHelper.routeCreep(creep, target, {stroke: '#ffffff'})
                     }
                 }
             }
         } else {
             if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                routerHelper.routeCreep(creep, creep.memory.source, {stroke: '#ffaa00'})
             }
         }
     }

@@ -31,11 +31,11 @@ let roleHarvester = {
                 })
                 if(towers.length > 0) {
                     if(creep.transfer(towers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        routerHelper.routeCreep(creep, towers[0], {visualizePathStyle: {stroke: '#ffffff'}})
+                        routerHelper.routeCreep(creep, towers[0], {stroke: '#ffffff'})
                     }
                 }else {
                     if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                        routerHelper.routeCreep(creep, creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
+                        routerHelper.routeCreep(creep, creep.room.controller, {stroke: '#ffffff'})
                     }
                 }
             }else {
@@ -46,11 +46,11 @@ let roleHarvester = {
                 })
                 if(containers.length > 0) {
                     if(creep.transfer(containers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        routerHelper.routeCreep(creep, containers[0], {visualizePathStyle: {stroke: '#ffffff'}})
+                        routerHelper.routeCreep(creep, containers[0], {stroke: '#ffffff'})
                     }
                 }else{
                     if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                        routerHelper.routeCreep(creep, creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}})
+                        routerHelper.routeCreep(creep, creep.room.controller, {stroke: '#ffffff'})
                     }
                 }
             }
@@ -65,43 +65,43 @@ let roleHarvester = {
         })
         if(target!==null){
             if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                routerHelper.routeCreep(creep, target, {visualizePathStyle: {stroke: '#ffffff'}})
+                routerHelper.routeCreep(creep, target, {stroke: '#ffffff'})
             }
         }
     },
     getEnergy: (creep:Creep)=>{
-        let target = creep.pos.findClosestByRange<Resource>(FIND_DROPPED_ENERGY);
+        let target:Resource = creep.pos.findClosestByRange<Resource>(FIND_DROPPED_ENERGY);
         if(target) {
             if(creep.pickup(target) === ERR_NOT_IN_RANGE) {
-                routerHelper.routeCreep(creep, target, {visualizePathStyle: {stroke: '#ffaa00'}})
+                routerHelper.routeCreep(creep, target, {stroke: '#ffaa00'})
             }
         }else{
             if(creep.memory.source !== undefined){
                 if(creep.memory.source.structureType === "container"){
                     if(creep.memory.source.store.energy > 0){
                         if(creep.withdraw(creep.memory.source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                            routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.source, {stroke: '#ffaa00'})
                         }
                     }else{
                         if(creep.harvest(creep.memory.fallbackSource) === ERR_NOT_IN_RANGE) {
-                            routerHelper.routeCreep(creep, creep.memory.fallbackSource, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.fallbackSource, {stroke: '#ffaa00'})
                         }
                     }
                 }else{
                     if(creep.memory.source.ticksToRegeneration > 75 && creep.memory.source.energy === 0){
                         if(creep.harvest(creep.memory.proxysource) === ERR_NOT_IN_RANGE) {
-                            routerHelper.routeCreep(creep, creep.memory.proxysource, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.proxysource, {stroke: '#ffaa00'})
                         }
                     }else {
                         if(creep.harvest(creep.memory.source) === ERR_NOT_IN_RANGE) {
-                            routerHelper.routeCreep(creep, creep.memory.source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                            routerHelper.routeCreep(creep, creep.memory.source, {stroke: '#ffaa00'})
                         }
                     }
                 }
             }else{
                 let source:Source = creep.pos.findClosestByRange<Source>(FIND_SOURCES)
                 if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
-                    routerHelper.routeCreep(creep, source, {visualizePathStyle: {stroke: '#ffaa00'}})
+                    routerHelper.routeCreep(creep, source, {stroke: '#ffaa00'})
                 }
             }
         }
