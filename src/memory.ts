@@ -1,6 +1,5 @@
 import output from "./output"
-import settingsHelp from "./settings"
-
+import settingsHelp from './settings'
 let settings = settingsHelp.getSettingsForLevel()
 
 let memoryHelper = {

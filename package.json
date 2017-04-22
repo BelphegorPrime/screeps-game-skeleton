@@ -8,8 +8,8 @@
     "start": "npm run clean && npm run build && npm run deploy",
     "clean": "rm dist/*",
     "build": "gulp ts",
-    "deploy": "grunt screeps",
     "wpbuild": "webpack --config newwebpack.config.js"
+    "deploy": "grunt screeps"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.62",

@@ -1,7 +1,6 @@
 import output from './output'
-import settingsHelp from "./settings"
 import routerHelper from "./router"
-
+import settingsHelp from './settings'
 let settings = settingsHelp.getSettingsForLevel()
 
 let roleBuilder = {

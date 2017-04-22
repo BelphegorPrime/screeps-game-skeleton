@@ -1,8 +1,8 @@
 import output from "./output"
 import towers from "./tower"
 import terrain from "./terrain"
-import settingsHelp from "./settings"
 
+import settingsHelp from "./settings"
 let settings = settingsHelp.getSettingsForLevel()
 
 let roomHelp = {

@@ -1,7 +1,6 @@
-import * as _ from "lodash"
+//import * as _ from "lodash"
 // notice to myself: "lodash version is 3.10.1 :O"
 
-import output from "./output"
 import roleHarvester from "./role.harvester"
 import roleUpgrader from "./role.upgrader"
 import roleBuilder from "./role.builder"
@@ -12,7 +11,9 @@ import room from "./room"
 import creepsHelper from "./creeps"
 import memoryHelper from "./memory"
 
-let settings = require('./settings').getSettingsForLevel()
+import output from "./output"
+import settingsHelp from './settings'
+let settings = settingsHelp.getSettingsForLevel()
 
 module.exports.loop = () =>{
 

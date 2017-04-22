@@ -1,10 +1,10 @@
 import output from "./output"
-import settingsHelp from "./settings"
 import routerHelper from "./router"
 
+import settingsHelp from "./settings"
 let settings = settingsHelp.getSettingsForLevel()
-let roleLoader = {
 
+let roleLoader = {
     run: (creep:Creep) =>{
         if(creep.carry.energy === creep.carryCapacity || creep.carry.energy >= 50) {
             if(Memory.enemys[creep.room.name] <= 0 && creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
