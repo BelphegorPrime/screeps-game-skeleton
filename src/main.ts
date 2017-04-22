@@ -1,4 +1,3 @@
-//import * as _ from "lodash"
 // notice to myself: "lodash version is 3.10.1 :O"
 
 let roleHarvester = require('./role.harvester')
