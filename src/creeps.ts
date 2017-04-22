@@ -2,7 +2,8 @@ import output from "./output"
 import generalFunctions from "./general"
 import roleBuilder from "./role.builder"
 import roleLoader from "./role.loader"
-let settings = require('./settings').getSettingsForLevel()
+import settingsHelp from "./settings"
+let settings = settingsHelp.getSettingsForLevel()
 
 let creepsHelp = {
     getCreeps: (allCreeps: [Creep], rooms:[Room], constructionSites: [ConstructionSite])=>{

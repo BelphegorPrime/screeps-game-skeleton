@@ -1,4 +1,4 @@
-let output = require('./output')
+import output from "./output"
 let routerHelper = require('./router')
 let roleSourceProxy = {
     run: (creep:Creep) =>{

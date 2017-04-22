@@ -1,5 +1,6 @@
-let output = require('./output')
-let settings = require('./settings')
+import output from "./output"
+import settingsHelp from './settings'
+let settings = settingsHelp.getSettingsForLevel()
 
 let terrain = {
     read: (room:Room)=>{

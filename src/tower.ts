@@ -1,4 +1,5 @@
-let output = require('./output')
+import output from "./output"
+
 let towerHelper = {
     run: (tower: Tower, room: Room)=>{
         let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)

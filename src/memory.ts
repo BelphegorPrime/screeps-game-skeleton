@@ -1,5 +1,7 @@
-let output = require('./output')
-let settings = require('./settings').getSettingsForLevel()
+import output from "./output"
+import settingsHelp from './settings'
+let settings = settingsHelp.getSettingsForLevel()
+
 let memoryHelper = {
     init: (rooms:[Room])=>{
         if(settings.generalSettings.initDB){

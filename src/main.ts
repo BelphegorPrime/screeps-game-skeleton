@@ -12,7 +12,8 @@ let creepsHelper = require('./creeps')
 let memoryHelper = require('./memory')
 
 import output from "./output"
-let settings = require('./settings').getSettingsForLevel()
+import settingsHelp from './settings'
+let settings = settingsHelp.getSettingsForLevel()
 
 module.exports.loop = () =>{
 

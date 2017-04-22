@@ -1,8 +1,9 @@
-let output = require('./output')
+import output from "./output"
+import settingsHelp from './settings'
+let settings = settingsHelp.getSettingsForLevel()
 let towers = require('./tower')
-let terrain = require('./terrain')
 
-let settings = require('./settings').getSettingsForLevel()
+let terrain = require('./terrain')
 
 let room = {
     init: (rooms:[Room])=>{
