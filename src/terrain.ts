@@ -8,15 +8,15 @@ let terrain = {
         let tickBefireLastTick = Memory.cpu.lastTickTime[0][_.size(Memory.cpu.lastTickTime[0])-2]
         if(lastTick >= Game.cpu.limit || tickBefireLastTick >= Game.cpu.limit){
             // output.writeToDebug("LastTick with value "+lastTick+" or value "+tickBefireLastTick+" are greater or equal to "+Game.cpu.limit)
-            if(Game.cpu.bucket > settings.getGeneralSettings().bucketLimit && lastTick < Game.cpu.limit){
+            if(Game.cpu.bucket > settings.generalSettings.bucketLimit && lastTick < Game.cpu.limit){
                 let iteration = Memory.terrainX
-                if(iteration === settings.getGeneralSettings().roomLength){
+                if(iteration === settings.generalSettings.roomLength){
                     Memory.terrainX = 0
                     iteration = 0
                 }
 
                 let data:Array<Object> = []
-                for (let i = 0; i < settings.getGeneralSettings().roomLength; i++) {
+                for (let i = 0; i < settings.generalSettings.roomLength; i++) {
                     data = [].concat(data, {
                         x: iteration,
                         y: i,
